@@ -1,6 +1,6 @@
 <!-- halaman.blade.php -->
 
-@extends('main')
+@extends('layout.main')
 
 @section('content')
 <div class="content-wrapper">
