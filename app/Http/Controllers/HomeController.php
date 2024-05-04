@@ -14,12 +14,18 @@ class HomeController extends Controller
     }
     
     public function dashboard(){
-        {
+        
+        if (session('result') !== null) {
+            // dd session('result');
+            return view('dashboard', ['result' => session('result')]);
+        }
+        
+        elseif (session('result') == null) {
             $data = User::get();
-
             return view('dashboard', compact('data'));
         }
-        return abort(403);
+
+        // return abort(403);
 
         Auth::logout();
           return redirect()->route('login')->with('success', 'Anda telah logout');
@@ -44,7 +50,7 @@ class HomeController extends Controller
         ]);
     }    
     
-
+    // function to create an user
     public function create(){
         return view('create', [
             'active' => 'bk'
@@ -65,8 +71,10 @@ class HomeController extends Controller
 
         return redirect()->back()->with('success', 'Data User berhasil ditambahkan');
     }
-    
-    public function  edit(Request $request,$id){
+    // end
+
+    // function to edit users
+    public function edit(Request $request, $id){
         $data = User::find ($id);
 
         return view('edit', compact('data'), [
@@ -92,7 +100,9 @@ class HomeController extends Controller
         // Mengarahkan pengguna ke halaman indeks
         return redirect()->back()->with('success', 'Data berhasil di edit');
     }
+    // end
 
+    // function to delete users
     public function delete(Request $request, $id) {
         $data = User::find($id);
     
@@ -100,58 +110,19 @@ class HomeController extends Controller
             $data->delete();
         }
     
-        return redirect()->route('index');
+        return redirect()->route('dashboard');
     }
-
-    public function halaman(Request $request)
-    {
-        $query = $request->input('nameSearch');
-        $data = User::query();
-
-        if($query) {
-            $data->where('name', 'like', '%' . $query . '%');
-        }
+    // end
     
-        $data = User::get();   
-        return view('halaman', [
-            'active' => 'bk',
-            'data'=>$data
-        ]);
-    }
-
     public function nameSearch(Request $request)
     {
         $query = $request->nameSearch;
 
-        $data = User::where('name', 'like', '%' . $query . '%')->get();
+        $data = User::where('username', 'like', '%' . $query . '%')->get();
 
-        return view('halaman', [
+        return back()->with([
             'active' => 'bk',
-            'data'=>$data
-        ]);
-    }
-
-    public function nameSearchUser(Request $request)
-    {
-        $query = $request->nameSearch;
-
-        $data = User::where('name', 'like', '%' . $query . '%')->get();
-
-        return view('index', [
-            'active' => 'admin',
-            'data'=>$data
-        ]);
-    }
-
-    public function nameSearchGeneral(Request $request)
-    {
-        $query = $request->nameSearch;
-
-        $data = User::where('name', 'like', '%' . $query . '%')->get();
-
-        return view('general', [
-            'active' => 'guru',
-            'data'=> $data
+            'result'=> $data
         ]);
     }
 
@@ -161,41 +132,10 @@ class HomeController extends Controller
 
         $data = User::where('class', 'like', '%' . $query . '%')->get();
 
-        return view('halaman', [
+        return back()->with([
             'active' => 'bk',
-            'data'=>$data
+            'result' => $data
         ]);
-    }
-
-    public function classFilterUser(Request $request)
-    {
-        $query = $request->classFilter;
-
-        $data = User::where('class', 'like', '%' . $query . '%')->get();
-
-        return view('index', [
-            'active' => 'admin',
-            'data'=>$data
-        ]);
-    }
-
-    public function classFilterGeneral(Request $request)
-    {
-        $query = $request->classFilter;
-
-        $data = User::where('class', 'like', '%' . $query . '%')->get();
-
-        return view('general', [
-            'active' => 'admin',
-            'data'=>$data
-        ]);
-    }
-
-    public function general()
-    {
-        $data = User::all();   
-        return view('general', ['data'=>$data]);
-
     }
     
 }

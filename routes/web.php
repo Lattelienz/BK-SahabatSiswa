@@ -26,27 +26,20 @@ Route::post('/login-proses', [LoginController::class, 'login_proses'])->name('lo
 Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
 Route::group(['prefix' => 'admin','middleware' => ['auth'], 'as' => 'admin.'] , function(){
-Route::get('/dashboard', [HomeController::class, 'dashboard'])->name('dashboard');
+  Route::get('/dashboard', [HomeController::class, 'dashboard'])->name('dashboard');
+  Route::get('/nameSearch', [Homecontroller::class,'nameSearch'])->name('nameSearch');
 
-Route::get('/', [Homecontroller::class,'index'])->name('index');
-Route::get('/user', [Homecontroller::class,'admin'])->name('dashboard.admin');
-Route::get('/user/nameSearch', [Homecontroller::class,'nameSearchUser']);
-Route::get('/user/classFilter', [Homecontroller::class,'classFilterUser']);
+  Route::get('/', [Homecontroller::class,'index'])->name('index');
+  Route::get('/user', [Homecontroller::class,'admin'])->name('dashboard.admin');
+  Route::get('/user/nameSearch', [Homecontroller::class,'nameSearchUser']);
+  Route::get('/user/classFilter', [Homecontroller::class,'classFilterUser']);
 
-Route::get('/create', [Homecontroller::class,'create'])->name('user.create');
-Route::post('/store', [Homecontroller::class,'store'])->name('user.store');
+  Route::get('/create', [Homecontroller::class,'create'])->name('user.create');
+  Route::post('/store', [Homecontroller::class,'store'])->name('user.store');
 
-Route::get('/edit/{id}', [Homecontroller::class,'edit'])->name('user.edit');
-Route::put('/update/{id}', [Homecontroller::class,'update'])->name('user.update');
-Route::delete('/delete/{id}', [Homecontroller::class,'delete'])->name('user.delete');
-
-
-Route::get('/halaman', [Homecontroller::class,'halaman'])->name('dashboard.guru.bk');
-Route::get('/halaman/nameSearch', [Homecontroller::class,'nameSearch']);
-Route::get('/halaman/classFilter', [Homecontroller::class,'classFilter']);
-Route::get('/general', [Homecontroller::class,'index'])->name('dashboard.guru');
-Route::get('/general/nameSearch', [Homecontroller::class,'nameSearchGeneral']);
-Route::get('/general/classFilter', [Homecontroller::class,'classFilterGeneral']);
+  Route::get('/edit/{id}', [Homecontroller::class,'edit'])->name('user.edit');
+  Route::put('/update/{id}', [Homecontroller::class,'update'])->name('user.update');
+  Route::delete('/delete/{id}', [Homecontroller::class,'delete'])->name('user.delete');
 
 });
 

@@ -47,7 +47,7 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="{{ route("admin.dashboard.guru.bk") }}" class="nav-link {{-- {{ $active == 'bk' ? 'active' : '' }} --}}">
+                <a href="{{-- {{ route("admin.dashboard.guru.bk") }} --}}" class="nav-link {{-- {{ $active == 'bk' ? 'active' : '' }} --}}">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Bimbingan Konseling</p>
                 </a>
@@ -58,12 +58,12 @@
                   <p>Admin</p>
                 </a>
               </li>
-              <li class="nav-item">
-                <a href="{{ route("admin.dashboard.guru") }}" class="nav-link {{-- {{ $active == 'guru' ? 'active' : '' }} --}}">
+              -- <li class="nav-item">
+                <a href="{{-- {{ route("admin.dashboard.guru") }} --}}" class="nav-link {{-- {{ $active == 'guru' ? 'active' : '' }} --}}">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Guru</p>
                 </a>
-              </li>
+              </li> -->
             </ul>
           </li>
         </ul>
