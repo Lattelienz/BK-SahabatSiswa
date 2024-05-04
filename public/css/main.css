@@ -114,6 +114,10 @@ section p.header {
     border: none;
 }
 
+.m-header button:hover { 
+    background: #99c1b7bf; 
+}
+
 .gradient {
     position: absolute;
     bottom: 0;
