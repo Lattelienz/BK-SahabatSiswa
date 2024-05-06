@@ -1,20 +1,36 @@
 
 /* queries */
 @media (max-width: 425px) {
-    section #sm {
+    section .content#sm {
         font-size: 5vw;
+    }
+
+    section .header {
+        font-size: 13vw;
     }
 }
 
-@media (max-width: 768px) {
-    nav.med {
-        padding: 20px;
-    }
-
-    nav.med a{
-        font-size: 17px;
+@media (max-width: 576px) {
+    .m-header .sm {
+        font-size: 50px;
     }
     
+    .m-header span.sm {
+        font-size: 20px;
+    }
+
+    .m-header button.sm {
+        padding: 0.3rem 1.3rem; 
+        font-size: 23px; 
+    }
+
+    nav.md {
+        padding: 20px;
+    }
+    
+    nav.md a{
+        font-size: 17px;
+    }
 }
 
 /* elements */
@@ -26,12 +42,12 @@ body {
     font-family: "Inter", sans-serif;
     font-style: normal;
     background: black; 
+    margin: 0;
 }
-
 
 main {
     color: white;
-    margin: 0 1rem;
+    margin: 0 1.5rem;
 }
 
 footer {
@@ -42,16 +58,9 @@ footer {
     font-size: 1.2rem;
 }
 
-nav div {
-    display: flex; 
-    gap: inherit; 
-    flex-wrap: inherit; 
-    justify-content: end;
-}
-
 nav {
     display: flex; 
-    justify-content:space-between; 
+    justify-content: end; 
     padding: 20px 5rem; 
     flex-wrap: wrap; 
     gap: 3vw;
@@ -71,7 +80,7 @@ header {
     flex-direction: column;
     color: white;
     height: 100vh;
-    background: url('../img/WhatsApp Image 2023-11-06 at 09.35.13.jpeg') no-repeat;
+    background: url('../img/technopark_smkn2.jpeg') no-repeat;
     background-size: cover;
     position: relative;
 }
@@ -80,14 +89,25 @@ nav a:hover {
     color: rgba(49, 50, 49, 0.7);
 }
 
+main section {
+    margin-bottom: 1.5rem;
+}
+
 /* classes */
 section p.content {
     font-size: 20px; 
     text-align: justify;
+    text-indent: 2rem;
 }
 
-section p.header {
-    font-size: 40px; 
+section p.contact {
+    text-indent: 0;
+}
+
+section h6 {
+    text-align: center;
+    font-size: 40px;
+    margin-bottom: 2.5rem;
 }
 
 .m-header {
@@ -104,6 +124,14 @@ section p.header {
     flex-direction: column; 
     font-weight: 500; 
     font-size: 70px;
+}
+
+.m-header p, .m-header p span {
+    transition: font-size 0.5s ease-in;
+}
+
+.m-header span {
+    font-size: 40px;
 }
 
 .m-header button {

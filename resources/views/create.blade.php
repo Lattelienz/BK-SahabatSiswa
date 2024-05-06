@@ -11,7 +11,7 @@
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Home</a></li>
+              <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Home</a></li>
               <li class="breadcrumb-item active">Tambah User</li>
             </ol>
           </div><!-- /.col -->
@@ -23,7 +23,7 @@
     <!-- Main content -->
     <section class="content">
         <div class="container-fluid">
-          <form action="{{ route('admin.user.store') }}" method="POST">
+          <form action="{{ route('user.store') }}" method="POST">
             @csrf
             <div class="col-md-5">
                 <!-- general form elements -->
