@@ -9,12 +9,11 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">Admin</h1>
+                    <h1 class="m-0">Dashboard</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item active">Guru-Bk</li>
+                        <li class="breadcrumb-item active">Dashboard</li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->
@@ -25,7 +24,7 @@
     <!-- Main content -->
     {{-- <section class="content"> --}}
         <div class="container-fluid">
-            <a href="{{ route('admin.user.create')}}" class="btn btn-primary mb-3">Tambah Data</a>
+            <a href="{{ route('user.create')}}" class="btn btn-primary mb-3">Tambah Data</a>
 
             <div class="card">
 
@@ -33,7 +32,7 @@
                     {{-- <h3 class="card-title">Responsive Hover Table</h3> --}}
 
                     <div class="card-tools row" style="grid-gap: 1rem; ">
-                        <form action="{{ route('admin.nameSearch') }}" method="get" class="input-group input-group-sm" style="width: 175px;">
+                        <form action="{{ route('nameSearch') }}" method="get" class="input-group input-group-sm" style="width: 175px;">
                             <input type="text" name="nameSearch" class="form-control float-right" placeholder="Cari nama disini">
                             <div class="input-group-append">
                                 <button type="submit" class="btn btn-default">
@@ -83,7 +82,7 @@
                                     <td> {{$d->email}} </td>
                                     <td> {{$d->level}} </td>
                                     <td>
-                                        <a href="{{ route('admin.user.edit', ['id' => $d->id]) }}" class="btn btn-primary"><i class="fas fa-pen"></i> Edit</a>
+                                        <a href="{{ route('user.edit', ['id' => $d->id]) }}" class="btn btn-primary"><i class="fas fa-pen"></i> Edit</a>
                                         <a data-toggle="modal" data-target="#modal-hapus{{ $d->id }}"class="btn btn-danger"><i class="fas fa-trash-alt"></i> Hapus</a>
                                     </td>
                                 </tr>                               
@@ -99,7 +98,7 @@
                                     <td> {{$d->email}} </td>
                                     <td> {{$d->level}} </td>
                                     <td>
-                                        <a href="{{ route('admin.user.edit', ['id' => $d->id]) }}" class="btn btn-primary"><i class="fas fa-pen"></i> Edit</a>
+                                        <a href="{{ route('user.edit', ['id' => $d->id]) }}" class="btn btn-primary"><i class="fas fa-pen"></i> Edit</a>
                                         <a data-toggle="modal" data-target="#modal-hapus{{ $d->id }}"class="btn btn-danger"><i class="fas fa-trash-alt"></i> Hapus</a>
                                     </td>
                                 </tr>                               
