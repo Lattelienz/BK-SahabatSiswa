@@ -8,9 +8,16 @@
     section .header {
         font-size: 13vw;
     }
+
 }
 
 @media (max-width: 576px) {
+    main.sm {
+        margin: 0 1.5rem;
+        padding: 0;
+        width: auto;
+    }
+
     .m-header .sm {
         font-size: 50px;
     }
@@ -47,7 +54,6 @@ body {
 
 main {
     color: white;
-    margin: 0 1.5rem;
 }
 
 footer {
@@ -83,6 +89,7 @@ header {
     background: url('../img/technopark_smkn2.jpeg') no-repeat;
     background-size: cover;
     position: relative;
+    background-position: 50% 50%;
 }
 
 nav a:hover {
@@ -91,6 +98,7 @@ nav a:hover {
 
 main section {
     margin-bottom: 1.5rem;
+    grid-row-gap: 1.5rem;
 }
 
 /* classes */

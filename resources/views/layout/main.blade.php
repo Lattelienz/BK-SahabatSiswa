@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>AdminLTE 3 | Dashboard</title>
+  <title>E-BK | BK Sahabat Siswa</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -26,12 +26,12 @@
   <!-- summernote -->
   <link rel="stylesheet" href="{{ asset('lte/plugins/summernote/summernote-bs4.min.css') }}">
 </head>
-<body class="hold-transition sidebar-mini layout-fixed">
+<body class="hold-transition sidebar-collapse layout-fixed">
 <div class="wrapper">
 
   <!-- Preloader -->
   <div class="preloader flex-column justify-content-center align-items-center">
-    <img class="animation__shake" src="{{ asset('AdminLTE/dist/img/AdminLTELogo.png') }}" alt="AdminLTELogo" height="60" width="60">
+    <img class="animation__shake" src="{{ asset('lte/dist/img/AdminLTELogo.png') }}" alt="AdminLTELogo" height="60" width="60">
   </div>
 
   <!-- Navbar -->
@@ -46,11 +46,8 @@
 
   <!-- /.content-wrapper -->
   <footer class="main-footer">
-    <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong>
+    <strong>Copyright &copy; 2023-2024 BK-Sahabat Siswa.</strong>
     All rights reserved.
-    <div class="float-right d-none d-sm-inline-block">
-      <b>Version</b> 3.2.0
-    </div>
   </footer>
 
   <!-- Control Sidebar -->
@@ -92,8 +89,8 @@
 <!-- AdminLTE App -->
 <script src="{{ asset('lte/dist/js/adminlte.js') }}"></script>
 <!-- AdminLTE for demo purposes -->
-<script src="{{ asset('lte/dist/js/demo.js') }}"></script>
+{{-- <script src="{{ asset('lte/dist/js/demo.js') }}"></script> --}}
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-<script src="{{ asset('lte/dist/js/pages/dashboard.js') }}"></script>
+{{-- <script src="{{ asset('lte/dist/js/pages/dashboard.js') }}"></script> --}}
 </body>
 </html>

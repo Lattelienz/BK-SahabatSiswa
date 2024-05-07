@@ -58,7 +58,7 @@
             </div>
           </div>
         </div>
-        <div class="row">
+        {{-- <div class="row">
           <div class="col-8">
             <div class="icheck-primary">
               <input type="checkbox" id="remember">
@@ -67,7 +67,7 @@
               </label>
             </div>
           </div>
-        </div>
+        </div> --}}
         <!-- /.col -->
         <div class="col-12">
           <button type="submit" class="btn btn-primary btn-block">Masuk</button>
@@ -75,10 +75,8 @@
         <!-- /.col -->
       </form>
 
-  
-
       <p class="mb-1 mt-2 text-center">
-        <a href="{{route('home')}}" class="">Kembali ke BK-SahabatSiswa</a>
+        <a href="{{route('home')}}" class="">Kembali</a>
       </p>
      
     </div>
@@ -94,8 +92,10 @@
 <script src="{{ asset('lte/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 <!-- AdminLTE App -->
 <script src="{{ asset('lte/dist/js/adminlte.min.js') }}"></script>
+<!-- Sweetalert2 -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+<!-- popup jika gagal login -->
 @if ($message = Session::get('failed'))
     <script>
         Swal.fire({
@@ -105,6 +105,7 @@
         });
     </script>
 @endif
+
 @if ($message = Session::get('success'))
     <script>
         Swal.fire('{{ $message }}');

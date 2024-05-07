@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 class HomeController extends Controller
 {
@@ -14,37 +14,24 @@ class HomeController extends Controller
     }
     
     public function dashboard(){
-        {
+        
+        if (session('result') !== null) {
+            // dd session('result');
+            return view('dashboard', ['result' => session('result')]);
+        }
+        
+        elseif (session('result') == null) {
             $data = User::get();
-
             return view('dashboard', compact('data'));
         }
-        return abort(403);
 
-        Auth::logout();
-          return redirect()->route('login')->with('success', 'Anda telah logout');
+    }
+    
+    public function profile() {
+        return view('profil');
     }
 
-    public function index(Request $request){
-        $data = User::query(); // Menggunakan query builder untuk inisialisasi query
-        
-        $data = $data->get();
-        
-        return view('general', compact('data', 'request'), [
-            'active' => 'guru'
-        ]);
-    }    
-
-    public function admin(Request $request){
-        
-        $data = User::get();
-        
-        return view('index', compact('data', 'request'), [
-            'active' => 'admin'
-        ]);
-    }    
-    
-
+    // function to create an user
     public function create(){
         return view('create', [
             'active' => 'bk'
@@ -52,21 +39,36 @@ class HomeController extends Controller
     }
 
     public function store(Request $request){
-        $data = $request->validate([
-            'email' => 'required',
-            'name' => 'required',
-            'class' => 'required',
-            'password' => 'required'
+
+        // pertama, data yang masuk diperiksa terlebih dahulu melalui validator
+        $validation = Validator::make($request->all(),[
+            'email'      => 'required|email',
+            'username'   => 'required',
+            'password'   => 'required'
         ]);
 
-        $data['password'] = Hash::make($request->password);
-        
-        User::create($data);
+        // lalu jika data yang dimasukkan tidak sesuai ketentuan, maka kode dibawah akan berjalan
+        if( $validation->fails() ) return redirect()->back()->withInput()->withErrors($validation);
+        // jika data sesuai, maka kode diatas tidak akan berjalan
 
-        return redirect()->back()->with('success', 'Data User berhasil ditambahkan');
+        // data diurutkan dalam array
+        $data['email']      = $request->email;
+        $data['username']   = $request->username;
+        $data['password']   = Hash::make($request->password);
+        
+        
+        // data yang diinput kemudian diolah menjadi sebuah data baru
+        User::create($data);
+        
+        // mengembalikan pengguna ke halaman dashboard
+        return redirect('dashboard')->with('success', 'Data User berhasil ditambahkan');
+        
+        // dd ($data);
     }
-    
-    public function  edit(Request $request,$id){
+    // end
+
+    // function to edit users
+    public function edit(Request $request, $id){
         $data = User::find ($id);
 
         return view('edit', compact('data'), [
@@ -74,25 +76,39 @@ class HomeController extends Controller
         ]);
     }
 
-    public function update(Request $request,$id)
+    public function update(Request $request, $id)
     {
-        $data = $request->validate([
-            'email'     => 'required|email',
-            'name'      => 'required',
-            'password'  => 'required',
+        // pertama, data yang masuk diperiksa terlebih dahulu melalui validator
+        $validation = Validator::make($request->all(),[
+            'email'         => 'required|email',
+            'username'      => 'required'
         ]);
 
-        if($request->input('newPassword')) {
-            $data['password'] = Hash::make($request->input('newPassword'));
+        // lalu jika data yang dimasukkan tidak sesuai ketentuan, maka kode dibawah akan berjalan
+        if( $validation->fails() ) return redirect()->back()->withInput()->withErrors($validation);
+        // jika data sesuai, maka kode diatas tidak akan berjalan
+        
+        // data diurutkan dalam array
+        $data['username']   = $request->username;
+        $data['email']      = $request->email;
+        
+        // kode dibawah berjalan jika data yang masuk memiliki password
+        if($request->newPassword) {
+            $data['password'] = Hash::make($request->newPassword);
         }
-    
+
         // Memperbarui data user
         User::whereId($id)->update($data);
     
-        // Mengarahkan pengguna ke halaman indeks
-        return redirect()->back()->with('success', 'Data berhasil di edit');
-    }
+        // Mengarahkan pengguna ke halaman dashboard
+        return redirect()->route('dashboard')->with('success', 'Data berhasil di edit');
 
+        // dd dipakai untuk debugging data :
+        // dd ($data);
+    }
+    // end
+
+    // function to delete users
     public function delete(Request $request, $id) {
         $data = User::find($id);
     
@@ -100,58 +116,21 @@ class HomeController extends Controller
             $data->delete();
         }
     
-        return redirect()->route('index');
+        return redirect()->route('dashboard');
     }
-
-    public function halaman(Request $request)
-    {
-        $query = $request->input('nameSearch');
-        $data = User::query();
-
-        if($query) {
-            $data->where('name', 'like', '%' . $query . '%');
-        }
+    // end
     
-        $data = User::get();   
-        return view('halaman', [
-            'active' => 'bk',
-            'data'=>$data
-        ]);
-    }
-
     public function nameSearch(Request $request)
     {
         $query = $request->nameSearch;
 
-        $data = User::where('name', 'like', '%' . $query . '%')->get();
+        $data = User::where('username', 'like', '%' . $query . '%')
+                    ->orWhere('email', 'like', '%' . $query . '%')
+                    ->get();
 
-        return view('halaman', [
+        return back()->with([
             'active' => 'bk',
-            'data'=>$data
-        ]);
-    }
-
-    public function nameSearchUser(Request $request)
-    {
-        $query = $request->nameSearch;
-
-        $data = User::where('name', 'like', '%' . $query . '%')->get();
-
-        return view('index', [
-            'active' => 'admin',
-            'data'=>$data
-        ]);
-    }
-
-    public function nameSearchGeneral(Request $request)
-    {
-        $query = $request->nameSearch;
-
-        $data = User::where('name', 'like', '%' . $query . '%')->get();
-
-        return view('general', [
-            'active' => 'guru',
-            'data'=> $data
+            'result'=> $data
         ]);
     }
 
@@ -161,41 +140,10 @@ class HomeController extends Controller
 
         $data = User::where('class', 'like', '%' . $query . '%')->get();
 
-        return view('halaman', [
+        return back()->with([
             'active' => 'bk',
-            'data'=>$data
+            'result' => $data
         ]);
-    }
-
-    public function classFilterUser(Request $request)
-    {
-        $query = $request->classFilter;
-
-        $data = User::where('class', 'like', '%' . $query . '%')->get();
-
-        return view('index', [
-            'active' => 'admin',
-            'data'=>$data
-        ]);
-    }
-
-    public function classFilterGeneral(Request $request)
-    {
-        $query = $request->classFilter;
-
-        $data = User::where('class', 'like', '%' . $query . '%')->get();
-
-        return view('general', [
-            'active' => 'admin',
-            'data'=>$data
-        ]);
-    }
-
-    public function general()
-    {
-        $data = User::all();   
-        return view('general', ['data'=>$data]);
-
     }
     
 }
