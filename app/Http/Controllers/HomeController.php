@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -28,7 +29,14 @@ class HomeController extends Controller
     }
     
     public function profile() {
-        return view('profil');
+
+        // mengambil id user yang login ke laravel
+        $id = Auth::id();
+        
+        //mencari user dengan id yang sudah diambil
+        $result = User::find($id);
+        
+        return view('profil', compact('result'));
     }
 
     // function to create an user
