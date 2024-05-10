@@ -25,10 +25,9 @@ Route::get('/login', [LoginController::class, 'login'])->name('login');
 Route::post('/login-proses', [LoginController::class, 'login_proses'])->name('login-proses');
 Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
-Route::group(['prefix' => 'admin','middleware' => ['auth'], 'as' => 'admin.'] , function(){
+Route::group(['prefix' => 'user','middleware' => ['auth'], 'as' => 'user.'] , function(){
 Route::get('/dashboard', [HomeController::class, 'dashboard'])->name('dashboard');
 
-Route::get('/', [Homecontroller::class,'index'])->name('index');
 Route::get('/user', [Homecontroller::class,'admin'])->name('dashboard.admin');
 Route::get('/user/nameSearch', [Homecontroller::class,'nameSearchUser']);
 Route::get('/user/classFilter', [Homecontroller::class,'classFilterUser']);
@@ -47,6 +46,12 @@ Route::get('/halaman/classFilter', [Homecontroller::class,'classFilter']);
 Route::get('/general', [Homecontroller::class,'index'])->name('dashboard.guru');
 Route::get('/general/nameSearch', [Homecontroller::class,'nameSearchGeneral']);
 Route::get('/general/classFilter', [Homecontroller::class,'classFilterGeneral']);
+
+Route::get('/form', [HomeController::class, 'form'])->name('form');
+Route::get('/profil', [HomeController::class, 'profil'])->name('profil');
+
+
+
 
 });
 

@@ -25,7 +25,7 @@ class LoginController extends Controller
        ];
 
        if(Auth::attempt($data)){                    //pengecekan data, trus diarahkan ke next page 
-            return redirect()->route('admin.dashboard')->with('success', 'Alhamdulillah berhasil login');                //jika berhasil true
+            return redirect()->route('user.dashboard')->with('success', 'Alhamdulillah berhasil login');                //jika berhasil true
        }else{
             return redirect()->route('login')->with('failed','coba lagi');      //jika gagal false
        }

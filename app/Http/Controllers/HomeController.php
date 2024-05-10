@@ -198,4 +198,10 @@ class HomeController extends Controller
 
     }
     
+    public function form(){
+        return view('form');
+}
+    public function profil(){
+        return view('profil');
+}
 }

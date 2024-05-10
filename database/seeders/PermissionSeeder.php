@@ -17,9 +17,9 @@ class PermissionSeeder extends Seeder
     {
         $role_siswa = Role::updateOrCreate(
             [
-                'name' => 'siswa',
+                'name' => 'Siswaa',
             ],
-            ['name' => 'siswa']  
+            ['name' => 'Siswaa']  
         );
         $role_gurubk = Role::updateOrCreate(
             [
@@ -35,9 +35,9 @@ class PermissionSeeder extends Seeder
         );
         $role_admin = Role::updateOrCreate(
             [
-                'name' => 'admin',
+                'name' => 'Admin',
             ],
-            ['name' => 'admin']  
+            ['name' => 'Admin']  
         );
         $permission = Permission::updateOrCreate(
             [
@@ -47,19 +47,31 @@ class PermissionSeeder extends Seeder
         );
         $permission2 = Permission::updateOrCreate(
             [
+                'name' => 'view_card'
+            ],
+            ['name' => 'view_card']
+        );
+        $permission3 = Permission::updateOrCreate(
+            [
                 'name' => 'view_table_data_siswa'
             ],
             ['name' => 'view_table_data_siswa']
         );
 
         $role_admin->givePermissionTo($permission);
-        $role_gurubk->givePermissionTo($permission2);
-        $role_admin->givePermissionTo($permission2);
+        $role_siswa->givePermissionTo($permission2);
+        $role_gurubk->givePermissionTo($permission3);
 
-        $user = User::find(2);
-        $user2 = User::find(3);
+        $user = User::find(10);
+        $user2 = User::find(8);
+        $user3 = User::find(9);
 
-        $user->assignRole('admin');
-        $user2->assignRole('guru_bk');
+        $user->assignRole('Admin');
+        $user2->assignRole('Siswaa');
+        $user3->assignRole('guru_bk');
+
+        $user->can('view_dashboard');
+        $user2->can('view_card');
+        $user3->can('view_table_data_siswa');
     }
 }
