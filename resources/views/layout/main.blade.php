@@ -3,7 +3,9 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+
   <title>Dashboard</title>
+
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -26,12 +28,14 @@
   <!-- summernote -->
   <link rel="stylesheet" href="{{ asset('lte/plugins/summernote/summernote-bs4.min.css') }}">
 </head>
-<body class="hold-transition sidebar-mini layout-fixed">
+<body class="hold-transition sidebar-collapse layout-fixed">
 <div class="wrapper">
 
   <!-- Preloader -->
   <div class="preloader flex-column justify-content-center align-items-center">
+
     <img class="animation__shake" src="{{ asset('lte/dist/img/logobk.png') }}" alt="Logo BK" height="60" width="60">
+
   </div>
 
   <!-- Navbar -->
@@ -46,11 +50,13 @@
 
   <!-- /.content-wrapper -->
   <footer class="main-footer">
-    <strong>Copyright &copy; BK-SahabatSiswa <a href="https://smkn2-bjm.sch.id/">SMKN 2 Banjarmasin</a>.</strong>
+
+    <strong>Copyright &copy; 2023-2024 BK-SahabatSiswa <a href="https://smkn2-bjm.sch.id/">SMKN 2 Banjarmasin</a>.</strong>
     
     <div class="float-right d-none d-sm-inline-block">
       <b>Versi</b> 1.0
     </div>
+
   </footer>
 
   <!-- Control Sidebar -->
@@ -92,8 +98,8 @@
 <!-- AdminLTE App -->
 <script src="{{ asset('lte/dist/js/adminlte.js') }}"></script>
 <!-- AdminLTE for demo purposes -->
-<script src="{{ asset('lte/dist/js/demo.js') }}"></script>
+{{-- <script src="{{ asset('lte/dist/js/demo.js') }}"></script> --}}
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-<script src="{{ asset('lte/dist/js/pages/dashboard.js') }}"></script>
+{{-- <script src="{{ asset('lte/dist/js/pages/dashboard.js') }}"></script> --}}
 </body>
 </html>

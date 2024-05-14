@@ -32,12 +32,12 @@ Route::get('/user', [Homecontroller::class,'admin'])->name('dashboard.admin');
 Route::get('/user/nameSearch', [Homecontroller::class,'nameSearchUser']);
 Route::get('/user/classFilter', [Homecontroller::class,'classFilterUser']);
 
-Route::get('/create', [Homecontroller::class,'create'])->name('user.create');
-Route::post('/store', [Homecontroller::class,'store'])->name('user.store');
+Route::get('/create', [Homecontroller::class,'create'])->name('create');
+Route::post('/store', [Homecontroller::class,'store'])->name('store');
 
-Route::get('/edit/{id}', [Homecontroller::class,'edit'])->name('user.edit');
-Route::put('/update/{id}', [Homecontroller::class,'update'])->name('user.update');
-Route::delete('/delete/{id}', [Homecontroller::class,'delete'])->name('user.delete');
+Route::get('/edit/{id}', [Homecontroller::class,'edit'])->name('edit');
+Route::put('/update/{id}', [Homecontroller::class,'update'])->name('update');
+Route::delete('/delete/{id}', [Homecontroller::class,'delete'])->name('delete');
 
 
 Route::get('/halaman', [Homecontroller::class,'halaman'])->name('dashboard.guru.bk');
@@ -49,6 +49,7 @@ Route::get('/general/classFilter', [Homecontroller::class,'classFilterGeneral'])
 
 Route::get('/form', [HomeController::class, 'form'])->name('form');
 Route::get('/profil', [HomeController::class, 'profil'])->name('profil');
+
 
 
 
