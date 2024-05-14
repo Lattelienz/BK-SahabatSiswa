@@ -1,88 +1,58 @@
 
 <!-- Main Sidebar -->
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
-    <!-- Brand Logo -->
-    <a href="#" class="brand-link">
-      <img src="{{ asset('lte/dist/img/AdminLTELogo.png') }}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-      <span class="brand-text font-weight-light">AdminLTE 3</span>
-    </a>
+  <!-- Brand Logo -->
+  <a href="index3.html" class="brand-link">
+    <img src="{{ asset('lte/dist/img/logobk.png') }}" alt="Logo BK" class="brand-image img-circle elevation-3" style="opacity: .8">
+    <span class="brand-text font-weight-light">BK-SahabatSiswa</span>
+  </a>
 
-    <!-- Sidebar -->
-    <div class="sidebar">
-      <!-- Sidebar user panel (optional) -->
-      <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-        <div class="image">
-          <img src="{{ asset('lte/dist/img/user2-160x160.jpg') }}" class="img-circle elevation-2" alt="User Image">
-        </div>
-        <div class="info">
-          <a href="{{ route('profile') }}" class="d-block">User</a>
-        </div>
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <!-- Sidebar user panel (optional) -->
+    <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+      <div class="image">
+        <img src="{{ asset('lte/dist/img/profil1.png') }}" class="img-circle elevation-2" alt="User Image">
       </div>
-
-      <!-- SidebarSearch Form -->
-      {{-- <div class="form-inline">
-        <div class="input-group" data-widget="sidebar-search">
-          <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">
-          <div class="input-group-append">
-            <button class="btn btn-sidebar">
-              <i class="fas fa-search fa-fw"></i>
-            </button>
-          </div>
-        </div>
-      </div> --}}
-
-      <!-- Sidebar Menu -->
-      <nav class="mt-2">
-        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-          <!-- Add icons to the links using the .nav-icon class
-               with font-awesome or any other icon font library -->
-               
-          <li class="nav-item">
-            <a href="{{ route("dashboard") }}" class="nav-link {{-- {{ $active == 'dashboard' ? 'active' : '' }} --}}">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
-              <p>Dashboard</p>
-            </a>
-          </li>
-
-          <li class="nav-item">
-            <a href="{{ route("logout") }}" class="nav-link {{-- {{ $active == 'dashboard' ? 'active' : '' }} --}}">
-              <i class="nav-icon fas fa-sign-out-alt"></i>
-              <p>Logout</p>
-            </a>
-          </li>
-
-         <!--  <li class="nav-item menu-open">
-            <a href="#" class="nav-link active">
-              <i class="nav-icon"></i>
-              <p>
-                Dashboard
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="{{-- {{ route("admin.dashboard.guru.bk") }} --}}" class="nav-link {{-- {{ $active == 'bk' ? 'active' : '' }} --}}">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Bimbingan Konseling</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="{{ route("dashboard") }}" class="nav-link {{-- {{ $active == 'admin' ? 'active' : '' }} --}}">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Admin</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="{{-- {{ route("admin.dashboard.guru") }} --}}" class="nav-link {{-- {{ $active == 'guru' ? 'active' : '' }} --}}">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Guru</p>
-                </a>
-              </li>
-            </ul>
-          </li> -->
-        </ul>
-      </nav>>
-      <!-- /.sidebar-menu -->
+      <div class="info">
+        <a href="{{route('user.profil')}}" class="d-block">{{ Auth::user()->name }}</a>
+      </div>
     </div>
-    <!-- /.sidebar -->
-  </aside>
+
+    <!-- Sidebar Menu -->
+    <nav class="mt-2">
+      <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+        <!-- Add icons to the links using the .nav-icon class
+             with font-awesome or any other icon font library -->
+
+             <li class="nav-item">
+              <a href="{{route('user.dashboard')}}" class="nav-link">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-suit-diamond-fill" viewBox="0 0 16 16">
+                  <path d="M2.45 7.4 7.2 1.067a1 1 0 0 1 1.6 0L13.55 7.4a1 1 0 0 1 0 1.2L8.8 14.933a1 1 0 0 1-1.6 0L2.45 8.6a1 1 0 0 1 0-1.2"/>
+                </svg> <i class="ml-1"></i>
+                <p>Dashboard</p>
+              </a>
+            </li>
+            @can('view_card')
+            <li class="nav-item">
+              <a href="" class="nav-link">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-suit-diamond-fill" viewBox="0 0 16 16">
+                  <path d="M2.45 7.4 7.2 1.067a1 1 0 0 1 1.6 0L13.55 7.4a1 1 0 0 1 0 1.2L8.8 14.933a1 1 0 0 1-1.6 0L2.45 8.6a1 1 0 0 1 0-1.2"/>
+                </svg> <i class="ml-1"></i>
+                <p>Kontak Guru BK</p>
+              </a>
+            </li>
+            @endcan
+            
+            
+        
+            </li>
+          </ul> 
+        </li> 
+      </ul>
+    </nav>
+    <!-- /.sidebar-menu -->
+  </div>
+  <!-- /.sidebar -->
+</aside>
+

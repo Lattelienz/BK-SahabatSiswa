@@ -23,11 +23,12 @@ class LoginController extends Controller
             'password'  => $request->password
        ];
 
-       if (Auth::attempt($data)) {                    //pengecekan data, trus diarahkan ke next page 
-            return redirect()->route('dashboard')->with('success', 'Alhamdulillah berhasil login');                //jika berhasil true
-       }
 
-       else {
+       if(Auth::attempt($data)){                    //pengecekan data, trus diarahkan ke next page 
+            return redirect()->route('user.dashboard')->with('success', 'Alhamdulillah berhasil login');                //jika berhasil true
+       }else{
+
+      
             return redirect()->route('login')->with('failed','coba lagi');      //jika gagal false
        }
     }

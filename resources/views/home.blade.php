@@ -121,7 +121,7 @@
                 </h6>
         
                 <p class="content" id="sm">
-                    testing
+                    <center><a href="https://smkn2-bjm.sch.id/">SMKN 2 Banjarmasin</a></center>
                 </p>
 
             </div>

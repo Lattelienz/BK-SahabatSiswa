@@ -3,7 +3,9 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>E-BK | BK Sahabat Siswa</title>
+
+  <title>Dashboard</title>
+
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -31,7 +33,9 @@
 
   <!-- Preloader -->
   <div class="preloader flex-column justify-content-center align-items-center">
-    <img class="animation__shake" src="{{ asset('lte/dist/img/AdminLTELogo.png') }}" alt="AdminLTELogo" height="60" width="60">
+
+    <img class="animation__shake" src="{{ asset('lte/dist/img/logobk.png') }}" alt="Logo BK" height="60" width="60">
+
   </div>
 
   <!-- Navbar -->
@@ -46,8 +50,13 @@
 
   <!-- /.content-wrapper -->
   <footer class="main-footer">
-    <strong>Copyright &copy; 2023-2024 BK-Sahabat Siswa.</strong>
-    All rights reserved.
+
+    <strong>Copyright &copy; 2023-2024 BK-SahabatSiswa <a href="https://smkn2-bjm.sch.id/">SMKN 2 Banjarmasin</a>.</strong>
+    
+    <div class="float-right d-none d-sm-inline-block">
+      <b>Versi</b> 1.0
+    </div>
+
   </footer>
 
   <!-- Control Sidebar -->

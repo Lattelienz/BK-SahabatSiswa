@@ -20,14 +20,13 @@
                 </thead>
                 <tbody>
                 @foreach ($siswa as $i)
-
-                @endforeach
                 <tr>
-                    <td style="width: 100px; object-fit: cover;">
-                        <img src="{{ asset('storage/'.$i->gambar) }}" alt="{{ $i->nama }}" width="80">
-                    </td>
-                    <td><a href="siswa/{{ $i->id }}">{{ $i->nama }}</a></td>
-                </tr>
+                  <td style="width: 100px; object-fit: cover;">
+                      <img src="{{ asset('storage/'.$i->gambar) }}" alt="{{ $i->nama }}" width="80">
+                  </td>
+                  <td><a href="siswa/{{ $i->id }}">{{ $i->nama }}</a></td>
+              </tr>
+                @endforeach
                 </tbody>
               </table>
             </div>
