@@ -27,7 +27,7 @@
              <div class="row">
              @can('view_dashboard')
              <div class="col-12" >
-                <a href="{{ route('user.user.create')}}" class="btn btn-dark" >Tambah Data</a>
+                <a href="{{ route('user.user.create')}}" class="btn btn-dark mb-3" >Tambah Data</a>
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">Data Siswa</h3>
@@ -77,7 +77,7 @@
                                     <td> {{$d->email}} </td>
                                     <td> {{$d->class}} </td>
                                     <td>
-                                        <a href="{{ route('user.user.edit', ['id' => $d->id]) }}" class="btn btn-dark"><i class="fas fa-pen"></i> Edit</a>
+                                        <a href="{{ route('user.edit', ['id' => $d->id]) }}" class="btn btn-dark"><i class="fas fa-pen"></i> Edit</a>
                                     </td>
                                 </tr>                               
                                 <!-- /.modal -->

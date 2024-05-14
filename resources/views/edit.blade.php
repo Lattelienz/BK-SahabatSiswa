@@ -45,23 +45,23 @@
                         <div class="card-body">
                             
                          <div class="form-group">
-                            <label for="exampleInputEmail1">Email</label>
-                            <input type="email" class="form-control" id="exampleInputEmail1" name="email" value="{{$data->email}}" placeholder="Enter email">
+                            <label for="email">Email</label>
+                            <input type="email" class="form-control" id="email1" name="email" value="{{$data->email}}" placeholder="Enter email">
                             @error('email')
                                 <small>{{ $message }}</small>
                             @enderror
                           </div>
                           <div class="form-group">
-                              <label for="exampleInputEmail1">Username</label>
-                              <input type="text" name="name" class="form-control" id="exampleInputEmail1" value="{{$data->username}}" placeholder="Enter Name">
+                              <label for="username">Username</label>
+                              <input type="text" name="username" class="form-control" id="username" value="{{$data->username}}" placeholder="Enter Name">
                               @error('name')
                                     <small>{{ $message }}</small>
                               @enderror
                             </div>
                           <div class="form-group">
-                            <label for="exampleInputPassword1">Password</label>
-                            <input type="hidden" name="password" value="{{ $data->password }}">
-                            <input type="newPassword" name="newPassword" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                            <label for="password1">Password</label>
+                            <input type="lpassword" name="newPassword" class="form-control" id="exampleInputPassword1" placeholder="Password baru">
+                            <small>Kosongkan jika tidak ingin mengganti password</small>
                             @error('password')
                                 <small>{{ $message }}</small>
                             @enderror

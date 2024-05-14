@@ -5,15 +5,14 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 
 class LoginController extends Controller
 {
-    public function login(){
+    public function login() {
         return view('auth.login');
     }
 
-    public function login_proses(Request $request){ //function utk post data, trus di validasi
+    public function login_proses(Request $request) { //function utk post data, trus di validasi
        $request->validate([
             'email'     => 'required',
             'password'  => 'required',
@@ -31,7 +30,7 @@ class LoginController extends Controller
        }
     }
 
-    public function logout(){
+    public function logout() {
           Auth::logout();
           return redirect()->route('login')->with('success', 'Anda telah logout');
     }
