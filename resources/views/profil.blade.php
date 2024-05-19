@@ -24,7 +24,13 @@
 
     <div class="d-flex flex-column align-items-center text-center mb-3">
       <img src="{{ asset('lte/dist/img/user2-160x160.jpg') }}" alt="Foto profil" style="width: 175px; border-radius: 1rem; border: 1px solid black">
-      <h2 class="m-2">{{-- {{ $siswa->nama }} --}} {{-- Udin --}}</h2>
+      <h2 class="m-2">
+        {{-- @if ()
+          {{ $tbl_siswa->nama }} 
+        @else
+          {{ $tbl_guru->nama }}
+        @endif --}}
+      </h2>
     </div>
 
     <section class="row justify-content-center" style="column-gap: 10px">

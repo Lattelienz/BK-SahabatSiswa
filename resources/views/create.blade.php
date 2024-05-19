@@ -11,7 +11,7 @@
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Home</a></li>
+              <li class="breadcrumb-item"><a href="{{ route('user.dashboard') }}">Home</a></li>
               <li class="breadcrumb-item active">Tambah User</li>
             </ol>
           </div><!-- /.col -->
@@ -44,13 +44,13 @@
                         @enderror
                       </div>
 
-                      <div class="form-group">
+                      {{-- <div class="form-group">
                         <label for="namaa">Username</label>
                         <input type="text" name="username" class="form-control" id="namaa" placeholder="Masukkan Nama">
                         @error('username')
                           <small>{{ $message }}</small>
                         @enderror
-                      </div>
+                      </div> --}}
 
                       <div class="form-group">
                         <label for="exampleInputPassword1">Password</label>
@@ -68,6 +68,25 @@
                                   <option>Admin</option>
                                   <option>Siswa</option>
                                   <option>Guru</option>
+                              </select>
+                          </div>
+                      </div>
+                      
+                      <div class="form-group">
+                        <!-- select -->
+                          <div class="form-group">
+                              <label>Kelas</label>
+                              <select name="kelas" class="form-control">
+                                  <option>10</option>
+                                  <option>10 A</option>
+                                  <option>10 B</option>
+                                  <option>11</option>
+                                  <option>11 A</option>
+                                  <option>11 B</option>
+                                  <option>12</option>
+                                  <option>12 A</option>
+                                  <option>12 B</option>
+                                  <option>13</option>
                               </select>
                           </div>
                       </div>
@@ -104,4 +123,8 @@
   </div>
   <!-- /.content -->
   
+  <script>
+    
+  </script>
+
 @endsection

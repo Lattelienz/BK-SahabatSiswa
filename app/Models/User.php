@@ -19,9 +19,8 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'username',
         'email',
-        'password',
+        'password'
     ];
 
     /**
@@ -43,4 +42,16 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    // public function siswa() {
+    //     return $this->hasOne(siswa::class, 'id_user');
+    // }
+
+    public function biodata_siswa() {
+        return $this->hasManyThrough(Biodata_siswa::class, siswa::class, 'id_user', 'nis', 'id', 'nis');
+    }
+
+    public function guru() {
+        return $this->hasOne(guru::class, 'id_user');
+    }
 }

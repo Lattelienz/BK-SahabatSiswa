@@ -9,7 +9,6 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-
                     <h1 class="m-0">Dashboard</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
@@ -24,7 +23,7 @@
     <!-- /.content-header -->
 
     <!-- Main content -->
-    {{-- <section class="content"> --}}
+    <section class="content">
         <div class="container-fluid">
              
              <!-- Small boxes (Stat box) -->
@@ -33,11 +32,13 @@
              <div class="col-12" >
                 <a href="{{ route('user.create')}}" class="btn btn-dark mb-3" >Tambah Data</a>
                 <div class="card">
+                    
+                    <!-- .card-header -->
                     <div class="card-header">
                         <h3 class="card-title">Data Siswa</h3>
 
                         <div class="card-tools row">
-                            <form action="/halaman/nameSearch" method="get" class="input-group input-group-sm" style="width: 150px;">
+                            <form action="{{ route('user.search') }}" method="get" class="input-group input-group-sm" style="width: 150px;">
                                 <input type="text" name="nameSearch" class="form-control float-right" placeholder="Search">
                                 <div class="input-group-append">
                                     <button type="submit" class="btn btn-default">
@@ -62,26 +63,33 @@
                         </div>
                     </div>
                     <!-- /.card-header -->
+
+                    @if (session('result') !== null)
+                    <!-- .card-body -->
                     <div class="card-body table-responsive p-0">
+                        
                         <table class="table table-hover text-nowrap">
                             <thead>
                                 <tr>
                                     <th>No</th>
-                                    <th>Nama</th>
                                     <th>Email</th>
-                                    <th>Class</th>
+                                    <th>Level</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($data as $d)
+                                @foreach ($result as $d)
                                 <tr>
                                     <td> {{$loop->iteration}} </td>
-                                    <td> {{$d->name}} </td>
                                     <td> {{$d->email}} </td>
-                                    <td> {{$d->class}} </td>
-                                    <td>
+                                    <td> {{$d->level}} </td>
+                                    <td class="d-flex" style="grid-gap: 10px">
                                         <a href="{{ route('user.edit', ['id' => $d->id]) }}" class="btn btn-dark"><i class="fas fa-pen"></i> Edit</a>
+                                        <form action="{{ route('user.delete', ['id' => $d->id]) }}" method="POST">
+                                            @csrf
+                                            @method('delete')
+                                            <button type="submit" class="btn btn-dark"><i class="fas fa-trash"></i> Delete</button>
+                                        </form>
                                     </td>
                                 </tr>                               
                                 <!-- /.modal -->
@@ -92,6 +100,44 @@
                         
                     </div>
                     <!-- /.card-body -->
+
+                    @else
+                    <!-- .card-body -->
+                    <div class="card-body table-responsive p-0">
+
+                        <table class="table table-hover text-nowrap">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Email</th>
+                                    <th>Level</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($data as $d)
+                                <tr>
+                                    <td> {{$loop->iteration}} </td>
+                                    <td> {{$d->email}} </td>
+                                    <td> {{$d->level}} </td>
+                                    <td class="d-flex" style="grid-gap: 10px">
+                                        <a href="{{ route('user.edit', ['id' => $d->id]) }}" class="btn btn-dark"><i class="fas fa-pen"></i> Edit</a>
+                                        <form action="{{ route('user.delete', ['id' => $d->id]) }}" method="POST">
+                                            @csrf
+                                            @method('delete')
+                                            <button type="submit" class="btn btn-dark"><i class="fas fa-trash"></i> Delete</button>
+                                        </form>
+                                    </td>
+                                </tr>                               
+                                <!-- /.modal -->
+                                @endforeach
+
+                            </tbody>
+                        </table>
+                        
+                    </div>
+                    <!-- /.card-body -->
+                    @endif
                     
                 </div>
                 <!-- /.card -->
@@ -100,7 +146,9 @@
              @endcan
                
             <!-- /.row (main row) -->
-        </div><!-- /.container-fluid -->
+        </div>
+        <!-- /.container-fluid -->
+
         @can('view_card')
         <div class="card" style="width: 18rem;">
             <div class="card-body">
@@ -128,7 +176,6 @@
         @endcan
 
         @can('view_table_data_siswa')
-
         <div class="container-fluid">
             <div class="row">
               <div class="col-12">
@@ -147,14 +194,13 @@
                       </thead>
                       <tbody>
                       @foreach ($siswa as $i)
-      
+                        <tr>
+                            <td style="width: 100px; object-fit: cover;">
+                                <img src="{{ asset('storage/'.$i->gambar) }}" alt="{{ $i->nama }}" width="80">
+                            </td>
+                            <td><a href="siswa/{{ $i->id }}">{{ $i->nama }}</a></td>
+                        </tr>
                       @endforeach
-                      <tr>
-                          <td style="width: 100px; object-fit: cover;">
-                              <img src="{{ asset('storage/'.$i->gambar) }}" alt="{{ $i->nama }}" width="80">
-                          </td>
-                          <td><a href="siswa/{{ $i->id }}">{{ $i->nama }}</a></td>
-                      </tr>
                       </tbody>
                     </table>
                   </div>
@@ -167,8 +213,8 @@
             <!-- /.row -->
           </div>
           <!-- /.container-fluid -->
-            
         @endcan
+
     </section>
 
     <!-- /.content -->

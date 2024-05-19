@@ -16,45 +16,37 @@ class PermissionSeeder extends Seeder
     public function run(): void
     {
         $role_siswa = Role::updateOrCreate(
-            [
-                'name' => 'Siswaa',
-            ],
+            ['name' => 'Siswaa'],
             ['name' => 'Siswaa']  
         );
+
         $role_gurubk = Role::updateOrCreate(
-            [
-                'name' => 'guru_bk',
-            ],
+            ['name' => 'guru_bk'],
             ['name' => 'guru_bk']  
         );
+
         $role_guru = Role::updateOrCreate(
-            [
-                'name' => 'guru',
-            ],
+            ['name' => 'guru'],
             ['name' => 'guru']  
         );
+
         $role_admin = Role::updateOrCreate(
-            [
-                'name' => 'Admin',
-            ],
+            ['name' => 'Admin'],
             ['name' => 'Admin']  
         );
+
         $permission = Permission::updateOrCreate(
-            [
-                'name' => 'view_dashboard'
-            ],
+            ['name' => 'view_dashboard'],
             ['name' => 'view_dashboard']
         );
+
         $permission2 = Permission::updateOrCreate(
-            [
-                'name' => 'view_card'
-            ],
+            ['name' => 'view_card'],
             ['name' => 'view_card']
         );
+
         $permission3 = Permission::updateOrCreate(
-            [
-                'name' => 'view_table_data_siswa'
-            ],
+            ['name' => 'view_table_data_siswa'],
             ['name' => 'view_table_data_siswa']
         );
 
@@ -62,9 +54,9 @@ class PermissionSeeder extends Seeder
         $role_siswa->givePermissionTo($permission2);
         $role_gurubk->givePermissionTo($permission3);
 
-        $user = User::find(10);
-        $user2 = User::find(8);
-        $user3 = User::find(9);
+        $user = User::find(4);
+        $user2 = User::find(5);
+        $user3 = User::find(6);
 
         $user->assignRole('Admin');
         $user2->assignRole('Siswaa');
