@@ -1,6 +1,7 @@
 <div class="formbold-form-step-2">
-  <div class="formbold-input-flex">
-    <div>
+
+  <div class="row mb-2">
+    <div class="col-sm-6">
         <label for="nama_ayah" class="formbold-form-label"> Nama Ayah </label>
         <input
         type="text"
@@ -10,7 +11,7 @@
         class="formbold-form-input"
         />
     </div>
-    <div>
+    <div class="col-sm-6 mt-2 mt-sm-0">
         <label for="nama_ibu" class="formbold-form-label"> Nama Ibu </label>
         <input
         type="text"
@@ -21,8 +22,9 @@
         />
     </div>
   </div>
-  <div class="formbold-input-flex">
-    <div>
+
+  <div class="row mb-2">
+    <div class="col-sm-6">
         <label for="pendidikan_ayah" class="formbold-form-label"> Pendidikan Ayah </label>
         <input
         type="text"
@@ -32,7 +34,7 @@
         class="formbold-form-input"
         />
     </div>
-    <div>
+    <div class="col-sm-6 mt-2 mt-sm-0">
         <label for="pendidikan_ibu" class="formbold-form-label"> Pendidikan Ibu </label>
         <input
         type="text"
@@ -43,8 +45,9 @@
         />
     </div>
   </div>
-  <div class="formbold-input-flex">
-    <div>
+
+  <div class="row mb-2">
+    <div class="col-sm-6">
         <label for="pekerjaan_ayah" class="formbold-form-label"> Pekerjaan Ayah </label>
         <input
         type="text"
@@ -54,7 +57,7 @@
         class="formbold-form-input"
         />
     </div>
-    <div>
+    <div class="col-sm-6">
         <label for="pekerjaan_ibu" class="formbold-form-label"> Pekerjaan Ibu </label>
         <input
         type="text"
@@ -65,20 +68,24 @@
         />
     </div>
   </div>
-  <div>
-    <label for="penghasilan" class="formbold-form-label"> Penghasilan Orang tua </label>
-    <input
-    type="text"
-    name="penghasilan"
-    placeholder="Rp."
-    id="penghasilan"
-    class="formbold-form-input"
-    />
+
+  <div class="row mb-2">
+    <div>
+      <label for="penghasilan" class="formbold-form-label"> Penghasilan Orang tua </label>
+      <input
+      type="text"
+      name="penghasilan"
+      placeholder="Rp."
+      id="penghasilan"
+      class="formbold-form-input"
+      />
+    </div>
   </div>
+
   <div class="formbold-radio-flex mt-2">
     <div class="formbold-radio-group">
       <label class="formbold-radio-label">
-        <input class="formbold-input-radio" type="radio" name="jobtitle" id="jobtitle">
+        <input class="formbold-input-radio" type="radio" name="penghasilan_per" id="penghasilan_per" value="hari">
         perhari
         <span class="formbold-radio-checkmark"></span>
       </label>
@@ -86,7 +93,7 @@
 
     <div class="formbold-radio-group">
       <label class="formbold-radio-label">
-        <input class="formbold-input-radio" type="radio" name="jobtitle" id="jobtitle">
+        <input class="formbold-input-radio" type="radio" name="penghasilan_per" id="penghasilan_per" value="minggu">
         perminggu
         <span class="formbold-radio-checkmark"></span>
       </label>
@@ -94,14 +101,14 @@
 
     <div class="formbold-radio-group">
       <label class="formbold-radio-label">
-        <input class="formbold-input-radio" type="radio" name="jobtitle" id="jobtitle">
+        <input class="formbold-input-radio" type="radio" name="penghasilan_per" id="penghasilan_per" value="bulan">
         perbulan
         <span class="formbold-radio-checkmark"></span>
       </label>
     </div>
   </div>
 
-{{-- form wali => not required, tdk wajib diisi --}}
+<!-- form wali => not required, tdk wajib diisi -->
           
 <h3 class="mt-3 mb-3">*Bagi yang tidak tinggal dengan orang tua</h3>
     
@@ -116,6 +123,7 @@
     />
   </div>
   <br>
+
   <div>
     <label for="pekerjaan_wali" class="formbold-form-label"> Pekerjaan Wali </label>
     <input
@@ -127,6 +135,7 @@
     />
   </div>
   <br>
+
   <div>
     <label for="alamat_wali" class="formbold-form-label"> Alamat Lengkap Wali</label>
     <input
@@ -138,14 +147,16 @@
     />
   </div>
   <br>
+
   <div>
-  <label for="nomor_wali" class="formbold-form-label"> No Hp Wali </label>
-  <input
-  type="text"
-  name="nomor_wali"
-  placeholder="No Hp Wali"
-  id="nomor_wali"
-  class="formbold-form-input"
-  />
+    <label for="nomor_wali" class="formbold-form-label"> No Hp Wali </label>
+    <input
+    type="text"
+    name="nomor_wali"
+    placeholder="No Hp Wali"
+    id="nomor_wali"
+    class="formbold-form-input"
+    />
   </div>
+
 </div>

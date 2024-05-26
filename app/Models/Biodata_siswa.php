@@ -11,8 +11,20 @@ class Biodata_siswa extends Model
 
     protected $table = 'tbl_bio_siswa';
 
-    public function siswa()
-    {
+    protected $fillable = [
+        'nis',
+        'nama_panggilan',
+        'agama',
+        'jenis_k',
+        'tempat_lahir',
+        'tanggal_lahir',
+        'no_hp',
+        'asal_smp',
+        'nilai_ujian_akhir',
+        'alamat_sekarang'
+    ];
+
+    public function siswa() {
         return $this->belongsTo(Siswa::class, 'nis');
     }
 }

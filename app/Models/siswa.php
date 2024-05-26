@@ -15,6 +15,7 @@ class siswa extends Model
 
     protected $fillable = [
         'nis',
+        'id_user',
         'nama_lengkap',
         'id_jurusan',
         'kelas',
@@ -22,12 +23,23 @@ class siswa extends Model
         'tanggal_lahir'
     ];
 
-    public function user()
-    {
+    public function user() {
         return $this->belongsTo(User::class, 'id_user');
     }
 
+    public function jurusan() {
+        return $this->belongsTo(jurusan::class, 'id_jurusan');
+    }    
+
     public function biodata() {
         return $this->hasOne(Biodata_siswa::class, 'nis');
+    }
+
+    public function bio_ortu() {
+        return $this->hasOne(Biodata_Ortu_Siswa::class, 'nis');
+    }
+
+    public function bio_lainnya() {
+        return $this->hasOne(Data_siswa_lainnya::class, 'nis');
     }
 }

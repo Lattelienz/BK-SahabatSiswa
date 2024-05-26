@@ -20,7 +20,7 @@ return new class extends Migration
             $table->enum('jenis_k', ['Laki-laki', 'Perempuan']);
             $table->string('tempat_lahir');
             $table->date('tanggal_lahir');
-            $table->integer('no_hp');
+            $table->bigInteger('no_hp');
             $table->string('asal_smp');
             $table->integer('nilai_ujian_akhir');
             $table->string('alamat_sekarang');

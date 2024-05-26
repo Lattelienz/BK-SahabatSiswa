@@ -28,13 +28,13 @@ Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 Route::group(['prefix' => 'user','middleware' => ['auth'], 'as' => 'user.'] , function(){
 
   Route::get('/dashboard', [HomeController::class, 'dashboard'])->name('dashboard');
+  Route::get('/siswa/{id}', [HomeController::class, 'showsiswa'])->name('siswa');
   Route::get('/profil', [HomeController::class, 'profil'])->name('profil');
   Route::get('/dashboard/search', [Homecontroller::class,'search'])->name('search');
   // Route::get('/halaman/classFilter', [Homecontroller::class,'classFilter']);
 
   Route::get('/create', [Homecontroller::class,'create'])->name('create');
   Route::post('/store', [Homecontroller::class,'store'])->name('store');
-
   Route::get('/edit/{id}', [Homecontroller::class,'edit'])->name('edit');
   Route::put('/update/{id}', [Homecontroller::class,'update'])->name('update');
   Route::delete('/delete/{id}', [Homecontroller::class,'delete'])->name('delete');

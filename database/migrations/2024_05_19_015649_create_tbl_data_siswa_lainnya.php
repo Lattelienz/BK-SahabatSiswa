@@ -21,32 +21,17 @@ return new class extends Migration
             $table->integer('jumlah_orang_yg_serumah');            
             $table->integer('jumlah_tanggungan_ortu');            
             $table->string('kesekolah_memakai');            
-            $table->enum('tempat_tinggal', [
-                'milik_sendiri', 
-                'sewa', 
-                'milik_keluarga', 
-                'rumah_dinas', 
-                'lainnya'
-            ]);            
-            $table->enum('penerangan', [
-                'listrik', 
-                'lampu_tembok', 
-                'lilin', 
-                'lainnya',
-            ]);            
+            $table->string('tempat_tinggal');            
+            $table->string('penerangan');            
             $table->enum('hp', ['punya', 'tidak']);            
             $table->enum('laptop', ['punya', 'tidak']);            
-            $table->enum('pjj_memakai', [
-                'wifi_sendiri',
-                'wifi_tetangga',
-                'kuota',
-                'lainnya'
-            ]);            
+            $table->string('pjj_memakai');            
             $table->string('pelajaran_yg_tdk_disuka');            
             $table->string('pelajaran_yg_disuka');            
-            $table->string('cita-cita_stlh_tamat');            
+            $table->string('cita_cita');           
             $table->string('hobby');            
-            $table->string('penyakit_yg_menggangu_belajar');            
+            $table->string('tmpt_curhat');            
+            $table->string('penyakit_mengganggu');            
             $table->string('bhs_sehari-hari');            
             $table->string('suku');            
             $table->timestamps();

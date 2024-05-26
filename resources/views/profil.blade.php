@@ -25,43 +25,80 @@
     <div class="d-flex flex-column align-items-center text-center mb-3">
       <img src="{{ asset('lte/dist/img/user2-160x160.jpg') }}" alt="Foto profil" style="width: 175px; border-radius: 1rem; border: 1px solid black">
       <h2 class="m-2">
-        {{-- @if ()
-          {{ $tbl_siswa->nama }} 
-        @else
-          {{ $tbl_guru->nama }}
-        @endif --}}
+        @if ($result->level == 'Siswa')
+          {{ $siswa->nama_lengkap }} 
+        @elseif ($result->level == 'Guru')
+          {{ $guru->nama_lengkap }}
+        @endif
       </h2>
     </div>
 
     <section class="row justify-content-center" style="column-gap: 10px">
       
-      <!-- .card -->
-      <div class="card col-md-4 mx-2">
-        
-        <div class="card-body p-3">
-          {{-- data sensitif --}}
+      @if ($result->level == 'Siswa')
+      
+        <!-- .card -->
+        <div class="card col-md-6 mx-2">
           
-          <p>KELAS : {{-- {{ $siswa->kelas }} --}} {{-- XI A --}}</p>
-          <p>JURUSAN : {{-- {{ $data->name }} --}} PPLG</p>
-          <p>TTL : {{-- {{ $siswa->tempat_lahir }}, {{ $birthdate }} --}} </p>
-          
-        </div>
-        <!-- /.card-body -->
-      </div>
+          <div class="card-body p-3">
+            <a href="#" class="float-right">Edit Profile</a>
+            <p>
+              <b>
+                Detail Umum User
+              </b>
+            </p>
 
-      <!-- .card -->
-      <div class="card col-md-6 mx-2">
-        
-        <div class="card-body p-3">
+            <div class="col-6">
+              {{-- data pribadi siswa --}}
+              
+              <p>Kelas : {{ $siswa->kelas }}</p>
+              <p>Jurusan : {{ $jurusan->jurusan }}</p>
+              <p>Jenis Kelamin : {{ $bio->jenis_k }}</p>
+              <p>TTL : {{ $bio->tempat_lahir }}, {{ $bio->tanggal_lahir }}</p>
+            </div>
             
-          <a href="{{-- {{ route('profile_edit', ['id' => $data->id]) }} --}}" class="float-right">Edit Profile</a>
-  
-          <p>KELAS :{{-- {{ $data->class }} --}} XI A</p>
-          <p>JURUSAN :{{-- {{ $data->name }} --}} PPLG</p>
-  
+          </div>
+          <!-- /.card-body -->
         </div>
-        <!-- /.card-body -->
-      </div>
+
+        <!-- .card -->
+        {{-- <div class="card col-md mx-2">
+          
+          <!-- .card-body -->
+          <div class="card-body p-3">
+            <p class="">
+              <b>
+                Biodata siswa
+              </b>
+            </p>
+    
+            <p>KELAS : XI A</p>
+            <p>JURUSAN : PPLG</p>
+    
+          </div>
+
+        </div> --}}
+
+      @elseif ($result->level == 'Guru')
+
+        <!-- .card -->
+        <div class="card col-md-6 mx-2">
+          <!-- .card-body -->
+          <div class="card-body p-3">
+            <a href="#" class="float-right">Edit Profile</a>
+            <p><b>Detail User</b></p>
+            {{-- data pribadi siswa --}}
+            
+            <p>Jabatan : {{ $guru->jabatan }}</p>
+            <p>Jurusan : {{ $jurusan->jurusan }}</p>
+            {{-- <p>Jenis Kelamin : {{ $bio->jenis_k }}</p>
+            <p>TTL : {{ $bio->tempat_lahir }}, {{ $bio->tanggal_lahir }}</p> --}}
+            
+          </div>
+          <!-- /.card-body -->
+        </div>
+
+      @endif
 
     </section>
 

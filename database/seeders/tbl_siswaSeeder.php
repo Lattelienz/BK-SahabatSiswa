@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\siswa;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -12,6 +13,12 @@ class tbl_siswaSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        siswa::create([
+            'nis'           => '10226',
+            'id_user'       => '2',
+            'id_jurusan'    => '1',
+            'nama_lengkap'  => 'Muhammad Maulidhan Pahlevi',
+            'kelas'         => '11 A'
+        ]);
     }
 }

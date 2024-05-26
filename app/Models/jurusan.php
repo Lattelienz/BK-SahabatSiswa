@@ -10,4 +10,7 @@ class jurusan extends Model
     use HasFactory;
 
     protected $table = 'tbl_jurusan';
+
+    protected $primaryKey = 'id_jurusan';
+    
 }

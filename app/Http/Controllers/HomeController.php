@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Biodata_Ortu_Siswa;
+use App\Models\Biodata_siswa;
+use App\Models\Data_siswa_lainnya;
 use App\Models\siswa;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -18,37 +21,62 @@ class HomeController extends Controller
     public function dashboard(){
         
         if (session('result') !== null) {
-            // dd session('result');
             return view('dashboard', ['result' => session('result')]);
         }
         
-        elseif (session('result') == null) {
-            $data = User::get();
+        else {
+            $data = User::with('siswa.jurusan', 'guru.jurusan')->get();
             return view('dashboard', compact('data'));
         }
 
     }
+
+    public function showsiswa($id){
+        $result = User::with([
+            'siswa' => [
+                'jurusan',
+                'biodata',
+            ]
+        ])->find($id);
+
+        $siswa = $result->siswa;
+        $bio = $siswa->biodata->first();
+        $jurusan = $siswa->jurusan;
+
+        return view('view_profil', compact('siswa', 'bio', 'jurusan'));
+    }
     
     public function profil() {
-
-        // mengambil id user yang login ke laravel
-        $id = Auth::id();
         
         //mencari user dengan id yang sudah diambil
-        $result = User::find($id);
-        
+        $result = User::with([
+            'siswa' => [
+                'jurusan',
+                'biodata',
+            ],
+            'guru.jurusan'
+        ])->find(Auth::id());
+
         if ($result->level == 'Siswa') {
+
             //mengambil data lainnya dari tabel siswa
-            $tbl_siswa = $result->siswa;
+            $siswa = $result->siswa;
+            $bio = $siswa->biodata->first();
+            $jurusan = $siswa->jurusan;
+
+            // dd($siswa, $jurusan, $bio);
             
-            return view('profil', compact('result', 'tbl_siswa'));
+            return view('profil', compact('result', 'siswa', 'jurusan', 'bio'));
         }
 
         elseif ($result->level == 'Guru') {
             //mengambil data lainnya dari tabel guru
-            $tbl_guru = $result->guru;
+            $guru = $result->guru;
+            $jurusan = $guru->jurusan;
+
+            // dd($guru, $jurusan);
             
-            return view('profil', compact('result', 'tbl_guru'));
+            return view('profil', compact('result', 'guru', 'jurusan'));
         }
 
         return redirect()->route('user.dashboard');
@@ -57,44 +85,52 @@ class HomeController extends Controller
 
     // function to create an user
     public function create(){
-        return view('create', [
-            'active' => 'bk'
-        ]);
+        return view('create');
     }
 
     public function store(Request $request){
 
         // pertama, data yang masuk diperiksa terlebih dahulu melalui validator
         $validation = Validator::make($request->all(),[
-            'email'      => 'required|email',
-            'password'   => 'required',
-            'level'      => 'required',
+            'nama_lengkap'  => 'required',
+            'email'         => 'required|email',
+            'password'      => 'required',
         ]);
 
         // lalu jika data yang dimasukkan tidak sesuai ketentuan, maka kode dibawah akan berjalan
         if( $validation->fails() ) return redirect()->back()->withInput()->withErrors($validation);
         // jika data sesuai, maka kode diatas tidak akan berjalan
 
+        $email = $request->email;
+
         // data diurutkan dalam array
         $data = ([
             'email'      => $request->email,
             'password'   => Hash::make($request->password),
-            'level'      => $request->level
+            'level'      => $request->level,
         ]);
+
+        dd($request);
+
+        User::create($data);
         
-        if ($request->jurusan and $request->kelas) {
-            $siswa['id_jurusan'] = $request->jurusan;
-            $siswa['kelas']      = $request->kelas;
+        if ($request->nis || $request->jurusan && $request->kelas) {
+            $siswa = ([
+                'nis'           => $request->NIS,
+                'id_user'       => User::where('email', $request->email)->first()->id,
+                'nama_lengkap'  => $request->nama_lengkap,
+                'id_jurusan'    => $request->jurusan,
+                'kelas'         => $request->kelas
+            ]);
+
             siswa::create($siswa);
         }
-        
+
         // data yang diinput kemudian diolah menjadi sebuah data baru
-        User::create($data);
         
         // mengembalikan pengguna ke halaman dashboard
         return redirect()->route('user.dashboard')->with('success', 'Data User berhasil ditambahkan');
         
-        // dd ($data);
     }
     // end
 
@@ -165,17 +201,17 @@ class HomeController extends Controller
         ]);
     }
 
-    // public function classFilter(Request $request)
-    // {
-    //     $query = $request->classFilter;
+    public function classFilter(Request $request)
+    {
+        $query = $request->classFilter;
 
-    //     $data = User::where('class', 'like', '%' . $query . '%')->get();
+        $data = User::where('class', 'like', '%' . $query . '%')->get();
 
-    //     return back()->with([
-    //         'active' => 'bk',
-    //         'result' => $data
-    //     ]);
-    // }
+        return back()->with([
+            'active' => 'bk',
+            'result' => $data
+        ]);
+    }
     
     public function form() {
         return view('form.head');
@@ -184,27 +220,72 @@ class HomeController extends Controller
     public function formProcess(Request $request) {
         
         $user = User::find(Auth::id());
-        
-        $tbl_siswa = new siswa ([
+
+        $tbl_siswa = ([
+            'id_user'       => $user->id,
             'nis'           => $request->nis,
             'nama_lengkap'  => $request->nama_lengkap,
+            'id_jurusan'    => $user->siswa->id_jurusan
         ]);
         
-        dd($tbl_siswa);
+        siswa::where('id_user', $user->id)->update($tbl_siswa);
         
-        $user->siswa()->save($tbl_siswa);
-        
-        // $siswa = $user->siswa;
-        // $nis = $siswa->nis;
-        // $biosiswa = $user->biodata_siswa->firstWhere('nis', $nis); 
+        $bio = [
+            'nis'               => $request->nis,
+            'nama_panggilan'    => $request->nama_panggilan,
+            'agama'             => $request->agama,
+            'jenis_k'           => $request->jenis_k,
+            'tempat_lahir'      => $request->tempat_lahir,
+            'tanggal_lahir'     => $request->tanggal_lahir,
+            'no_hp'             => $request->nomor,
+            'asal_smp'          => $request->asal,
+            'nilai_ujian_akhir' => $request->nilai,
+            'alamat_sekarang'   => $request->alamat,
+        ];
 
-        // $bio = [
-        //     'contoh1' => $request->no_telp
-        // ];
+        Biodata_siswa::create($bio); 
 
-        // dd($user, $siswa, $biosiswa);
+        $bio_ortu = [
+            'nis'                   => $request->nis,
+            'nama_ayah'             => $request->nama_ayah,
+            'nama_ibu'              => $request->nama_ibu,
+            'pendidikan_ayah'       => $request->pendidikan_ayah,
+            'pendidikan_ibu'        => $request->pendidikan_ibu,
+            'pekerjaan_ayah'        => $request->pekerjaan_ayah,
+            'pekerjaan_ibu'         => $request->pekerjaan_ibu,
+            'penghasilan_ortu'      => $request->penghasilan,
+            'penghasilan_ortu_per-' => $request->penghasilan_per,
+        ];
 
-        return redirect();
+        Biodata_Ortu_Siswa::create($bio_ortu);
+
+        $bio_lainnya = [
+            'nis'                       => $request->nis,
+            'tanggal_diterima'          => $request->tgl_diterima,
+            'anak_ke'                   => $request->anak_ke,
+            'dari_jumlah_saudara'       => $request->jumlah_saudara,
+            'jumlah_orang_yg_serumah'   => $request->keluarga_serumah,
+            'jumlah_tanggungan_ortu'    => $request->jumlah_tanggungan,
+            'kesekolah_memakai'         => $request->kendaraan,
+            'tempat_tinggal'            => $request->tempat_tinggal,
+            'penerangan'                => $request->penerangan,
+            'penerangan'                => $request->penerangan,
+            'hp'                        => $request->hp,
+            'laptop'                    => $request->laptop,
+            'pjj_memakai'               => $request->pjj,
+            'pelajaran_yg_tdk_disuka'   => $request->not_fav_mapel,
+            'pelajaran_yg_disuka'       => $request->fav_mapel,
+            'cita_cita'                 => $request->cita_cita,
+            'hobby'                     => $request->hobi,
+            'tmpt_curhat'               => $request->curhat,
+            'penyakit_mengganggu'       => $request->penyakit,
+            'bhs_sehari-hari'           => $request->bahasa,
+            'suku'                      => $request->suku,
+        ];
+
+        Data_siswa_lainnya::create($bio_lainnya);
+
+        return redirect()->route('user.dashboard');
     }
 
 }

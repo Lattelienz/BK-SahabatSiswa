@@ -49,7 +49,7 @@
     <!-- main content about the website -->
     <main class="sm container d-flex flex-column align-items-center">
         
-        <section class="col-md-7">
+        <section class="col-md-8">
             <h6 class="header" id="about">
                 Apa itu e-BK?
             </h6>
@@ -68,9 +68,9 @@
 
         </section>
 
-        <section class="row justify-content-center">
-
-            <div id="carouselExampleIndicators" class="carousel slide col-12" data-ride="carousel">
+        <section class="row align-items-center justify-content-center">
+            
+            <div id="carouselExampleIndicators" class="carousel slide col-md-12 col-lg-6 h-100" data-ride="carousel">
                 <ol class="carousel-indicators">
                     <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
                     <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
@@ -98,8 +98,7 @@
                 </div>
             </div>
 
-            <div class="col-md-5">
-
+            <div class="col-md-8 col-lg-6">
                 <h6 class="header" id="activity">
                     Kegiatan
                 </h6>
@@ -107,22 +106,21 @@
                 <p class="content" id="sm">
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus non dolor porttitor, dignissim eros vel, consectetur justo. Curabitur neque ligula, accumsan vel enim non, convallis placerat metus. Integer laoreet urna odio, sed imperdiet magna euismod quis. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Vivamus sollicitudin, nulla sit amet molestie semper, dui ex mollis odio, eu vestibulum orci magna eget risus. Duis sit amet viverra lectus. Suspendisse porttitor risus lacinia semper vestibulum. Sed aliquam blandit diam, maximus ultrices ipsum ultrices sed. Duis tempor a neque in consequat. Etiam eget consectetur lectus. Nulla accumsan lectus nec orci consectetur dapibus.
                 </p>
-                
             </div>
 
         </section>
 
         <section class="row">
             
-            <div class="col-md-5">
+            <div class="">
 
                 <h6 class="header" id="contact">
                     Kontak
                 </h6>
         
-                <p class="content" id="sm">
-                    <center><a href="https://smkn2-bjm.sch.id/">SMKN 2 Banjarmasin</a></center>
-                </p>
+                <a class="content" id="sm" href="https://smkn2-bjm.sch.id/">
+                    SMKN 2 Banjarmasin
+                </a>
 
             </div>
 
@@ -130,7 +128,7 @@
 
     </main>
 
-    <footer>
+    <footer class="sm">
         Copyright &copy; BK-Sahabat Siswa, 2023-2024
     </footer>
 

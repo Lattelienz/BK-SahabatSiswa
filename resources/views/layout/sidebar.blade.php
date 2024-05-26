@@ -2,7 +2,7 @@
 <!-- Main Sidebar -->
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
   <!-- Brand Logo -->
-  <a href="#" class="brand-link">
+  <a href="{{ route('user.dashboard') }}" class="brand-link">
     <img src="{{ asset('lte/dist/img/logobk.png') }}" alt="Logo BK" class="brand-image img-circle elevation-3" style="opacity: .8">
     <span class="brand-text font-weight-light">BK-SahabatSiswa</span>
   </a>
@@ -15,18 +15,30 @@
         <img src="{{ asset('lte/dist/img/profil1.png') }}" class="img-circle elevation-2" alt="User Image">
       </div>
       <div class="info">
-        @if ( Auth::user()->level == 'Siswa')
-          <a href="{{route('user.profil')}}" class="d-block">
-            {{ Auth::user()->nama }}
+        @if ( Auth::user()->level == 'Siswa' && Auth::user()->siswa !== null)
+
+          <a href="{{ route('user.profil') }}" class="d-block">
+            {{ Auth::user()->siswa->nama_lengkap }}
           </a>
-        @elseif (Auth::user()->level == 'Guru')
-          <a href="{{route('user.profil')}}" class="d-block">
-            {{ Auth::user()->nama }}
+
+        @elseif (Auth::user()->level == 'Guru' && Auth::user()->guru !== null)
+
+          <a href="{{ route('user.profil') }}" class="d-block">
+            {{ Auth::user()->guru->nama_lengkap }}
           </a>
-        @else
+
+        @elseif (Auth::user()->level == 'Admin')
+        
           <a class="d-block">
             {{ Auth::user()->email }}
           </a>
+
+        @else
+
+          <a href="{{ route('user.profil') }}">
+            Profil
+          </a>
+
         @endif
       </div>
     </div>

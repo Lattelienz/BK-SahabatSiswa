@@ -9,6 +9,11 @@
         font-size: 13vw;
     }
 
+    footer.sm {
+        font-size: 3.7vw;
+        text-align: center;
+    }
+
 }
 
 @media (max-width: 576px) {
@@ -60,8 +65,9 @@ footer {
     /* background: linear-gradient(to top, rgba(101, 101, 101, 0.3), rgba(0, 0, 0, 0));  */
     text-align: right;
     color: white;
-    padding: 10px 1rem;
+    padding: 1rem;
     font-size: 1.2rem;
+    transition: font-size 0.3s ease-in;
 }
 
 nav {
@@ -110,6 +116,14 @@ section p.content {
 
 section p.contact {
     text-indent: 0;
+}
+
+section a {
+    color:white;
+}
+
+section a:hover {
+    color:rgba(255, 255, 255, 0.6);
 }
 
 section h6 {
