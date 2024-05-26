@@ -16,8 +16,7 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             JurusanSeeder::class,
             GuruSeeder::class,
-            tbl_siswaSeeder::class,
-            BioSiswaSeeder::class,
+            siswaSeeder::class,
             PermissionSeeder::class,
             RoleSeeder::class,
         ]);
