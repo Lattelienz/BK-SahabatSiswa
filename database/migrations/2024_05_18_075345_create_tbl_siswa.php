@@ -17,10 +17,12 @@ return new class extends Migration
             $table->unsignedTinyInteger('id_jurusan');
             $table->string('nama_lengkap');
             $table->enum('kelas',[
-                '10', '10 A', '10 B',
-                '11', '11 A', '11 B',
-                '12', '12 A', '12 B'
+                'X', 'X A', 'X B',
+                'XI', 'XI A', 'XI B',
+                'XII', 'XII A', 'XII B',
+                'XIII'
             ]);
+            $table->enum('jenis_k', ['Laki-laki', 'Perempuan']);
             $table->timestamps();
            
             // foreign key

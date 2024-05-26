@@ -18,7 +18,8 @@ class siswaSeeder extends Seeder
             'id_user'       => '2',
             'id_jurusan'    => '1',
             'nama_lengkap'  => 'Muhammad Maulidhan Pahlevi',
-            'kelas'         => '11 A'
+            'kelas'         => 'XI A',
+            'jenis_k'       => 'Laki-laki'
         ]);
     }
 }

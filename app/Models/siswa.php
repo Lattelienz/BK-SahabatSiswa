@@ -20,7 +20,9 @@ class siswa extends Model
         'id_jurusan',
         'kelas',
         'tempat_lahir',
-        'tanggal_lahir'
+        'tanggal_lahir',
+        'jenis_k'
+
     ];
 
     public function user() {

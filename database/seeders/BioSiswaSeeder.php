@@ -17,7 +17,6 @@ class BioSiswaSeeder extends Seeder
             'nis'              =>  '10226',
             'nama_panggilan'   =>  'Pahlevi',
             'agama'            =>  'Islam',
-            'jenis_k'          =>  'Laki-laki',
             'tempat_lahir'     =>  'Banjarmasin',
             'tanggal_lahir'    =>  '2007-03-28',
             'no_hp'            =>  '083159028735',

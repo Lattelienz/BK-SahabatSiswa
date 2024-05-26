@@ -17,7 +17,7 @@ class GuruSeeder extends Seeder
             'id_user'        =>  '3',
             'id_jurusan'     =>  '1',
             'nama_lengkap'   =>  'Lepongs',
-            'jabatan'        =>  'guru_umum',
+            'jabatan'        =>  'Guru umum',
         ]);
     }
 }

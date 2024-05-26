@@ -40,10 +40,15 @@ class HomeController extends Controller
         ])->find($id);
 
         $siswa = $result->siswa;
-        $bio = $siswa->biodata->first();
         $jurusan = $siswa->jurusan;
 
+        $bio = $siswa->biodata;
+        if ($bio) {
+            $bio = $siswa->biodata->first();
+        }
+
         return view('view_profil', compact('siswa', 'bio', 'jurusan'));
+
     }
     
     public function profil() {

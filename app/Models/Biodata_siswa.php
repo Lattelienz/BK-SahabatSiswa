@@ -15,7 +15,6 @@ class Biodata_siswa extends Model
         'nis',
         'nama_panggilan',
         'agama',
-        'jenis_k',
         'tempat_lahir',
         'tanggal_lahir',
         'no_hp',
@@ -24,7 +23,4 @@ class Biodata_siswa extends Model
         'alamat_sekarang'
     ];
 
-    public function siswa() {
-        return $this->belongsTo(Siswa::class, 'nis');
-    }
 }

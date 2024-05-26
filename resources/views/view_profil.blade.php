@@ -34,26 +34,40 @@
         
         
           <!-- .card -->
-          <div class="card col-md-6 mx-2">
-            
-            <div class="card-body p-3">
-              <p>
-                <b>
-                  Detail Umum User
-                </b>
-              </p>
-  
-              <div class="col-6">
-                {{-- data pribadi siswa --}}
-                
-                <p>Kelas : {{ $siswa->kelas }}</p>
-                <p>Jurusan : {{ $jurusan->jurusan }}</p>
-                <p>Jenis Kelamin : {{ $bio->jenis_k }}</p>
-                <p>TTL : {{ $bio->tempat_lahir }}, {{ $bio->tanggal_lahir }}</p>
-              </div>
+          <div class="col-md-6">
+            <div class="card mx-2">
               
+              <div class="card-body p-3">
+                <p>
+                  <b>
+                    Detail Umum User
+                  </b>
+                </p>
+    
+                <div>
+                  {{-- data pribadi siswa --}}
+                  
+                  <p>Kelas : {{ $siswa->kelas }}</p>
+                  <p>Jurusan : {{ $jurusan->jurusan }}</p>
+                  <p>Jenis Kelamin : {{ $siswa->jenis_k }}</p>
+                  
+                  @if ($bio)
+                    <p>TTL : {{ $bio->tempat_lahir }}, {{ $bio->tanggal_lahir }}</p>
+                  @endif
+                </div>
+                
+              </div>
+              <!-- /.card-body -->
+  
+              @if ($bio == null)    
+                <div class="text-center card-footer">   
+                  <b>
+                    Siswa belum memasukkan biodata lainnya
+                  </b>
+                </div>
+              @endif
+  
             </div>
-            <!-- /.card-body -->
           </div>
   
           <!-- .card -->

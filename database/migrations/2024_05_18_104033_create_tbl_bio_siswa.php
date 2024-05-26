@@ -17,7 +17,6 @@ return new class extends Migration
             $table->biginteger('nis')->primary();
             $table->string('nama_panggilan');
             $table->string('agama');
-            $table->enum('jenis_k', ['Laki-laki', 'Perempuan']);
             $table->string('tempat_lahir');
             $table->date('tanggal_lahir');
             $table->bigInteger('no_hp');
