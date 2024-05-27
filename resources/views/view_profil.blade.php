@@ -54,6 +54,7 @@
                   @if ($bio)
                     <p>TTL : {{ $bio->tempat_lahir }}, {{ $bio->tanggal_lahir }}</p>
                   @endif
+                  <a href="{{ route('user.cetak-pdf', ['id' => $id])}}?export=pdf" class="btn btn-dark mb-3" >Cetak PDF</a>
                 </div>
                 
               </div>

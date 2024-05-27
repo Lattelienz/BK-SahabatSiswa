@@ -42,5 +42,8 @@ Route::group(['prefix' => 'user','middleware' => ['auth'], 'as' => 'user.'] , fu
   Route::get('/form', [HomeController::class, 'form'])->name('form');
   Route::post('/form-save', [HomeController::class, 'formProcess'])->name('form-save');
 
+  Route::get('/cetak-pdf/{id}', [HomeController::class, 'showsiswa'])->name('cetak-pdf');
+
+
 });
 

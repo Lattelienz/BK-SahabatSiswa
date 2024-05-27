@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class HomeController extends Controller
 {
@@ -31,7 +32,7 @@ class HomeController extends Controller
 
     }
 
-    public function showsiswa($id){
+    public function showsiswa(request $request, $id){
         $result = User::with([
             'siswa' => [
                 'jurusan',
@@ -47,7 +48,19 @@ class HomeController extends Controller
             $bio = $siswa->biodata->first();
         }
 
-        return view('view_profil', compact('siswa', 'bio', 'jurusan'));
+        if ($request->get('export') == 'pdf'){
+            $pdf = Pdf::loadView('showsiswa', [
+                'siswa' => $siswa,
+                'bio' => $bio,
+                'jurusan' => $jurusan
+            ]);
+            return $pdf->download('Data siswa.pdf');
+        }
+        return view('view_profil', compact('siswa', 'bio', 'jurusan', 'id'));
+
+       
+        
+    
 
     }
     
@@ -293,4 +306,5 @@ class HomeController extends Controller
         return redirect()->route('user.dashboard');
     }
 
+    
 }
