@@ -16,7 +16,7 @@ class GuruSeeder extends Seeder
         guru::create ([
             'id_user'        =>  '3',
             'id_jurusan'     =>  '1',
-            'nama_lengkap'   =>  'Lepongs',
+            'nama_lengkap'   =>  'Guru',
             'jabatan'        =>  'Guru umum',
         ]);
     }

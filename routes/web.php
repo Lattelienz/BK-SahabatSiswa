@@ -28,7 +28,7 @@ Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 Route::group(['prefix' => 'user','middleware' => ['auth'], 'as' => 'user.'] , function(){
 
   Route::get('/dashboard', [HomeController::class, 'dashboard'])->name('dashboard');
-  Route::get('/siswa/{id}', [HomeController::class, 'showsiswa'])->name('siswa');
+  Route::get('/view-profile/{id}', [HomeController::class, 'showsiswa'])->name('siswa');
   Route::get('/profil', [HomeController::class, 'profil'])->name('profil');
   Route::get('/dashboard/search', [Homecontroller::class,'search'])->name('search');
   // Route::get('/halaman/classFilter', [Homecontroller::class,'classFilter']);

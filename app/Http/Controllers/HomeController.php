@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Biodata_Ortu_Siswa;
 use App\Models\Biodata_siswa;
 use App\Models\Data_siswa_lainnya;
+use App\Models\guru;
 use App\Models\siswa;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -37,11 +38,13 @@ class HomeController extends Controller
             'siswa' => [
                 'jurusan',
                 'biodata',
-            ]
+            ], 'siswa.jurusan'
         ])->find($id);
 
         $siswa = $result->siswa;
         $jurusan = $siswa->jurusan;
+
+        $tes = auth::user();
 
         $bio = $siswa->biodata;
         if ($bio) {
@@ -56,11 +59,7 @@ class HomeController extends Controller
             ]);
             return $pdf->download('Data siswa.pdf');
         }
-        return view('view_profil', compact('siswa', 'bio', 'jurusan', 'id'));
-
-       
-        
-    
+        return view('view_profil', compact('tes', 'siswa', 'bio', 'jurusan', 'id'));
 
     }
     
@@ -79,7 +78,10 @@ class HomeController extends Controller
 
             //mengambil data lainnya dari tabel siswa
             $siswa = $result->siswa;
-            $bio = $siswa->biodata->first();
+            $bio = $siswa->biodata;
+            if ($bio) {
+                $bio = $siswa->biodata->first();
+            }
             $jurusan = $siswa->jurusan;
 
             // dd($siswa, $jurusan, $bio);
@@ -110,7 +112,6 @@ class HomeController extends Controller
 
         // pertama, data yang masuk diperiksa terlebih dahulu melalui validator
         $validation = Validator::make($request->all(),[
-            'nama_lengkap'  => 'required',
             'email'         => 'required|email',
             'password'      => 'required',
         ]);
@@ -119,8 +120,6 @@ class HomeController extends Controller
         if( $validation->fails() ) return redirect()->back()->withInput()->withErrors($validation);
         // jika data sesuai, maka kode diatas tidak akan berjalan
 
-        $email = $request->email;
-
         // data diurutkan dalam array
         $data = ([
             'email'      => $request->email,
@@ -128,11 +127,9 @@ class HomeController extends Controller
             'level'      => $request->level,
         ]);
 
-        dd($request);
-
         User::create($data);
         
-        if ($request->nis || $request->jurusan && $request->kelas) {
+        if ($request->NIS && $request->jurusan && $request->kelas) {
             $siswa = ([
                 'nis'           => $request->NIS,
                 'id_user'       => User::where('email', $request->email)->first()->id,
@@ -142,6 +139,17 @@ class HomeController extends Controller
             ]);
 
             siswa::create($siswa);
+        }
+
+        if ($request->jurusan && $request->jabatan) {
+            $guru = ([
+                'id_user'       => User::where('email', $request->email)->first()->id,
+                'nama_lengkap'  => $request->nama_lengkap,
+                'id_jurusan'    => $request->jurusan,
+                'jabatan'       => $request->jabatan,
+            ]);
+
+            guru::create($guru);            
         }
 
         // data yang diinput kemudian diolah menjadi sebuah data baru
@@ -154,11 +162,9 @@ class HomeController extends Controller
 
     // function to edit users
     public function edit(Request $request, $id){
-        $data = User::find ($id);
+        $data = User::find($id);
 
-        return view('edit', compact('data'), [
-            'active' => null
-        ]);
+        return view('edit', compact('data'));
     }
 
     public function update(Request $request, $id)
@@ -166,7 +172,6 @@ class HomeController extends Controller
         // pertama, data yang masuk diperiksa terlebih dahulu melalui validator
         $validation = Validator::make($request->all(),[
             'email'         => 'required|email',
-            'username'      => 'required'
         ]);
 
         // lalu jika data yang dimasukkan tidak sesuai ketentuan, maka kode dibawah akan berjalan
@@ -175,8 +180,8 @@ class HomeController extends Controller
         
         // data diurutkan dalam array
         $data = ([
-            'username' => $request->username,
             'email'    => $request->email,
+            'level'    => $request->level
         ]);
         
         // kode dibawah berjalan jika data yang masuk memiliki password
@@ -186,6 +191,27 @@ class HomeController extends Controller
 
         // Memperbarui data user
         User::whereId($id)->update($data);
+
+        if ($request->nis && $request->jurusan && $request->kelas) {
+            $siswa = ([
+                'nis'           => $request->NIS,
+                'nama_lengkap'  => $request->nama_lengkap,
+                'id_jurusan'    => $request->jurusan,
+                'kelas'         => $request->kelas
+            ]);
+
+            siswa::where('id_user', $id)->update($siswa);
+        }
+
+        if ($request->jurusan && $request->jabatan) {
+            $guru = ([
+                'nama_lengkap'  => $request->nama_lengkap,
+                'id_jurusan'    => $request->jurusan,
+                'jabatan'       => $request->jabatan,
+            ]);
+
+            guru::where('id_user', $id)->update($guru);            
+        }
     
         // Mengarahkan pengguna ke halaman dashboard
         return redirect()->route('user.dashboard')->with('success', 'Data berhasil di edit');
@@ -223,7 +249,8 @@ class HomeController extends Controller
     {
         $query = $request->classFilter;
 
-        $data = User::where('class', 'like', '%' . $query . '%')->get();
+        $data = User::where('class', 'like', '%' . $query . '%')
+                    ->get();
 
         return back()->with([
             'active' => 'bk',
@@ -243,7 +270,8 @@ class HomeController extends Controller
             'id_user'       => $user->id,
             'nis'           => $request->nis,
             'nama_lengkap'  => $request->nama_lengkap,
-            'id_jurusan'    => $user->siswa->id_jurusan
+            'id_jurusan'    => $user->siswa->id_jurusan,
+            'jenis_k'       => $request->jenis_k
         ]);
         
         siswa::where('id_user', $user->id)->update($tbl_siswa);
@@ -252,7 +280,6 @@ class HomeController extends Controller
             'nis'               => $request->nis,
             'nama_panggilan'    => $request->nama_panggilan,
             'agama'             => $request->agama,
-            'jenis_k'           => $request->jenis_k,
             'tempat_lahir'      => $request->tempat_lahir,
             'tanggal_lahir'     => $request->tanggal_lahir,
             'no_hp'             => $request->nomor,
@@ -261,7 +288,7 @@ class HomeController extends Controller
             'alamat_sekarang'   => $request->alamat,
         ];
 
-        Biodata_siswa::create($bio); 
+        Biodata_siswa::CreateOrUpdate($bio); 
 
         $bio_ortu = [
             'nis'                   => $request->nis,
@@ -275,7 +302,7 @@ class HomeController extends Controller
             'penghasilan_ortu_per-' => $request->penghasilan_per,
         ];
 
-        Biodata_Ortu_Siswa::create($bio_ortu);
+        Biodata_Ortu_Siswa::CreateOrUpdate($bio_ortu);
 
         $bio_lainnya = [
             'nis'                       => $request->nis,
@@ -301,7 +328,7 @@ class HomeController extends Controller
             'suku'                      => $request->suku,
         ];
 
-        Data_siswa_lainnya::create($bio_lainnya);
+        Data_siswa_lainnya::createOrUpdate($bio_lainnya);
 
         return redirect()->route('user.dashboard');
     }

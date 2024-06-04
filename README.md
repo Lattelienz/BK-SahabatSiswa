@@ -69,4 +69,5 @@ The Laravel framework is open-sourced software licensed under the [MIT license](
 
 - Clone / download the project folder onto local repo
 - Migrate the table structure
-- (Optional) Seed the database
+- Seed the database
+- Install the laravel-dompdf library
