@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Biodata_Ortu_Siswa;
 use App\Models\Biodata_siswa;
+use App\Models\Biodata_wali;
 use App\Models\Data_siswa_lainnya;
 use App\Models\guru;
 use App\Models\siswa;
@@ -22,15 +23,46 @@ class HomeController extends Controller
     
     public function dashboard(){
         
-        if (session('result') !== null) {
-            return view('dashboard', ['result' => session('result')]);
+        if (session('data') == null && auth::user()->level == 'Admin') {
+            $data = User::with('siswa.jurusan', 'guru.jurusan')->paginate(10);
+        }
+        else if (auth::user()->level == 'Siswa') {
+            $data = User::with('siswa.jurusan')->find(auth::id());
+        }
+        else if (auth::user()->level == 'Guru') {
+            $data = User::with('siswa.jurusan')->get();
+        }
+        else {
+            $data = session('data');    
+        }
+        
+        return view('dashboard', compact('data'));
+    }
+
+    public function search (Request $request) {
+
+        if (request('search') !== null) {
+        
+            $query = $request->search;
+
+            $data = User::Where('email', 'like', '%' . $query . '%')
+                        ->orWhere('nama_lengkap', 'like', '%' . $query . '%')
+                        ->paginate(10)
+                        ->withQueryString();
+
+            return back()->with('data', $data);
         }
         
         else {
-            $data = User::with('siswa.jurusan', 'guru.jurusan')->get();
-            return view('dashboard', compact('data'));
-        }
 
+            $query = $request->filter;
+
+            $data = User::where('level', 'like', '%' . $query . '%')
+                        ->paginate(10)
+                        ->withQueryString();
+
+            return back()->with('data', $data);
+        }
     }
 
     public function showsiswa(request $request, $id){
@@ -38,15 +70,13 @@ class HomeController extends Controller
             'siswa' => [
                 'jurusan',
                 'biodata',
-            ], 'siswa.jurusan'
+            ]
         ])->find($id);
 
         $siswa = $result->siswa;
         $jurusan = $siswa->jurusan;
-
-        $tes = auth::user();
-
         $bio = $siswa->biodata;
+
         if ($bio) {
             $bio = $siswa->biodata->first();
         }
@@ -59,7 +89,30 @@ class HomeController extends Controller
             ]);
             return $pdf->download('Data siswa.pdf');
         }
-        return view('view_profil', compact('tes', 'siswa', 'bio', 'jurusan', 'id'));
+
+        return view('view_profil', compact('result','siswa', 'bio', 'jurusan', 'id'));
+
+    }
+
+    public function showguru(request $request){
+        $result = User::with([
+            'siswa.jurusan'
+        ])->find(auth::id());
+
+        $jurusan = $result->siswa->jurusan->jurusan;
+
+        $result2 = User::with('guru.jurusan')
+        ->whereHas('guru.jurusan', function ($query) use ($jurusan) {
+            $query->where('jurusan', $jurusan);
+        })
+        ->whereHas('guru', function ($query) {
+            $query->where('jabatan', 'Guru BK');
+        })
+        ->first();
+
+        $guru = $result2->guru;
+        // dd($result2, $guru);
+        return view('view_profil', compact('result2', 'guru'));
 
     }
     
@@ -70,8 +123,7 @@ class HomeController extends Controller
             'siswa' => [
                 'jurusan',
                 'biodata',
-            ],
-            'guru.jurusan'
+            ], 'guru.jurusan'
         ])->find(Auth::id());
 
         if ($result->level == 'Siswa') {
@@ -103,79 +155,85 @@ class HomeController extends Controller
         
     }
 
-    // function to create an user
-    public function create(){
-        return view('create');
-    }
-
     public function store(Request $request){
 
         // pertama, data yang masuk diperiksa terlebih dahulu melalui validator
         $validation = Validator::make($request->all(),[
+            'nama_lengkap'  => 'required',
             'email'         => 'required|email',
             'password'      => 'required',
         ]);
 
         // lalu jika data yang dimasukkan tidak sesuai ketentuan, maka kode dibawah akan berjalan
-        if( $validation->fails() ) return redirect()->back()->withInput()->withErrors($validation);
+        if( $validation->fails() ) return redirect()->back()->withInput()->withErrors($validation)->with('openModal', true);
         // jika data sesuai, maka kode diatas tidak akan berjalan
 
         // data diurutkan dalam array
         $data = ([
-            'email'      => $request->email,
-            'password'   => Hash::make($request->password),
-            'level'      => $request->level,
+            'nama_lengkap'  => $request->nama_lengkap,
+            'email'         => $request->email,
+            'password'      => $request->password,
+            'jenis_kelamin' => $request->jenis_kelamin,
+            'level'         => $request->level
         ]);
 
-        User::create($data);
-        
-        if ($request->NIS && $request->jurusan && $request->kelas) {
-            $siswa = ([
-                'nis'           => $request->NIS,
-                'id_user'       => User::where('email', $request->email)->first()->id,
-                'nama_lengkap'  => $request->nama_lengkap,
-                'id_jurusan'    => $request->jurusan,
-                'kelas'         => $request->kelas
-            ]);
+        if($data) {
+            User::create($data);
 
-            siswa::create($siswa);
+            if ($request->NIS && $request->jurusan && $request->kelas) {
+                $siswa = ([
+                    'nis'           => $request->NIS,
+                    'id_user'       => User::where('email', $request->email)->first()->id,
+                    'id_jurusan'    => $request->jurusan,
+                    'kelas'         => $request->kelas
+                ]);
+    
+                siswa::create($siswa);
+            }
+    
+            if ($request->jurusan && $request->jabatan) {
+                $guru = ([
+                    'id_user'       => User::where('email', $request->email)->first()->id,
+                    'id_jurusan'    => $request->jurusan,
+                    'jabatan'       => $request->jabatan,
+                ]);
+    
+                guru::create($guru);            
+            }
+    
+            // data yang diinput kemudian diolah menjadi sebuah data baru
+
+            // mengembalikan pengguna ke halaman dashboard
+            return redirect()->route('user.dashboard')->with('success', 'Data User berhasil ditambahkan');
         }
 
-        if ($request->jurusan && $request->jabatan) {
-            $guru = ([
-                'id_user'       => User::where('email', $request->email)->first()->id,
-                'nama_lengkap'  => $request->nama_lengkap,
-                'id_jurusan'    => $request->jurusan,
-                'jabatan'       => $request->jabatan,
-            ]);
-
-            guru::create($guru);            
+        else {
+            return back()->with('alert', true);
         }
-
-        // data yang diinput kemudian diolah menjadi sebuah data baru
-        
-        // mengembalikan pengguna ke halaman dashboard
-        return redirect()->route('user.dashboard')->with('success', 'Data User berhasil ditambahkan');
         
     }
     // end
 
     // function to edit users
-    public function edit(Request $request, $id){
+    public function edit($id){
         $data = User::find($id);
 
-        return view('edit', compact('data'));
+        return response()->json(['user' => $data]);
     }
 
     public function update(Request $request, $id)
     {
+        // dd($id);
+
         // pertama, data yang masuk diperiksa terlebih dahulu melalui validator
         $validation = Validator::make($request->all(),[
             'email'         => 'required|email',
         ]);
 
         // lalu jika data yang dimasukkan tidak sesuai ketentuan, maka kode dibawah akan berjalan
-        if( $validation->fails() ) return redirect()->back()->withInput()->withErrors($validation);
+        if( $validation->fails() ) {
+            return redirect()->back()->withInput()->withErrors($validation);
+        }
         // jika data sesuai, maka kode diatas tidak akan berjalan
         
         // data diurutkan dalam array
@@ -233,48 +291,28 @@ class HomeController extends Controller
     }
     // end
     
-    public function search(Request $request)
-    {
-        $query = $request->nameSearch;
-
-        $data = User::Where('email', 'like', '%' . $query . '%')
-                    ->get();
-
-        return back()->with([
-            'result'=> $data
-        ]);
-    }
-
-    public function classFilter(Request $request)
-    {
-        $query = $request->classFilter;
-
-        $data = User::where('class', 'like', '%' . $query . '%')
-                    ->get();
-
-        return back()->with([
-            'active' => 'bk',
-            'result' => $data
-        ]);
-    }
-    
     public function form() {
         return view('form.head');
     }
 
     public function formProcess(Request $request) {
         
-        $user = User::find(Auth::id());
+        $find = User::find(Auth::id());
 
-        $tbl_siswa = ([
-            'id_user'       => $user->id,
-            'nis'           => $request->nis,
+        $user = ([
             'nama_lengkap'  => $request->nama_lengkap,
-            'id_jurusan'    => $user->siswa->id_jurusan,
             'jenis_k'       => $request->jenis_k
         ]);
+
+        $find->update($user);
+
+        $tbl_siswa = ([
+            'id_user'       => $find->id,
+            'nis'           => $request->nis,
+            'id_jurusan'    => $find->siswa->id_jurusan
+        ]);
         
-        siswa::where('id_user', $user->id)->update($tbl_siswa);
+        siswa::where('id_user', $find->id)->update($tbl_siswa);
         
         $bio = [
             'nis'               => $request->nis,
@@ -288,21 +326,35 @@ class HomeController extends Controller
             'alamat_sekarang'   => $request->alamat,
         ];
 
-        Biodata_siswa::CreateOrUpdate($bio); 
+        Biodata_siswa::UpdateOrCreate($bio); 
 
-        $bio_ortu = [
-            'nis'                   => $request->nis,
-            'nama_ayah'             => $request->nama_ayah,
-            'nama_ibu'              => $request->nama_ibu,
-            'pendidikan_ayah'       => $request->pendidikan_ayah,
-            'pendidikan_ibu'        => $request->pendidikan_ibu,
-            'pekerjaan_ayah'        => $request->pekerjaan_ayah,
-            'pekerjaan_ibu'         => $request->pekerjaan_ibu,
-            'penghasilan_ortu'      => $request->penghasilan,
-            'penghasilan_ortu_per-' => $request->penghasilan_per,
-        ];
+        if ($request->wali && $request->wali && $request->pekerjaan_wali && $request->alamat_wali && $request->nomor_wali) {
+            $bio_wali = [
+                'nis'            => $request->nis,
+                'nama_wali'      => $request->wali,
+                'pekerjaan_wali' => $request->pekerjaan_wali,
+                'alamat_wali'    => $request->alamat_wali,
+                'no_telp_wali'   => $request->nomor_wali,
+            ];
 
-        Biodata_Ortu_Siswa::CreateOrUpdate($bio_ortu);
+            Biodata_wali::UpdateOrCreate($bio_wali);
+        }
+        else {
+            $bio_ortu = [
+                'nis'                   => $request->nis,
+                'nama_ayah'             => $request->nama_ayah,
+                'nama_ibu'              => $request->nama_ibu,
+                'pendidikan_ayah'       => $request->pendidikan_ayah,
+                'pendidikan_ibu'        => $request->pendidikan_ibu,
+                'pekerjaan_ayah'        => $request->pekerjaan_ayah,
+                'pekerjaan_ibu'         => $request->pekerjaan_ibu,
+                'penghasilan_ortu'      => $request->penghasilan,
+                'penghasilan_ortu_per-' => $request->penghasilan_per,
+            ];
+
+            Biodata_Ortu_Siswa::UpdateOrCreate($bio_ortu);
+        }
+
 
         $bio_lainnya = [
             'nis'                       => $request->nis,
@@ -328,10 +380,9 @@ class HomeController extends Controller
             'suku'                      => $request->suku,
         ];
 
-        Data_siswa_lainnya::createOrUpdate($bio_lainnya);
+        Data_siswa_lainnya::UpdateOrCreate($bio_lainnya);
 
         return redirect()->route('user.dashboard');
     }
-
     
 }

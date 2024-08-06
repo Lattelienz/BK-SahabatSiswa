@@ -25,11 +25,7 @@
     <div class="d-flex flex-column align-items-center text-center mb-3">
       <img src="{{ asset('lte/dist/img/user2-160x160.jpg') }}" alt="Foto profil" style="width: 175px; border-radius: 1rem; border: 1px solid black">
       <h2 class="m-2">
-        @if ($result->level == 'Siswa')
-          {{ $siswa->nama_lengkap }} 
-        @elseif ($result->level == 'Guru')
-          {{ $guru->nama_lengkap }}
-        @endif
+        {{ Auth::user()->nama_lengkap }}
       </h2>
     </div>
 

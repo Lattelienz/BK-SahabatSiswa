@@ -58,7 +58,11 @@
               Silahkan cek kembali, lalu klik submit
             </p>
 
-            <!-- ini isi div nya yes or no begitu, keknya bisa buat ngecek lagi atau validasi tpi zhd kd bisa menggunakannya:> -->
+            <a href="{{ route('user.dashboard') }}" class="text-dark">
+              Ingin kembali ke dashboard?
+            </a>
+
+            {{-- ini isi div nya yes or no begitu, keknya bisa buat ngecek lagi atau validasi tpi zhd kd bisa menggunakannya:> --}}
             {{-- <div>
               <button class="formbold-confirm-btn active">
                 <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">

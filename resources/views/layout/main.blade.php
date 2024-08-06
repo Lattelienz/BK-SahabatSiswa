@@ -3,9 +3,9 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="csrf-token" content="{{ csrf_token() }}">
 
-  <title>Dashboard</title>
-
+  <title>E-BK</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -28,15 +28,13 @@
   <!-- summernote -->
   <link rel="stylesheet" href="{{ asset('lte/plugins/summernote/summernote-bs4.min.css') }}">
 </head>
-<body class="hold-transition sidebar-collapse layout-fixed">
+<body class="hold-transition fixed-sidebar layout-fixed">
 <div class="wrapper">
 
-  <!-- Preloader -->
+  {{-- <!-- Preloader -->
   <div class="preloader flex-column justify-content-center align-items-center">
-
     <img class="animation__shake" src="{{ asset('lte/dist/img/logobk.png') }}" alt="Logo BK" height="60" width="60">
-
-  </div>
+  </div> --}}
 
   <!-- Navbar -->
   @include('layout.navbar')
@@ -60,8 +58,9 @@
   </footer>
 
   <!-- Control Sidebar -->
-  <aside class="control-sidebar control-sidebar-dark">
+  <aside class="control-sidebar bg-light border-left shadow-sm">
     <!-- Control sidebar content goes here -->
+    @include('layout.chat')
   </aside>
   <!-- /.control-sidebar -->
 </div>
@@ -97,6 +96,10 @@
 <script src="{{ asset('lte/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js') }}"></script>
 <!-- AdminLTE App -->
 <script src="{{ asset('lte/dist/js/adminlte.js') }}"></script>
+<!-- ebk -->
+<script src="{{ asset('js/ebk.js') }}"></script>
+{{-- SweetAlert2 --}}
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <!-- AdminLTE for demo purposes -->
 {{-- <script src="{{ asset('lte/dist/js/demo.js') }}"></script> --}}
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->

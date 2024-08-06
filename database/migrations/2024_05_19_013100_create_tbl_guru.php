@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('id_user');
             $table->unsignedTinyInteger('id_jurusan');
-            $table->string('nama_lengkap');
             $table->enum('jabatan', ['Guru BK', 'Guru umum', 'Guru kejuruan']);
             $table->timestamps();
 

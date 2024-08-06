@@ -2,7 +2,7 @@
 
 @section('content')
 
-@if($tes->level == 'Siswa')
+@if(Auth::user()->level == 'Siswa')
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <div class="content-header">
@@ -27,7 +27,7 @@
       <div class="d-flex flex-column align-items-center text-center mb-3">
         <img src="{{ asset('lte/dist/img/user2-160x160.jpg') }}" alt="Foto profil" style="width: 175px; border-radius: 1rem; border: 1px solid black">
         <h2 class="m-2">
-            {{-- {{ $guru->nama_lengkap }}  --}}
+            {{ $result2->nama_lengkap }} 
         </h2>
       </div>
   
@@ -40,33 +40,28 @@
               <div class="card-body p-3">
                 <p>
                   <b>
-                    Detail Umum User
+                    Detail User
                   </b>
                 </p>
     
                 <div>
-                  {{-- data pribadi siswa --}}
+                  {{-- data guru --}}
                   
-                  <p>Kelas : {{ $siswa->kelas }}</p>
-                  <p>Jurusan : {{ $jurusan->jurusan }}</p>
-                  <p>Jenis Kelamin : {{ $siswa->jenis_k }}</p>
+                  <p>Jabatan : {{ $guru->jabatan }}</p>
+                  <p>Jenis Kelamin : 
+                    @if ($result2->jenis_kelamin == 'perempuan')
+                      Perempuan
+                    @else
+                      Laki-laki
+                    @endif
+                    
+                  </p>
                   
-                  @if ($bio)
-                    <p>TTL : {{ $bio->tempat_lahir }}, {{ $bio->tanggal_lahir }}</p>
-                  @endif
-                  <a href="{{ route('user.cetak-pdf', ['id' => $id])}}?export=pdf" class="btn btn-dark mb-3" >Cetak PDF</a>
                 </div>
                 
               </div>
               <!-- /.card-body -->
-  
-              @if ($bio == null)    
-                <div class="text-center card-footer">   
-                  <b>
-                    Siswa belum memasukkan biodata lainnya
-                  </b>
-                </div>
-              @endif
+                
   
             </div>
           </div>
@@ -95,7 +90,7 @@
 </div>
 <!-- /.content -->
 
-@elseif($tes->level == 'Guru')
+@elseif(Auth::user()->level == 'Guru')
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <div class="content-header">

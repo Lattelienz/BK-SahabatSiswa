@@ -15,11 +15,9 @@ class siswaSeeder extends Seeder
     {
         siswa::create([
             'nis'           => '10226',
-            'id_user'       => '2',
+            'id_user'       => '11',
             'id_jurusan'    => '1',
-            'nama_lengkap'  => 'Muhammad Maulidhan Pahlevi',
             'kelas'         => 'XI A',
-            'jenis_k'       => 'Laki-laki'
         ]);
     }
 }

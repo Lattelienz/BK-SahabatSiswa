@@ -108,7 +108,7 @@
     </div>
   </div>
 
-<!-- form wali => not required, tdk wajib diisi -->
+{{-- form wali => not required, tdk wajib diisi --}}
           
 <h3 class="mt-3 mb-3">*Bagi yang tidak tinggal dengan orang tua</h3>
     

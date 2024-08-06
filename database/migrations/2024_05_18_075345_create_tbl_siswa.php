@@ -15,14 +15,12 @@ return new class extends Migration
             $table->biginteger('nis')->primary();
             $table->unsignedBigInteger('id_user');
             $table->unsignedTinyInteger('id_jurusan');
-            $table->string('nama_lengkap');
             $table->enum('kelas',[
                 'X', 'X A', 'X B',
                 'XI', 'XI A', 'XI B',
                 'XII', 'XII A', 'XII B',
                 'XIII'
             ]);
-            $table->enum('jenis_k', ['Laki-laki', 'Perempuan']);
             $table->timestamps();
            
             // foreign key

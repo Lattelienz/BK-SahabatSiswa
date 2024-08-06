@@ -18,7 +18,6 @@ class DatabaseSeeder extends Seeder
             GuruSeeder::class,
             siswaSeeder::class,
             PermissionSeeder::class,
-            RoleSeeder::class,
         ]);
 
         // \App\Models\User::factory(10)->create();

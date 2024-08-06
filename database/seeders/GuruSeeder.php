@@ -14,9 +14,8 @@ class GuruSeeder extends Seeder
     public function run(): void
     {
         guru::create ([
-            'id_user'        =>  '3',
+            'id_user'        =>  '12',
             'id_jurusan'     =>  '1',
-            'nama_lengkap'   =>  'Guru',
             'jabatan'        =>  'Guru umum',
         ]);
     }

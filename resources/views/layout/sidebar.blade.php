@@ -15,31 +15,29 @@
         <img src="{{ asset('lte/dist/img/profil1.png') }}" class="img-circle elevation-2" alt="User Image">
       </div>
       <div class="info">
-        @if ( Auth::user()->level == 'Siswa' && Auth::user()->siswa !== null)
 
-          <a href="{{ route('user.profil') }}" class="d-block">
-            {{ Auth::user()->siswa->nama_lengkap }}
+        @if ( Auth::user()->level == 'Siswa' && Auth::user()->siswa !== null)
+          <a href="{{ route('user.profil') }}" class="d-block text-truncate">
+            {{ Auth::user()->nama_lengkap }}
           </a>
 
         @elseif (Auth::user()->level == 'Guru' && Auth::user()->guru !== null)
-
-          <a href="{{ route('user.profil') }}" class="d-block">
-            {{ Auth::user()->guru->nama_lengkap }}
+          <a href="{{ route('user.profil') }}" class="d-block text-truncate">
+            {{ Auth::user()->nama_lengkap }}
           </a>
 
         @elseif (Auth::user()->level == 'Admin')
-        
-          <a class="d-block">
-            {{ Auth::user()->email }}
+                  <a class="d-block text-truncate">
+            {{ Auth::user()->nama_lengkap }}
           </a>
 
         @else
-
           <a href="{{ route('user.profil') }}">
             Profil
           </a>
 
         @endif
+
       </div>
     </div>
 
@@ -50,7 +48,7 @@
              with font-awesome or any other icon font library -->
 
             <li class="nav-item">
-              <a href="{{route('user.dashboard')}}" class="nav-link">
+              <a href="{{ route('user.dashboard') }}" class="nav-link">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-suit-diamond-fill" viewBox="0 0 16 16">
                   <path d="M2.45 7.4 7.2 1.067a1 1 0 0 1 1.6 0L13.55 7.4a1 1 0 0 1 0 1.2L8.8 14.933a1 1 0 0 1-1.6 0L2.45 8.6a1 1 0 0 1 0-1.2"/>
                 </svg> <i class="ml-1"></i>
@@ -60,7 +58,7 @@
 
             @can('view_card')
             <li class="nav-item">
-              <a href="#" class="nav-link">
+              <a href="{{ route('user.guru') }}" class="nav-link">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-suit-diamond-fill" viewBox="0 0 16 16">
                   <path d="M2.45 7.4 7.2 1.067a1 1 0 0 1 1.6 0L13.55 7.4a1 1 0 0 1 0 1.2L8.8 14.933a1 1 0 0 1-1.6 0L2.45 8.6a1 1 0 0 1 0-1.2"/>
                 </svg> <i class="ml-1"></i>
