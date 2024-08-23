@@ -68,7 +68,7 @@ The Laravel framework is open-sourced software licensed under the [MIT license](
 ## How to install the project
 
 - Clone / download the project folder onto local repo
-- Migrate the table structure
-- Seed the database
-- Install the laravel-dompdf library :
-  [Guide on installing the library](https://github.com/barryvdh/laravel-dompdf?tab=readme-ov-file#laravel).
+- Migrate the table structure using `php artisan migrate`
+- Seed the database using `php artisan db:seed`
+- Install the laravel-dompdf library. Guide on installing the library can be found [here](https://github.com/barryvdh/laravel-dompdf?tab=readme-ov-file#laravel).
+- Enable the php gd Extension on local server. Guide on enabling it can be found [here](https://www.geeksforgeeks.org/how-to-install-php-gd-in-windows/) and [here](https://stackoverflow.com/questions/2283199/enabling-installing-gd-extension-without-gd).
