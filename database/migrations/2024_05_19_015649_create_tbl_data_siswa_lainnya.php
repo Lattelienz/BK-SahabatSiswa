@@ -32,7 +32,7 @@ return new class extends Migration
             $table->string('hobby');            
             $table->string('tmpt_curhat');            
             $table->string('penyakit_mengganggu');            
-            $table->string('bhs_sehari-hari');            
+            $table->string('bhs_sehari_hari');            
             $table->string('suku');            
             $table->timestamps();
 

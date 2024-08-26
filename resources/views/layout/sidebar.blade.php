@@ -12,8 +12,13 @@
     <!-- Sidebar user panel (optional) -->
     <div class="user-panel mt-3 pb-3 mb-3 d-flex">
       <div class="image">
-        <img src="{{ asset('lte/dist/img/profil1.png') }}" class="img-circle elevation-2" alt="User Image">
+        @if ( Auth::user()->photo )
+          <img src="{{ asset('storage/' . Auth::user()->photo) }}" class="img-circle elevation-2" alt="User Image" style="height: 35px; width: 35px; object-fit: cover; object-position: center;">
+        @else 
+          <img src="{{ asset('lte/dist/img/profil1.png') }}" class="img-circle elevation-2" alt="User Image" style="height: 35px; width: 35px; object-fit: cover; object-position: center;">
+        @endif
       </div>
+
       <div class="info">
 
         @if ( Auth::user()->level == 'Siswa' && Auth::user()->siswa !== null)
@@ -27,7 +32,7 @@
           </a>
 
         @elseif (Auth::user()->level == 'Admin')
-                  <a class="d-block text-truncate">
+          <a style="pointer-events: none;" class="d-block text-truncate">
             {{ Auth::user()->nama_lengkap }}
           </a>
 

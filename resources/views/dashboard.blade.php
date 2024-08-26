@@ -32,9 +32,7 @@
                 <div class="col-12">
 
                     <button data-toggle="modal" data-target="#createModal" class="btn btn-dark mb-3" >Tambah Data</button> <!-- Tombol untuk menambahkan data -->
-
-                    
-                    
+                        
                     <div class="card">
                         <!-- .card-header -->
                         <div class="card-header">
@@ -71,9 +69,9 @@
 
                             @if ($data->items() == null)
                             <div class="d-flex justify-content-center">
-                                <div class="d-flex align-items-center flex-column alert alert-danger col-4">
-                                    <h1>Maaf!</h1>
-                                    <h5 class="self-align-bottom">Data tidak tersedia....</h5>
+                                <div class="d-flex align-items-center flex-column col-4">
+                                    <h1 class="text-danger">Maaf!</h1>
+                                    <h5 class="self-align-bottom text-danger">Data tidak tersedia....</h5>
                                 </div>
                             </div>
 
@@ -104,166 +102,166 @@
                                                     Laki-Laki
                                                 @else
                                                     Perempuan
-                                                @endif 
+                                                @endif
                                             </td>
                                             <td> {{$d->email}} </td>
                                             <td> {{$d->level}} </td>
                                             <td class="d-flex" style="grid-gap: 10px">
                                                 
-                                                @if (Auth::id() !== $d->id)        
-                                                    {{-- Tombol Edit --}}
-                                                    <button class="btn btn-dark" onclick="editUser({{ $d->id }})" ><i class="fas fa-pen"></i> Edit</button>
+                                                                                              
+                                                {{-- Tombol Edit --}}
+                                                <button class="btn btn-dark edit-btn" @disabled(Auth::id() == $d->id || $d->level == 'Admin') onclick="editUser({{ $d->id }})" data-id="{{ $d->id }}" ><i class="fas fa-pen"></i> Edit</button>
 
-                                                    {{-- Form Delete --}}
-                                                    <button class="btn btn-dark" data-toggle="modal" data-target="#deleteModal{{ $d->id }}"><i class="fas fa-trash"></i> Delete</button>
+                                                {{-- Form Delete --}}
+                                                <button class="btn btn-dark" @disabled(Auth::id() == $d->id || $d->level == 'Admin') data-toggle="modal" data-target="#deleteModal{{ $d->id }}"><i class="fas fa-trash"></i> Delete</button>
 
-                                                    {{-- Edit Modal --}}
-                                                    <div class="modal fade" id="editModal{{ $d->id }}" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
-                                                        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-                                                            <div class="modal-content">
+                                                {{-- Edit Modal --}}
+                                                <div class="modal fade" id="editModal{{ $d->id }}" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
+                                                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                                                        <div class="modal-content">
 
-                                                                <div class="modal-header">
-                                                                <h5 class="modal-title" id="exampleModalLabel">Edit user</h5>
-                                                                </div>
-
-                                                                    <div class="modal-body">
-
-                                                                    <form id="editForm" action="{{ route('user.update', ['id' => $d->id ]) }}" method="post">
-                                                                        @csrf
-                                                                        @method('put')
-                                                                        
-                                                                        <!-- select -->
-                                                                        <div class="form-group">
-                                                                            <label for="level">Level</label>
-                                                                            <select name="level" class="form-control" id="editLevel" onchange="changeEditElement()">
-                                                                                <option>Admin</option>
-                                                                                <option>Siswa</option>
-                                                                                <option>Guru</option>
-                                                                            </select>
-                                                                        </div>
-
-                                                                        <div class="form-group">
-                                                                            <label for="nama">Nama Lengkap</label>
-                                                                            <input type="text" name="nama_lengkap" class="form-control editNama" id="nama" placeholder="Masukkan nama">
-                                                                            @error('nama_lengkap')
-                                                                                <small>{{ $message }}</small>
-                                                                            @enderror
-                                                                        </div>
-                                                    
-                                                                        <div class="form-group editNis">
-                                                                            <label for="nis">NIS</label>
-                                                                            <input type="text" name="NIS" class="form-control" id="editNis" placeholder="Masukkan NIS">
-                                                                            @error('NIS')
-                                                                                <small>{{ $message }}</small>
-                                                                            @enderror
-                                                                        </div>
-                                                    
-                                                                        <div class="form-group">
-                                                                            <label for="editEmail">Email</label>
-                                                                            <input type="email" class="form-control editEmail" id="editEmail" name="email" placeholder="Masukkan email">
-                                                                            @error('email')
-                                                                                <small>{{ $message }}</small>
-                                                                            @enderror
-                                                                        </div>
-                                                    
-                                                                        <div class="form-group">
-                                                                            <label for="editPassword1">Password</label>
-                                                                            <input type="lpassword" name="password" class="form-control" id="editPassword1" placeholder="Kosongkan jika tidak ingin mengganti">
-                                                                            @error('password')
-                                                                                <small>{{ $message }}</small>
-                                                                            @enderror
-                                                                        </div>
-                                                    
-                                                                        <!-- select -->
-                                                                        <div class="form-group">
-                                                                            <label for="jenis_kelamin">Jenis Kelamin</label>
-                                                                            <select name="jenis_kelamin" class="form-control editJK" id="jenis_kelamin">
-                                                                                <option value="laki-laki">Laki-Laki</option>
-                                                                                <option value="perempuan">Perempuan</option>
-                                                                            </select>
-                                                                        </div>
-
-                                                    
-                                                                        <!-- select -->
-                                                                        <div class="form-group editJabatan">
-                                                                            <label for="jabatan">Jabatan</label>
-                                                                            <select name="jabatan" class="form-control" id="editJabatan">
-                                                                                <option>Guru BK</option>
-                                                                                <option>Guru umum</option>
-                                                                                <option>Guru kejuruan</option>
-                                                                            </select>
-                                                                        </div>
-                                                                        
-                                                                        <!-- select -->
-                                                                        <div class="form-group editJurusan">
-                                                                            <label for="jurusan">Jurusan</label>
-                                                                            <select name="jurusan" class="form-control" id="editJurusan">
-                                                                                <option value="1">Pengembangan Perangkat Lunak dan Gim</option>
-                                                                                <option value="2">Pekerjaan Sosial</option>
-                                                                                <option value="3">Teknik Kimia Industri</option>
-                                                                                <option value="4">Teknik Furnitur</option>
-                                                                                <option value="5">Broadcasting dan Film</option>
-                                                                                <option value="6">Desain Komunikasi Visual</option>
-                                                                                <option value="7">Teknik Kimia Industri</option>
-                                                                            </select>
-                                                                        </div>
-                                                    
-                                                                        <!-- select -->
-                                                                        <div class="form-group editKelas">
-                                                                            <label for="kelas">Kelas</label>
-                                                                            <select name="kelas" class="form-control" id="editKelas">
-                                                                                <option value="X">10</option>
-                                                                                <option value="X A">10 A</option>
-                                                                                <option value="X B">10 B</option>
-                                                                                <option value="XI">11</option>
-                                                                                <option value="XI A">11 A</option>
-                                                                                <option value="XI B">11 B</option>
-                                                                                <option value="XII">12</option>
-                                                                                <option value="XII A">12 A</option>
-                                                                                <option value="XII B">12 B</option>
-                                                                                <option value="XIII">13</option>
-                                                                            </select>
-                                                                        </div>
-                                                        
-                                                                    </div>
-                                                                            
-                                                                    <div class="modal-footer">
-                                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-                                                                        <button type="submit" class="btn btn-dark">Simpan perubahan</button>
-                                                                    </div>
-
-                                                                    </form>
-
+                                                            <div class="modal-header">
+                                                            <h5 class="modal-title" id="exampleModalLabel">Edit user</h5>
                                                             </div>
-                                                        </div>
-                                                    </div>
-
-                                                    {{-- Delete modal --}}
-                                                    <div class="modal fade" id="deleteModal{{ $d->id }}" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-                                                        <div class="modal-dialog">
-                                                            <div class="modal-content">
-
-                                                                <div class="modal-header">
-                                                                    <h5 class="modal-title">Menghapus user</h5>
-                                                                </div>
 
                                                                 <div class="modal-body">
-                                                                    <p>Apakah anda yakin ingin menghapus user?</p>
-                                                                </div>
 
+                                                                <form id="editForm" action="{{ route('user.update', ['id' => $d->id ]) }}" method="post">
+                                                                    @csrf
+                                                                    @method('put')
+                                                                    
+                                                                    <!-- select -->
+                                                                    <div class="form-group">
+                                                                        <label for="level">Level</label>
+                                                                        <select name="level" class="form-control" id="editLevel{{ $d->id }}" onchange="changeEditElement({{ $d->id }})">
+                                                                            <option>Admin</option>
+                                                                            <option>Siswa</option>
+                                                                            <option>Guru</option>
+                                                                        </select>
+                                                                    </div>
+
+                                                                    <div class="form-group">
+                                                                        <label for="editNama{{ $d->id }}">Nama Lengkap</label>
+                                                                        <input type="text" name="nama_lengkap" class="form-control" id="editNama{{ $d->id }}" placeholder="Masukkan nama">
+                                                                        @error('nama_lengkap')
+                                                                            <small>{{ $message }}</small>
+                                                                        @enderror
+                                                                    </div>
+                                                
+                                                                    <div class="form-group editNis{{ $d->id }}">
+                                                                        <label for="editNis{{ $d->id }}">NIS</label>
+                                                                        <input type="text" name="NIS" class="form-control" id="editNis{{ $d->id }}" placeholder="Masukkan NIS">
+                                                                        @error('NIS')
+                                                                            <small>{{ $message }}</small>
+                                                                        @enderror
+                                                                    </div>
+                                                
+                                                                    <div class="form-group">
+                                                                        <label for="editEmail{{ $d->id }}">Email</label>
+                                                                        <input type="email" class="form-control" id="editEmail{{ $d->id }}" name="email" placeholder="Masukkan email">
+                                                                        @error('email')
+                                                                            <small>{{ $message }}</small>
+                                                                        @enderror
+                                                                    </div>
+                                                
+                                                                    <div class="form-group">
+                                                                        <label for="editPassword1">Password</label>
+                                                                        <input type="password" name="password" class="form-control" id="editPassword1" placeholder="Kosongkan jika tidak ingin mengganti">
+                                                                        @error('password')
+                                                                            <small>{{ $message }}</small>
+                                                                        @enderror
+                                                                    </div>
+                                                
+                                                                    <!-- select -->
+                                                                    <div class="form-group">
+                                                                        <label for="editJK{{ $d->id }}">Jenis Kelamin</label>
+                                                                        <select name="jenis_kelamin" class="form-control" id="editJK{{ $d->id }}">
+                                                                            <option value="laki-laki">Laki-Laki</option>
+                                                                            <option value="perempuan">Perempuan</option>
+                                                                        </select>
+                                                                    </div>
+
+                                                
+                                                                    <!-- select -->
+                                                                    <div class="form-group editJabatan{{ $d->id }}">
+                                                                        <label for="editJabatan{{ $d->id }}">Jabatan</label>
+                                                                        <select name="jabatan" class="form-control" id="editJabatan{{ $d->id }}">
+                                                                            <option>Guru BK</option>
+                                                                            <option>Guru umum</option>
+                                                                            <option>Guru kejuruan</option>
+                                                                        </select>
+                                                                    </div>
+                                                                    
+                                                                    <!-- select -->
+                                                                    <div class="form-group editJurusan{{ $d->id }}">
+                                                                        <label for="editJurusan{{ $d->id }}">Jurusan</label>
+                                                                        <select name="jurusan" class="form-control" id="editJurusan{{ $d->id }}">
+                                                                            <option value="1">Pengembangan Perangkat Lunak dan Gim</option>
+                                                                            <option value="2">Pekerjaan Sosial</option>
+                                                                            <option value="3">Teknik Kimia Industri</option>
+                                                                            <option value="4">Teknik Furnitur</option>
+                                                                            <option value="5">Broadcasting dan Film</option>
+                                                                            <option value="6">Desain Komunikasi Visual</option>
+                                                                            <option value="7">Teknik Kimia Industri</option>
+                                                                        </select>
+                                                                    </div>
+                                                
+                                                                    <!-- select -->
+                                                                    <div class="form-group editKelas{{ $d->id }}">
+                                                                        <label for="editKelas{{ $d->id }}">Kelas</label>
+                                                                        <select name="kelas" class="form-control" id="editKelas{{ $d->id }}">
+                                                                            <option value="X">10</option>
+                                                                            <option value="X A">10 A</option>
+                                                                            <option value="X B">10 B</option>
+                                                                            <option value="XI">11</option>
+                                                                            <option value="XI A">11 A</option>
+                                                                            <option value="XI B">11 B</option>
+                                                                            <option value="XII">12</option>
+                                                                            <option value="XII A">12 A</option>
+                                                                            <option value="XII B">12 B</option>
+                                                                            <option value="XIII">13</option>
+                                                                        </select>
+                                                                    </div>
+                                                    
+                                                                </div>
+                                                                        
                                                                 <div class="modal-footer">
-                                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Tidak</button>
-                                                                    <form action="{{ route('user.delete', ['id' => $d->id]) }}" method="POST">
-                                                                        @csrf
-                                                                        @method('delete')
-                                                                        <button type="submit" class="btn btn-dark">Ya</button>
-                                                                    </form>
+                                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                                                                    <button type="submit" class="btn btn-dark">Simpan perubahan</button>
                                                                 </div>
 
-                                                            </div>
+                                                                </form>
+
                                                         </div>
                                                     </div>
-                                                @endif
+                                                </div>
+
+                                                {{-- Delete modal --}}
+                                                <div class="modal fade" id="deleteModal{{ $d->id }}" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                                                    <div class="modal-dialog">
+                                                        <div class="modal-content">
+
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title">Menghapus user</h5>
+                                                            </div>
+
+                                                            <div class="modal-body">
+                                                                <p>Apakah anda yakin ingin menghapus user?</p>
+                                                            </div>
+
+                                                            <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Tidak</button>
+                                                                <form action="{{ route('user.delete', ['id' => $d->id]) }}" method="POST">
+                                                                    @csrf
+                                                                    @method('delete')
+                                                                    <button type="submit" class="btn btn-dark">Ya</button>
+                                                                </form>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                               
                                                 
                                             </td>
                                         </tr>                               
@@ -298,7 +296,9 @@
                         <div class="card-body">
                             <h5 class="card-title">Isi Biodata</h5>
                             <p class="card-text">Lengkapi data dirimu disini!</p>
-                            <a href="{{route('user.form')}}" class="btn btn-dark">Mulai isi</a>
+                        </div>
+                        <div class="card-footer bg-transparent">
+                            <a href="{{ route('user.form') }}" class="btn btn-dark mt-4">Mulai isi</a>
                         </div>
                     </div>
                     @endif
@@ -307,7 +307,9 @@
                         <div class="card-body">
                             <h5 class="card-title">Kontak Guru BK mu</h5>
                             <p class="card-text">Ingin Konsultasi? lihat kontak guru bk kamu</p>
-                            <a href="#" class="btn btn-dark">Lihat Kontak</a>
+                        </div>
+                        <div class="card-footer bg-transparent">
+                            <a href="{{ route('user.guru') }}" class="btn btn-dark">Lihat Kontak</a>
                         </div>
                     </div>
 
@@ -316,7 +318,9 @@
                         <div class="card-body">
                             <h5 class="card-title">Ikuti Tes Gaya Belajar</h5>
                             <p class="card-text">Tes gaya belajar kamu</p>
-                            <a href="" class="btn btn-dark">Ikuti Tes</a>
+                        </div>
+                        <div class="card-footer bg-transparent">
+                            <a href="#" class="btn btn-dark">Ikuti Tes</a>
                         </div>
                     </div>
                 </div>
@@ -347,7 +351,7 @@
                                         @if ($i->siswa)
                                             <tr>
                                                 <td style="width: 100px; object-fit: cover;">
-                                                    <img src="#" width="80" alt="gambar_siswa">
+                                                    <img src="{{ asset('storage/' . $i->photo) }}" width="80" alt="gambar_siswa">
                                                 </td>
                                                 <!-- Kolom untuk menampilkan nama siswa dengan link ke halaman detail -->
                                                 <td><a href="{{ route('user.siswa', ['id' => $i->id])  }}">{{ $i->nama_lengkap }}</a></td>
@@ -382,7 +386,7 @@
 
                         <div class="modal-body">
 
-                        <form action="{{ route('user.store') }}" method="POST">
+                        <form action="{{ route('user.store') }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             
                             <!-- select -->

@@ -23,7 +23,7 @@
          Biodata akan dimasukkan ke dalam profil anda
         </p>
       </div>
-      <form action="{{route('user.form-save')}}" method="post">
+      <form action="{{route('user.form-save')}}" method="post" enctype="multipart/form-data">
         @csrf
         <div class="formbold-steps">
             <ul>

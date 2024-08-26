@@ -2,112 +2,79 @@
 
   <div class="mb-2">
       <label for="tgl_diterima" class="formbold-form-label"> Diterima di SMKN 2 Banjarmasin Tanggal : </label>
-      <input 
-      type="date" 
-      name="tgl_diterima" 
-      id="tgl_diterima" 
-      class="formbold-form-input"
-      />
+      <input type="date" name="tgl_diterima" id="tgl_diterima" class="formbold-form-input"/>
   </div>
 
-  <div class="row">
+  <div class="row mb-2">
     <div class="col-sm-6">
       <label for="anak_ke" class="formbold-form-label"> Siswa Anak Ke - </label>
-      <input
-      type="number"
-      name="anak_ke"
-      id="anak_ke"
-      placeholder=""
-      class="formbold-form-input"
-      />
+      <input type="number" name="anak_ke" id="anak_ke" class="formbold-form-input"/>
     </div>
-    <div class="col-sm-6 mt-2 mt-sm-0">
+    <div class="col-sm-6">
       <label for="jumlah_saudara" class="formbold-form-label"> Dari Jumlah Saudara </label>
-      <input
-      type="number"
-      name="jumlah_saudara"
-      id="jumlah_saudara"
-      placeholder=""
-      class="formbold-form-input"
-      />
+      <input type="number" name="jumlah_saudara" id="jumlah_saudara" class="formbold-form-input"/>
     </div>
   </div>
 
-  <div>
-    <label for="keluarga_serumah" class="formbold-form-label"> Jumlah Anggota Keluarga yang Tinggal Serumah : </label>
-    <input 
-    type="number" 
-    name="keluarga_serumah" 
-    id="keluarga_serumah" 
-    class="formbold-form-input"
-    />
+  <div class="row mb-2">
+    <div class="col-sm-6">
+      <label for="keluarga_serumah" class="formbold-form-label"> Jumlah Anggota Keluarga yang Tinggal Serumah : </label>
+      <input type="number" name="keluarga_serumah" id="keluarga_serumah" class="formbold-form-input"/>
+    </div>
+    <div class="col-sm-6">
+      <label for="jumlah_tanggungan" class="formbold-form-label"> Jumlah Anggota Keluarga yang Menjadi Tanggungan Orang Tua : </label>
+      <input type="number" name="jumlah_tanggungan" id="jumlah_tanggungan" class="formbold-form-input"/>
+    </div>
   </div>
-  <br>
 
-  <div>
-    <label for="jumlah_tanggungan" class="formbold-form-label"> Jumlah Anggota Keluarga yang Menjadi Tanggungan Orang Tua : </label>
-    <input 
-    type="number" 
-    name="jumlah_tanggungan" 
-    id="jumlah_tanggungan" 
-    class="formbold-form-input"
-    />
-  </div>
-  <br>
-
-  <div class="formbold-input-flex">
+  <div class="formbold-input-flex mb-2">
     <div>
-    <label for="kendaraan" class="formbold-form-label"> Pergi Ke Sekolah Dengan : </label>
-    <input
-    type="text"
-    name="kendaraan"
-    id="kendaraan"
-    placeholder="Kendaraan"
-    class="formbold-form-input"
-    />
+      <label for="kendaraan" class="formbold-form-label"> Pergi Ke Sekolah Dengan : </label>
+      <input type="text" name="kendaraan" id="kendaraan" placeholder="Kendaraan" class="formbold-form-input"/>
     </div>
   </div>
 
   <div>
     <label for="tempat_tinggal" class="formbold-form-label"> Tempat Tinggal : </label>
+    <div class="formbold-radio-flex">
+      <div class="formbold-radio-group">
+        <label class="formbold-radio-label">
+          <input class="formbold-input-radio" type="radio" name="tempat_tinggal" id="tempat_tinggal" value="Milik sendiri">
+          Milik Sendiri
+          <span class="formbold-radio-checkmark"></span>
+        </label>
+      </div>
+      <div class="formbold-radio-group">
+        <label class="formbold-radio-label">
+          <input class="formbold-input-radio" type="radio" name="tempat_tinggal" id="tempat_tinggal" value="Sewa">
+          Sewa
+          <span class="formbold-radio-checkmark"></span>
+        </label>
+      </div>
+      <div class="formbold-radio-group">
+        <label class="formbold-radio-label">
+          <input class="formbold-input-radio" type="radio" name="tempat_tinggal" id="tempat_tinggal" value="Milik keluarga">
+          Milik Keluarga
+          <span class="formbold-radio-checkmark"></span>
+        </label>
+      </div>
+      <div class="formbold-radio-group">
+        <label class="formbold-radio-label">
+          <input class="formbold-input-radio" type="radio" name="tempat_tinggal" id="tempat_tinggal" value="Rumah dinas">
+          Rumah Dinas
+          <span class="formbold-radio-checkmark"></span>
+        </label>
+      </div>
+      <div class="formbold-radio-group">
+        <label class="formbold-radio-label">
+          <input class="formbold-input-radio" type="radio" name="tempat_tinggal" id="tempat_tinggal">
+          Lainnya
+          <span class="formbold-radio-checkmark"></span>
+        </label>
+      </div>
+    </div>
   </div>
-  <div class="formbold-radio-flex">
-    <div class="formbold-radio-group">
-      <label class="formbold-radio-label">
-        <input class="formbold-input-radio" type="radio" name="tempat_tinggal" id="tempat_tinggal" value="Milik sendiri">
-        Milik Sendiri
-        <span class="formbold-radio-checkmark"></span>
-      </label>
-    </div>
-    <div class="formbold-radio-group">
-      <label class="formbold-radio-label">
-        <input class="formbold-input-radio" type="radio" name="tempat_tinggal" id="tempat_tinggal" value="Sewa">
-        Sewa
-        <span class="formbold-radio-checkmark"></span>
-      </label>
-    </div>
-    <div class="formbold-radio-group">
-      <label class="formbold-radio-label">
-        <input class="formbold-input-radio" type="radio" name="tempat_tinggal" id="tempat_tinggal" value="Milik keluarga">
-        Milik Keluarga
-        <span class="formbold-radio-checkmark"></span>
-      </label>
-    </div>
-    <div class="formbold-radio-group">
-      <label class="formbold-radio-label">
-        <input class="formbold-input-radio" type="radio" name="tempat_tinggal" id="tempat_tinggal" value="Rumah dinas">
-        Rumah Dinas
-        <span class="formbold-radio-checkmark"></span>
-      </label>
-    </div>
-    <div class="formbold-radio-group">
-      <label class="formbold-radio-label">
-        <input class="formbold-input-radio" type="radio" name="tempat_tinggal" id="tempat_tinggal">
-        Lainnya
-        <span class="formbold-radio-checkmark"></span>
-      </label>
-    </div>
-  </div>
+
 
   <div class="mt-3">
     <label for="penerangan" class="formbold-form-label"> Tempat Tinggal Menggunakan Penerang : </label>

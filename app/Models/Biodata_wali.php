@@ -9,7 +9,7 @@ class Biodata_wali extends Model
 {
     use HasFactory;
 
-    protected $table = 'tbl_bio_wali';
+    protected $table = 'tbl_biodata_wali';
 
     protected $fillable = [
         'nis',

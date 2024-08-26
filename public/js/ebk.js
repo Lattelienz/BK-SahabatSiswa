@@ -33,10 +33,8 @@
         setViewportWidth();
 
         window.addEventListener('resize', setViewportWidth);
-
-        changeElement();
-        changeEditElement();
         
+        changeElement();
     });
 
     // function to hide and disable certain elements in create modal
@@ -98,18 +96,62 @@
         }
     }
 
+    //var for each edit button
+    var editButtons = document.querySelectorAll('.edit-btn');
+
+    //event listeners for each button
+    editButtons.forEach(function(button) {
+        button.addEventListener('click', function() {
+            //getting the id from data attribute
+            var id = this.getAttribute('data-id');
+
+            //calling function with the specific id
+            changeEditElement(id);
+        });
+    });
+
+    //receiving ajax request and process them here
+    function editUser(id) {
+        $.ajax({
+            url: '/user/edit/' + id ,
+            success: function(response) {
+                $('#editNama' + id).val(response.user.nama_lengkap);
+                $('#editEmail' + id).val(response.user.email);
+                $('#editJK' + id).val(response.user.jenis_kelamin);
+
+                if (response.user.level === 'Siswa') {
+                    $('#editNis' + id).val(response.user.siswa.nis);
+                    $('#editJurusan' + id).val(response.user.siswa.jurusan.id_jurusan);
+                    $('#editKelas' + id).val(response.user.siswa.kelas);
+                }
+
+                else if (response.user.level === 'Guru' || response.user.level === 'Guru') {
+                    $('#editJurusan' + id).val(response.user.guru.jurusan.id_jurusan);
+                    $('#editJabatan' + id).val(response.user.guru.jabatan);
+                }
+
+                $('#editModal' + id).modal('show');
+                
+            },
+            error: function(error) {
+                // console.error('Error fetching user data:', error);
+                alert('Gagal mencari data user, coba lagi.');
+            }
+        });
+    }
+
     // function to hide and disable certain elements in edit modal
-    function changeEditElement() {
-        var editSelect = document.getElementById('editLevel');
+    function changeEditElement(id) {
+        var editSelect = document.getElementById('editLevel' + id);
 
-        var admin = document.querySelectorAll('.editNis, .editKelas, .editJurusan, .editJabatan');
-        var siswa = document.querySelectorAll('.editNis, .editKelas, .editJurusan');
-        var guru = document.querySelectorAll('.editJurusan, .editJabatan');
+        var admin = document.querySelectorAll('.editNis' + id + ', .editKelas' + id + ', .editJurusan' + id + ', .editJabatan' + id);
+        var siswa = document.querySelectorAll('.editNis' + id + ', .editKelas' + id + ', .editJurusan' + id);
+        var guru = document.querySelectorAll('.editJurusan' + id + ', .editJabatan' + id);
 
-        var nis = document.querySelector('#editNis');
-        var kelas = document.querySelector('#editKelas');
-        var jurusan = document.querySelector('#editJurusan');
-        var jabatan = document.querySelector('#editJabatan');
+        var nis = document.querySelector('#editNis' + id);
+        var kelas = document.querySelector('#editKelas' + id);
+        var jurusan = document.querySelector('#editJurusan' + id);
+        var jabatan = document.querySelector('#editJabatan' + id);
 
         function handleAdmin() {
             nis.disabled = true;
@@ -129,7 +171,7 @@
             siswa.forEach(function(hide){
                 hide.style.display = 'block';
             });
-            document.querySelector('.editJabatan').style.display = 'none';
+            document.querySelector('.editJabatan' + id).style.display = 'none';
         }
 
         function handleGuru () {
@@ -140,8 +182,8 @@
             guru.forEach(function(hide){
                 hide.style.display = 'block';
             });
-            document.querySelector('.editKelas').style.display = 'none';
-            document.querySelector('.editNis').style.display = 'none';
+            document.querySelector('.editKelas' + id).style.display = 'none';
+            document.querySelector('.editNis' + id).style.display = 'none';
         }
 
         if (editSelect.value == 'Admin' ) {
@@ -157,16 +199,16 @@
         }
     }
 
-    function editUser(id) {
+    function editProfileUser(id) {
         $.ajax({
             url: '/user/edit/' + id ,
             success: function(response) {
                 // $('#editLevel').val(response.user.level);
-                $('.editNama').val(response.user.nama_lengkap);
-                $('.editEmail').val(response.user.email);
-                $('.editJK').val(response.user.jenis_kelamin);
+                $('.editProfileNama').val(response.user.nama_lengkap);
+                $('.editProfileEmail').val(response.user.email);
+                $('.editProfileJK').val(response.user.jenis_kelamin);
 
-                $('#editModal' + id).modal('show');
+                $('#editProfileModal' + id).modal('show');
             },
             error: function(error) {
                 console.error('Error fetching user data:', error);
