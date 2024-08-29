@@ -25,7 +25,11 @@
     <div class="container">
   
       <div class="d-flex flex-column align-items-center text-center mb-3">
-        <img src="{{ asset('lte/dist/img/user2-160x160.jpg') }}" alt="Foto profil" style="width: 175px; border-radius: 1rem; border: 1px solid black">
+        @if ( $result2->photo )
+          <img src="{{ asset('storage/' . $result2->photo) }}" class="border border-dark rounded" alt="User Image" style="height: 200px; width: 200px; object-fit: cover; object-position: center;">
+        @else 
+          <img src="{{ asset('lte/dist/img/profil1.png') }}" class="border border-dark rounded" alt="User Image" style="height: 200px; width: 200px; object-fit: cover; object-position: center;">
+        @endif
         <h2 class="m-2">
             {{ $result2->nama_lengkap }} 
         </h2>
@@ -54,7 +58,6 @@
                     @else
                       Laki-laki
                     @endif
-                    
                   </p>
                   
                 </div>
@@ -113,15 +116,19 @@
     <div class="container">
   
       <div class="d-flex flex-column align-items-center text-center mb-3">
-        <img src="{{ asset('lte/dist/img/user2-160x160.jpg') }}" alt="Foto profil" style="width: 175px; border-radius: 1rem; border: 1px solid black">
+        @if ( $result->photo )
+          <img src="{{ asset('storage/' . $result->photo) }}" class="border border-dark rounded" alt="User Image" style="height: 200px; width: 200px; object-fit: cover; object-position: center;">
+        @else 
+          <img src="{{ asset('lte/dist/img/profil1.png') }}" class="border border-dark rounded" alt="User Image" style="height: 200px; width: 200px; object-fit: cover; object-position: center;">
+        @endif
         <h2 class="m-2">
-            {{ $siswa->nama_lengkap }} 
+            {{ $result->nama_lengkap }} 
         </h2>
       </div>
   
       <section class="row justify-content-center" style="column-gap: 10px">
         
-          <!-- .card -->
+          {{-- .card --}}
           <div class="col-md-6">
             <div class="card mx-2">
               
@@ -149,7 +156,7 @@
                 </div>
                 
               </div>
-              <!-- /.card-body -->
+              {{-- /.card-body --}}
   
               @if ($bio == null)    
                 <div class="text-center card-footer">   
@@ -161,24 +168,6 @@
   
             </div>
           </div>
-  
-          <!-- .card -->
-          {{-- <div class="card col-md mx-2">
-            
-            <!-- .card-body -->
-            <div class="card-body p-3">
-              <p class="">
-                <b>
-                  Biodata siswa
-                </b>
-              </p>
-      
-              <p>KELAS : XI A</p>
-              <p>JURUSAN : PPLG</p>
-      
-            </div>
-  
-          </div> --}}
   
       </section>
   

@@ -24,7 +24,7 @@ class HomeController extends Controller
     public function dashboard(){
         
         if (session('data') == null && auth::user()->level == 'Admin') {
-            $data = User::with('siswa.jurusan', 'guru.jurusan')->paginate(10);
+            $data = User::with('siswa.jurusan', 'guru.jurusan')->paginate(20);
         }
         else if (auth::user()->level == 'Siswa') {
             $data = User::with('siswa.jurusan')->find(auth::id());
@@ -47,7 +47,7 @@ class HomeController extends Controller
 
             $data = User::Where('email', 'like', '%' . $query . '%')
                         ->orWhere('nama_lengkap', 'like', '%' . $query . '%')
-                        ->paginate(10)
+                        ->paginate(20)
                         ->withQueryString();
 
             return back()->with('data', $data);
@@ -58,7 +58,7 @@ class HomeController extends Controller
             $query = $request->filter;
 
             $data = User::where('level', 'like', '%' . $query . '%')
-                        ->paginate(10)
+                        ->paginate(20)
                         ->withQueryString();
 
             return back()->with('data', $data);
@@ -83,11 +83,14 @@ class HomeController extends Controller
 
         if ($request->get('export') == 'pdf'){
             $pdf = Pdf::loadView('showsiswa', [
+                'result' => $result,
                 'siswa' => $siswa,
                 'bio' => $bio,
                 'jurusan' => $jurusan
             ]);
-            return $pdf->download('Data siswa.pdf');
+
+            // dd($siswa, $jurusan, $bio);
+            return $pdf->stream('Data siswa.pdf');
         }
 
         return view('view_profil', compact('result','siswa', 'bio', 'jurusan', 'id'));
@@ -110,9 +113,15 @@ class HomeController extends Controller
         })
         ->first();
 
-        $guru = $result2->guru;
-        // dd($result2, $guru);
-        return view('view_profil', compact('result2', 'guru'));
+        if ($result2) {
+            $guru = $result2->guru;
+
+            return view('view_profil', compact('result2', 'guru'));
+        }
+
+        else {
+            return back();
+        }
 
     }
     
@@ -123,6 +132,9 @@ class HomeController extends Controller
             'siswa' => [
                 'jurusan',
                 'biodata',
+                'bio_ortu',
+                'bio_wali',
+                'bio_lainnya',
             ], 'guru.jurusan'
         ])->find(Auth::id());
 
@@ -131,14 +143,12 @@ class HomeController extends Controller
             //mengambil data lainnya dari tabel siswa
             $siswa = $result->siswa;
             $bio = $siswa->biodata;
-            if ($bio) {
-                $bio = $siswa->biodata->first();
-            }
+            $bio_lain = $siswa->bio_lainnya;
             $jurusan = $siswa->jurusan;
 
             // dd($siswa, $jurusan, $bio);
             
-            return view('profil', compact('result', 'siswa', 'jurusan', 'bio'));
+            return view('profil', compact('result', 'siswa', 'jurusan', 'bio', 'bio_lain'));
         }
 
         elseif ($result->level == 'Guru') {
@@ -151,7 +161,9 @@ class HomeController extends Controller
             return view('profil', compact('result', 'guru', 'jurusan'));
         }
 
-        return redirect()->route('user.dashboard');
+        else {
+            return redirect()->route('user.dashboard');
+        }
         
     }
 
@@ -165,16 +177,21 @@ class HomeController extends Controller
         ]);
 
         // lalu jika data yang dimasukkan tidak sesuai ketentuan, maka kode dibawah akan berjalan
-        if( $validation->fails() ) return redirect()->back()->withInput()->withErrors($validation)->with('openModal', true);
+        if( $validation->fails() ) {
+            return redirect()->back()
+                ->withInput()
+                ->withErrors($validation)
+                ->with('openModal', true);
+        } 
         // jika data sesuai, maka kode diatas tidak akan berjalan
 
         // data diurutkan dalam array
         $data = ([
             'nama_lengkap'  => $request->nama_lengkap,
             'email'         => $request->email,
-            'password'      => $request->password,
+            'password'      => Hash::make($request->password),
             'jenis_kelamin' => $request->jenis_kelamin,
-            'level'         => $request->level
+            'level'         => $request->level,
         ]);
 
         if($data) {
@@ -189,6 +206,8 @@ class HomeController extends Controller
                 ]);
     
                 siswa::create($siswa);
+
+                User::where('email', $request->email)->first()->assignRole('Siswa');
             }
     
             if ($request->jurusan && $request->jabatan) {
@@ -198,7 +217,9 @@ class HomeController extends Controller
                     'jabatan'       => $request->jabatan,
                 ]);
     
-                guru::create($guru);            
+                guru::create($guru);
+
+                User::where('email', $request->email)->first()->assignRole('Guru');
             }
     
             // data yang diinput kemudian diolah menjadi sebuah data baru
@@ -215,67 +236,106 @@ class HomeController extends Controller
     // end
 
     // function to edit users
-    public function edit($id){
-        $data = User::find($id);
+    public function edit($id) {
+        $data = User::with([
+            'siswa.jurusan', 'guru.jurusan'
+        ])->find($id);
 
         return response()->json(['user' => $data]);
     }
 
     public function update(Request $request, $id)
     {
-        // dd($id);
 
-        // pertama, data yang masuk diperiksa terlebih dahulu melalui validator
-        $validation = Validator::make($request->all(),[
-            'email'         => 'required|email',
-        ]);
-
-        // lalu jika data yang dimasukkan tidak sesuai ketentuan, maka kode dibawah akan berjalan
-        if( $validation->fails() ) {
-            return redirect()->back()->withInput()->withErrors($validation);
-        }
-        // jika data sesuai, maka kode diatas tidak akan berjalan
-        
-        // data diurutkan dalam array
-        $data = ([
-            'email'    => $request->email,
-            'level'    => $request->level
-        ]);
-        
-        // kode dibawah berjalan jika data yang masuk memiliki password
-        if($request->newPassword) {
-            $data['password'] = Hash::make($request->newPassword);
-        }
-
-        // Memperbarui data user
-        User::whereId($id)->update($data);
-
-        if ($request->nis && $request->jurusan && $request->kelas) {
-            $siswa = ([
-                'nis'           => $request->NIS,
-                'nama_lengkap'  => $request->nama_lengkap,
-                'id_jurusan'    => $request->jurusan,
-                'kelas'         => $request->kelas
+        if ($request->email && $request->level) {
+            // pertama, data yang masuk diperiksa terlebih dahulu melalui validator
+            $validation = Validator::make($request->all(),[
+                'email'         => 'required|email',
             ]);
-
-            siswa::where('id_user', $id)->update($siswa);
-        }
-
-        if ($request->jurusan && $request->jabatan) {
-            $guru = ([
-                'nama_lengkap'  => $request->nama_lengkap,
-                'id_jurusan'    => $request->jurusan,
-                'jabatan'       => $request->jabatan,
-            ]);
-
-            guru::where('id_user', $id)->update($guru);            
-        }
     
-        // Mengarahkan pengguna ke halaman dashboard
-        return redirect()->route('user.dashboard')->with('success', 'Data berhasil di edit');
+            // lalu jika data yang dimasukkan tidak sesuai ketentuan, maka kode dibawah akan berjalan
+            if( $validation->fails() ) {
+                return redirect()->back()
+                    ->withInput()
+                    ->withErrors($validation);
+            }
+            // jika data sesuai, maka kode diatas tidak akan berjalan
+            
+            if ($request->file()) {
+                $filepath = $request->file('foto')->store('profile-images');
+            }
+    
+            // data diurutkan dalam array
+            $data = ([
+                'email'    => $request->email,
+                'level'    => $request->level,
+                'jenis_kelamin' => $request->jenis_kelamin
+            ]);
+            
+            // kode dibawah berjalan jika data yang masuk memiliki password
+            if($request->newPassword) {
+                $data['password'] = Hash::make($request->newPassword);
+            }
+    
+            // Memperbarui data user
+            User::whereId($id)->update($data);
+    
+            if ($request->nis && $request->jurusan && $request->kelas) {
+                $siswa = ([
+                    'nis'           => $request->NIS,
+                    'id_jurusan'    => $request->jurusan,
+                    'kelas'         => $request->kelas
+                ]);
+    
+                siswa::where('id_user', $id)->update($siswa);
+            }
+    
+            if ($request->jurusan && $request->jabatan) {
+                $guru = ([
+                    'id_jurusan'    => $request->jurusan,
+                    'jabatan'       => $request->jabatan,
+                ]);
+    
+                guru::where('id_user', $id)->update($guru);            
+            }
+        
+            // Mengarahkan pengguna ke halaman dashboard
+            return redirect()->route('user.dashboard')->with('success', 'Data berhasil di edit');
+    
+            // dd dipakai untuk debugging data :
+            // dd ($data);
+        }
 
-        // dd dipakai untuk debugging data :
-        // dd ($data);
+        else {
+            $result = User::whereId($id)->first();
+
+            $validation = validator::make($request->all(),[
+                'photo' => 'image|max:5000'
+            ]);
+
+            if($validation->fails()){
+                return redirect()->back()
+                ->withInput()
+                ->withErrors($validation);
+            }
+
+            $filepath = $request->file('photo') ? $request->file('photo')->store('profile-images') : $result->photo;
+
+            // data diurutkan dalam array
+            $data = ([
+                'nama_lengkap'  => $request->nama_lengkap,
+                'jenis_kelamin' => $request->jenis_kelamin,
+                'photo'         => $filepath
+            ]);
+
+            if($result->nama_lengkap != $request->nama_lengkap || $result->jenis_kelamin != $request->jenis_kelamin || isset($data['photo'])) {
+                User::whereId($id)->update($data);
+            }
+
+            return redirect()->back();
+        }
+
+        return redirect()->back();
     }
     // end
 
@@ -297,11 +357,28 @@ class HomeController extends Controller
 
     public function formProcess(Request $request) {
         
+        $validation = Validator::make($request->all(), [
+            'nama_panggilan'=> 'required',
+            'nama_lengkap'  => 'required',
+            'jenis_k'       => 'required',
+            'nis'           => 'required',
+            'tempat_lahir'  => 'required',
+            'tanggal_lahir' => 'required',
+        ]); 
+
+        if ($validation->fails()) {
+            return redirect()->back()
+            ->withInput();
+        }
+
+        $filepath = $request->file('foto')->store('profile-images');
+
         $find = User::find(Auth::id());
 
         $user = ([
             'nama_lengkap'  => $request->nama_lengkap,
-            'jenis_k'       => $request->jenis_k
+            'jenis_k'       => $request->jenis_k,
+            'photo'         => $filepath
         ]);
 
         $find->update($user);

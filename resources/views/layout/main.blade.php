@@ -100,9 +100,18 @@
 <script src="{{ asset('js/ebk.js') }}"></script>
 {{-- SweetAlert2 --}}
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+{{-- bs-custom-file --}}
+<script src="{{ asset('lte/plugins/bs-custom-file-input/bs-custom-file-input.min.js') }}"></script>
 <!-- AdminLTE for demo purposes -->
 {{-- <script src="{{ asset('lte/dist/js/demo.js') }}"></script> --}}
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 {{-- <script src="{{ asset('lte/dist/js/pages/dashboard.js') }}"></script> --}}
+
+<script>
+  $(document).ready(function () {
+      bsCustomFileInput.init();
+  });
+</script>
+
 </body>
 </html>

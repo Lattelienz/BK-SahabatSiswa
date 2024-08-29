@@ -41,6 +41,10 @@ class siswa extends Model
         return $this->hasOne(Biodata_Ortu_Siswa::class, 'nis');
     }
 
+    public function bio_wali() {
+        return $this->hasOne(Biodata_wali::class, 'nis');
+    }
+
     public function bio_lainnya() {
         return $this->hasOne(Data_siswa_lainnya::class, 'nis');
     }
