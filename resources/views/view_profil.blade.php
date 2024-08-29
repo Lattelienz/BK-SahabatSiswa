@@ -135,9 +135,12 @@
                 <div>
                   {{-- data pribadi siswa --}}
                   
-                  <p>Kelas : {{ $siswa->kelas }}</p>
+                  <p>Kelas : {{ $siswa->nama_lengkap }}</p>
                   <p>Jurusan : {{ $jurusan->jurusan }}</p>
                   <p>Jenis Kelamin : {{ $siswa->jenis_k }}</p>
+                  @if($result->gaya_belajar != null) 
+                  <p>Gaya Belajar: {{ $result->gaya_belajar }}</p>
+                  @endif
                   
                   @if ($bio)
                     <p>TTL : {{ $bio->tempat_lahir }}, {{ $bio->tanggal_lahir }}</p>

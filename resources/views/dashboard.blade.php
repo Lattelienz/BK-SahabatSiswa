@@ -316,7 +316,7 @@
                         <div class="card-body">
                             <h5 class="card-title">Ikuti Tes Gaya Belajar</h5>
                             <p class="card-text">Tes gaya belajar kamu</p>
-                            <a href="" class="btn btn-dark">Ikuti Tes</a>
+                            <a href="{{ route('user.tesGayaBelajar') }}" class="btn btn-dark">Ikuti Tes</a>
                         </div>
                     </div>
                 </div>

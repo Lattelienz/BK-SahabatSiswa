@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\TestController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -43,6 +44,9 @@ Route::group(['prefix' => 'user','middleware' => ['auth'], 'as' => 'user.'] , fu
 
   Route::get('/cetak-pdf/{id}', [HomeController::class, 'showsiswa'])->name('cetak-pdf');
 
+  Route::get('/tesGayaBelajar', [TestController::class, 'index'])->name('tesGayaBelajar');
+  Route::post('/tesGayaBelajar', [TestController::class, 'store']);
 
+  Route::get('/hasil/{hasil}', [TestController::class, 'hasil']);
 });
 
