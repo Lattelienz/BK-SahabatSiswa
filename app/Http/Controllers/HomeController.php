@@ -78,33 +78,37 @@ class HomeController extends Controller
         $bio = $siswa->biodata;
 
         if ($bio) {
-            $bio = $siswa->biodata->first();
+            $bio_lain = $siswa->bio_lainnya;
+            $bio_ortu = $siswa->bio_ortu;
+            $bio_wali = $siswa->bio_wali;
+
+            if ($request->get('export') == 'pdf'){
+                $pdf = Pdf::loadView('showsiswa', [
+                    'result' => $result,
+                    'siswa' => $siswa,
+                    'bio' => $bio,
+                    'jurusan' => $jurusan,
+                    'bio_lain' => $bio_lain,
+                    'bio_ortu' => $bio_ortu,
+                    'bio_wali' => $bio_wali,
+                ]);
+    
+                // dd($siswa, $jurusan, $bio);
+                return $pdf->stream('Data siswa.pdf');
+            }
         }
 
-        if ($request->get('export') == 'pdf'){
-            $pdf = Pdf::loadView('showsiswa', [
-                'result' => $result,
-                'siswa' => $siswa,
-                'bio' => $bio,
-                'jurusan' => $jurusan
-            ]);
-
-            // dd($siswa, $jurusan, $bio);
-            return $pdf->stream('Data siswa.pdf');
-        }
-
-        return view('view_profil', compact('result','siswa', 'bio', 'jurusan', 'id'));
-
+        return view('view_profil', compact('result', 'bio', 'siswa', 'jurusan', 'id'));
     }
 
     public function showguru(request $request){
-        $result = User::with([
+        $siswa = User::with([
             'siswa.jurusan'
         ])->find(auth::id());
 
-        $jurusan = $result->siswa->jurusan->jurusan;
+        $jurusan = $siswa->siswa->jurusan->jurusan;
 
-        $result2 = User::with('guru.jurusan')
+        $result = User::with('guru.jurusan')
         ->whereHas('guru.jurusan', function ($query) use ($jurusan) {
             $query->where('jurusan', $jurusan);
         })
@@ -113,10 +117,10 @@ class HomeController extends Controller
         })
         ->first();
 
-        if ($result2) {
-            $guru = $result2->guru;
+        if ($result) {
+            $guru = $result->guru;
 
-            return view('view_profil', compact('result2', 'guru'));
+            return view('view_profil', compact('result', 'guru'));
         }
 
         else {

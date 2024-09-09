@@ -31,9 +31,9 @@
           margin-bottom: 1rem;
         }
 
-        /* span {
-          border-bottom: 2px dotted black;
-        } */
+        span {
+          font-weight: bold;
+        }
     </style>
 </head>
 <body>
@@ -77,202 +77,58 @@
         <li>nama & nama panggilan: <span>{{ $result->nama_lengkap }} / {{ $bio->nama_panggilan}}</span></li>
         <li>agama: <span>{{ $bio->agama }}</span></li>
         <li>nis: <span>{{ $siswa->nis }}</span></li>
-        <li>nilai ujian akhir: <span>....</span></li>
+        <li>nilai ujian akhir: <span>{{ $bio->nilai_ujian_akhir }}</span></li>
       </div>
+      
       <li>jenis kelamin: <span>{{$result->jenis_kelamin == 'perempuan' ? 'Perempuan' : 'Laki-Laki'}}</span></li>
-      <li>tempat & tanggal lahir: <span>.......................................................................</span></li>
-      <li>asal smp/mts /sederajat: <span>.......................................................................</span></li>
-      <li>alamat siswa sekarang <br> dan no.hp.telp: <span>.......................................................................</span></li>
-      <li>nama: ayah <span>.......................................................................</span> ibu <span>.......................................................................</span></li>
-      <li>pendidikan: ayah <span>.......................................................................</span> ibu <span>.......................................................................</span></li>
-      <li>pekerjaan: ayah <span>.......................................................................</span> ibu <span>.......................................................................</span></li>
-      <li>penghasilan orang tua: rp <span>...</span> per <span>hari</span>/<span>minggu</span>/<span>bulan</span></li>
-      <li>alamat lengkap orang tua <br> dan no.hp/telp: <span>.......................................................................</span></li>
+      <li>tempat & tanggal lahir: <span>{{ $bio->tempat_lahir }}, {{ \Carbon\Carbon::parse($bio->tanggal_lahir)->locale('id')->translatedFormat('d F Y') }}</span></li>
+      <li>asal smp/mts /sederajat: <span>{{ $bio->asal_smp }}</span></li>
+      <li>alamat siswa sekarang <br> dan no.hp / telp: <span>{{ $bio->alamat_sekarang }}</span> | <span>{{ $bio->no_hp }}</span></li>
+      <li>nama ayah: <span>{{ $bio_ortu ? $bio_ortu->nama_ayah : '............'}}</span> / ibu: <span>{{ $bio_ortu ? $bio_ortu->nama_ibu : '............'}}</span></li>
+      <li>pendidikan ayah: <span>{{ $bio_ortu ? $bio_ortu->pendidikan_ayah : '............'}}</span> / ibu: <span>{{ $bio_ortu ? $bio_ortu->pendidikan_ibu : '............'}}</span></li>
+      <li>pekerjaan ayah: <span>{{ $bio_ortu ? $bio_ortu->pekerjaan_ayah : '............'}}</span> / ibu: <span>{{ $bio_ortu ? $bio_ortu->pekerjaan_ibu : '............'}}</span></li>
+      <li>penghasilan orang tua: <span>rp. {{ number_format($bio_ortu->penghasilan_ortu, 0, ',', '.') }} per {!! $bio_ortu->penghasilan_ortu_per == 'hari' ? 'hari' : '<s>hari</s>' !!}/{!! $bio_ortu->penghasilan_ortu_per == 'minggu' ? 'minggu' : '<s>minggu</s>' !!}/{!! $bio_ortu->penghasilan_ortu_per == 'bulan' ? 'bulan' : '<s>bulan</s>' !!}</span></li>
+      <li style="margin-bottom: 2rem;">alamat lengkap orang tua <br> dan no.hp/telp: <span>{{ $bio_ortu ? $bio_ortu->alamat_ortu : '............'}} | {{ $bio_ortu ? $bio_ortu->no_telp : '............'}}</span></li>
+      
       <span>bagi yang tidak tinggal dengan orang tua *}</span>
-      <li>nama wali: <span>.......................................................................</span></li>
-      <li>pekerjaan wali: <span>.......................................................................</span></li>
-      <li>alamat lengkap wali <br>dan no.hp/telp: <span>.......................................................................</span></li>
-      <li>diterima di smkn2 tgl: <span>.......................................................................</span></li>
-      <li>siswa anak ke- : <span>...</span> dari jumlah saudara <span>.......................................................................</span> orang</li>
-      <li>jumlah anggota keluarga yang tinggal se rumah: <span>.......................................................................</span> orang</li>
-      <li>jumlah anggota keluarga yang menjadi tanggungan orang tua: <span>.......................................................................</span> orang</li>
-      <li>pergi ke sekolah dengan: <span>.......................................................................</span></li>
-      <li>tempat tinggal: <span>milik sendiri</span>/ <span>sewa</span>/ <span>milik keluarga</span>/ <span>rumas dinas</span>/ <span>lainnya</span> *)</li>
-      <li>tempat tinggal menggunakan penerang: <span>listrik</span>/ <span>lampu tembok</span>/ <span>lilin</span>/ <span>lainnya</span></li>
-      <li>apakah memiliki: hp( <span>ada</span>/ <span>tidak</span> ) dan laptop ( <span>ada</span>/ <span>tidak</span> )</li>
-      <li>saat belajar daring menggunakan: <span>wifi sendiri</span>/ <span>wifi tetangga</span>/ <span>kouta</span>/ <span>lainnya</span></li>
-      <li>pelajaran yang kurang disenangi: <span>.......................................................................</span></li>
-      <li>pelajaran yang disenangi: <span>.......................................................................</span></li>
-      <li>cita-cita setelah tamat SMKN 2: <span>.......................................................................</span></li>
-      <li>hobby / kegemaran: <span>.......................................................................</span></li>
-      <li>tempat mencurahkan isi hati: <span>.......................................................................</span></li>
-      <li>penyakit yang diderita(yang mengganggu pembelajaran): <span>.......................................................................</span></li>
-      <li>bahasa yang digunakan: <span>.......................................................................</span></li>
-      <li>suku: <span>.......................................................................</span></li>
+      <li>nama wali: <span>{{ $bio_wali ? $bio_wali->nama_wali : '............' }}</span></li>
+      <li>pekerjaan wali: <span>{{ $bio_wali ? $bio_wali->pekerjaan_wali : '............' }}</span></li>
+      <li>alamat lengkap wali <br>dan no.hp/telp: <span>{{ $bio_wali ? $bio_wali->alamat_wali : '............'}}</span></li>
+      <li>diterima di smkn2 tanggal: <span>{{ \Carbon\Carbon::parse($bio_lain->tanggal_diterima)->locale('id')->translatedFormat('d F Y') }}</span></li>
+      <li>siswa anak ke- : <span>{{ $bio_lain->anak_ke }}</span> dari jumlah saudara <span>{{ $bio_lain->dari_jumlah_saudara }}</span> orang</li>
+      <li>jumlah anggota keluarga yang tinggal se rumah: <span>{{ $bio_lain->jumlah_orang_yg_serumah }}</span> orang</li>
+      <li>jumlah anggota keluarga yang menjadi tanggungan orang tua: <span>{{ $bio_lain->jumlah_tanggungan_ortu }}</span> orang</li>
+      <li>pergi ke sekolah dengan: <span>{{ $bio_lain->kesekolah_memakai }}</span></li>
+      <li>tempat tinggal: <span>
+        {!! $bio_lain->tempat_tinggal == 'Milik sendiri' ? 'milik sendiri' : '<s>milik sendiri</s>' !!} /
+        {!! $bio_lain->tempat_tinggal == 'Sewa' ? 'sewa' : '<s>sewa</s>' !!} /
+        {!! $bio_lain->tempat_tinggal == 'Milik keluarga' ? 'milik keluarga' : '<s>milik keluarga</s>' !!} /
+        {!! $bio_lain->tempat_tinggal == 'Rumas dinas' ? 'rumas dinas' : '<s>rumas dinas</s>' !!} /
+        {!! !in_array($bio_lain->tempat_tinggal, ['Milik sendiri', 'Sewa','Milik keluarga','Rumah dinas']) ? 'lainnya : ' . $bio_lain->tempat_tinggal : '<s>lainnya</s>  : ....' !!}
+      </span></li>
+      <li>tempat tinggal menggunakan penerang: <span>
+        {!! $bio_lain->penerangan == 'Listrik' ? 'Listrik' : '<s>Listrik</s>' !!} /
+        {!! $bio_lain->penerangan == 'Lampu tembok' ? 'lampu tembok' : '<s>lampu tembok</s>' !!} /
+        {!! $bio_lain->penerangan == 'Lilin' ? 'Lilin' : '<s>Lilin</s>' !!} /
+        {!! !in_array($bio_lain->penerangan, ['Listrik', 'Lampu tembok','Lilin']) ? 'lainnya : ' . $bio_lain->penerangan : '<s>lainnya</s>  : ....' !!}
+      </span></li>
+      <li>apakah memiliki: hp( <span>{!! $bio_lain->hp == 'punya' ? 'ada' : '<s>ada</s>' !!}/{!! $bio_lain->hp == 'tidak' ? 'tidak' : '<s>tidak</s>' !!}</span> ) dan laptop ( <span>{!! $bio_lain->laptop == 'punya' ? 'ada' : '<s>ada</s>' !!}/{!! $bio_lain->laptop == 'tidak' ? 'tidak' : '<s>tidak</s>' !!}</span> )</li>
+      <li>saat belajar daring menggunakan: <span>
+        {!! $bio_lain->pjj_memakai == 'Wifi sendiri' ? 'Wifi sendiri' : '<s>Wifi sendiri</s>' !!} /
+        {!! $bio_lain->pjj_memakai == 'Wifi tetangga' ? 'Wifi tetangga' : '<s>Wifi tetangga</s>' !!} /
+        {!! $bio_lain->pjj_memakai == 'Kouta' ? 'Kouta' : '<s>Kouta</s>' !!} /
+        {!! !in_array($bio_lain->pjj_memakai, ['Wifi sendiri', 'Wifi tetangga','Kouta']) ? 'lainnya : ' . $bio_lain->pjj_memakai : '<s>lainnya</s>  : ....' !!}
+      </span></li>
+      <li>pelajaran yang kurang disenangi: <span>{{ $bio_lain->pelajaran_yg_tdk_disuka }}</span></li>
+      <li>pelajaran yang disenangi: <span>{{ $bio_lain->pelajaran_yg_disuka }}</span></li>
+      <li>cita-cita setelah tamat SMKN 2: <span>{{ $bio_lain->cita_cita }}</span></li>
+      <li>hobby / kegemaran: <span>{{ $bio_lain->hobby }}</span></li>
+      <li>tempat mencurahkan isi hati: <span>{{ $bio_lain->tmpt_curhat }}</span></li>
+      <li>penyakit yang diderita(yang mengganggu pembelajaran): <span>{{ $bio_lain->penyakit_mengganggu }}</span></li>
+      <li>bahasa yang digunakan: <span>{{ $bio_lain->bhs_sehari_hari }}</span></li>
+      <li>suku: <span>{{ $bio_lain->suku }}</span></li>
     </ol>
   </main>
 
-  <br>
-    {{-- <table>
-
-        <tr>
-            <th>
-                NIS
-            </th>
-            <th>
-                Nama Lengkap
-            </th>
-            <th>
-                Jurusan
-            </th>
-            <th>
-                Kelas
-            </th>
-            <th>
-                Jenis Kelamin
-            </th>
-        </tr>
-
-        <tr>
-            <td>
-                {{ $siswa->nis }}
-            </td>
-            <td>
-                {{ $siswa->nama_lengkap }}
-            </td>
-            <td>
-                {{ $jurusan->jurusan }}
-            </td>
-            <td>
-                {{ $siswa->kelas }}
-            </td>
-            <td>
-                {{ $siswa->jenis_k }}
-            </td>
-        </tr>
-
-    </table> --}}
-
 </body>
 </html>
-
-{{-- <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Data Siswa</title>
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
-      crossorigin="anonymous"
-    />
-  </head>
-  <body class="w-100 min-vh-100 h-screen d-flex justify-content-center py-3">
-    <div class="w-75 d-flex flex-column">
-      <header
-        class="w-100 text-center pt-4 border-bottom border-dark"
-        style="height: max-content"
-      >
-        <div class="text-uppercase">
-          <h6>pemerintah provinsi kalimantan selatan</h6>
-          <h6>dinas pendidikan dan kebudayaan</h6>
-        </div>
-        <div class="d-flex justify-content-between px-5">
-          <div>
-            <!-- foto -->
-            <img src="{{ public_path("img/kalsel.png") }}" alt="kalsel.png" width="110" />
-          </div>
-          <div class="d-flex flex-column">
-            <!-- teks -->
-            <h1 class="text-uppercase fw-bold">smk negeri 2 banjarmasin</h1>
-            <p>
-              Jl. Brigjen HasanBasri No.6.Telp./Fax.0551-3304677 Banjarmasin
-              70123
-            </p>
-            <p>
-              NPSN: 30304268 Website: http://www.smkn2-bjm.sch.id Email:
-              surel@smkn2-bjm.sch.id
-            </p>
-          </div>
-          <div>
-            <!-- foto -->
-            <img src="{{ public_path("img/skenda.png") }}" alt="skenda.png" width="110" />
-          </div>
-        </div>
-      </header>
-      <div class="mt-3">
-        <h6 class="fw-bold">PETUNJUK:</h6>
-        <ol>
-          <li>Isilah form dibawah ini dengan jelas, benar dan lengkap.</li>
-          <li>Tempelkan pas foto ukuran 3x4cm pada kolom di bawah.</li>
-          <li>
-            Kerjakan dengan tulis tangan dengan huruf kapital ( besar ) dan
-            bubuhkan tanda tangan.
-          </li>
-        </ol>
-      </div>
-      <div class="mt-3 text-uppercase">
-        <h5 class="fw-bold underline text-center">data identitas siswa</h5>
-        <h6 class="fw-bold mt-3">kelas / bidang keahlian: <span>....</span></h6>
-        <ol>
-          <div class="d-flex justify-content-between">
-            <div>
-                <li>nama & nama panggilan: <span>....</span></li>
-                <li>agama: <span>....</span></li>
-                <li>nis: <span>....</span></li>
-                <li>nilai ujian akhir: <span>....</span></li>
-            </div>
-            <div>
-              
-            </div>
-          </div>
-          <li>jenis kelamin: <span>.......................................................................</span></li>
-          <li>tempat & tanggal lahir: <span>.......................................................................</span></li>
-          <li>asal smp/mts /sederajat: <span>.......................................................................</span></li>
-          <li>alamat siswa sekarang <br> dan no.hp.telp: <span>.......................................................................</span></li>
-          <li>nama: ayah <span>.......................................................................</span> ibu <span>.......................................................................</span></li>
-          <li>pendidikan: ayah <span>.......................................................................</span> ibu <span>.......................................................................</span></li>
-          <li>pekerjaan: ayah <span>.......................................................................</span> ibu <span>.......................................................................</span></li>
-          <li>penghasilan orang tua: rp <span>...</span> per <span>hari</span>/<span>minggu</span>/<span>bulan</span></li>
-          <li>alamat lengkap orang tua <br> dan no.hp/telp: <span>.......................................................................</span></li>
-          <span>bagi yang tidak tinggal dengan orang tua *}</span>
-          <li>nama wali: <span>.......................................................................</span></li>
-          <li>pekerjaan wali: <span>.......................................................................</span></li>
-          <li>alamat lengkap wali <br>dan no.hp/telp: <span>.......................................................................</span></li>
-          <li>diterima di smkn2 tgl: <span>.......................................................................</span></li>
-          <li>siswa anak ke- : <span>...</span> dari jumlah saudara <span>.......................................................................</span> orang</li>
-          <li>jumlah anggota keluarga yang tinggal se rumah: <span>.......................................................................</span> orang</li>
-          <li>jumlah anggota keluarga yang menjadi tanggungan orang tua: <span>.......................................................................</span> orang</li>
-          <li>pergi ke sekolah dengan: <span>.......................................................................</span></li>
-          <li>tempat tinggal: <span>milik sendiri</span>/ <span>sewa</span>/ <span>milik keluarga</span>/ <span>rumas dinas</span>/ <span>lainnya</span> *)</li>
-          <li>tempat tinggal menggunakan penerang: <span>listrik</span>/ <span>lampu tembok</span>/ <span>lilin</span>/ <span>lainnya</span></li>
-          <li>apakah memiliki: hp( <span>ada</span>/ <span>tidak</span> ) dan laptop ( <span>ada</span>/ <span>tidak</span> )</li>
-          <li>saat belajar daring menggunakan: <span>wifi sendiri</span>/ <span>wifi tetangga</span>/ <span>kouta</span>/ <span>lainnya</span></li>
-          <li>pelajaran yang kurang disenangi: <span>.......................................................................</span></li>
-          <li>pelajaran yang disenangi: <span>.......................................................................</span></li>
-          <li>cita-cita setelah tamat SMKN 2: <span>.......................................................................</span></li>
-          <li>hobby / kegemaran: <span>.......................................................................</span></li>
-          <li>tempat mencurahkan isi hati: <span>.......................................................................</span></li>
-          <li>penyakit yang diderita(yang mengganggu pembelajaran): <span>.......................................................................</span></li>
-          <li>bahasa yang digunakan: <span>.......................................................................</span></li>
-          <li>suku: <span>.......................................................................</span></li>
-        </ol>
-      </div>
-      <div class="d-flex justify-content-end">
-        <div class="text-uppercase">banjarmasin, <span>....</span> <br>peserta didik</div>
-      </div>
-      <div class="d-flex justify-content-between align-items-end">
-        <div>catatan: <br>*} yang tidak perlu ; tidak diisi / coret (-)</div>
-        <div>(...........................................................)</div>
-      </div>
-    </div>
-
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-      crossorigin="anonymous"
-    ></script>
-  </body>
-</html> --}}

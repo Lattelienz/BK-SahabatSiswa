@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('agama');
             $table->string('tempat_lahir');
             $table->date('tanggal_lahir');
-            $table->bigInteger('no_hp');
+            $table->string('no_telp');
             $table->string('asal_smp');
             $table->integer('nilai_ujian_akhir');
             $table->string('alamat_sekarang');

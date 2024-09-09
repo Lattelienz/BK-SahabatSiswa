@@ -27,35 +27,38 @@
   <link rel="stylesheet" href="{{ asset('lte/plugins/summernote/summernote-bs4.min.css') }}">
 </head>
 <body>
-    <h2 class="text-center pt-3">Tes Gaya Belajar</h2>
+
+    <div class="m-5 text-center">
+        <h2 class="mb-4">Tes Gaya Belajar</h2>
+        <p>Jawab pertanyaan dibawah dengan sungguh-sungguh sesuai dengan dengan perasaan kamu sekarang</p>
+    </div>
 
     <form action="" method="post" class="w-100 d-flex justify-content-center">
         @csrf
         @method('post')
-        <div class="">
-            <div class="">
-                <ol class="list-unstyled d-flex flex-column">
-                    @foreach ($questions as $index => $question)
-                        <div class="border rounded-lg w-100 mt-3 mb-3 shadow-lg p-3">
-                            <li>{{ $question->question }}</li> <br>
-                            <div style="display: flex; align-items: center">
-                                <input name="option[{{ $index }}]" id="option[{{ $index }}]" value="a" type="radio" required>
-                                <span>&nbsp;{{ $question->option1 }}</span>
-                            </div>
-                            <div style="display: flex; align-items: center">
-                                <input name="option[{{ $index }}]" value="b" type="radio" required>
-                                <span>&nbsp;{{ $question->option2 }}</span>
-                            </div>
-                            <div style="display: flex; align-items: center">
-                                <input name="option[{{ $index }}]" value="c" type="radio" required>
-                                <span>&nbsp;{{ $question->option3 }}</span>
-                            </div>
-                        </div>
-                    @endforeach
-                </ol>
-                <div class="d-flex justify-content-end pb-5">
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                </div>
+        <div class="container m-2">
+            <ol class="list-unstyled d-flex flex-column">
+                @foreach ($questions as $index => $question)
+                    <div class="border rounded-lg w-100 mt-3 mb-3 shadow p-3">
+                        <li class="mb-3">{{ $index + 1 }}. {{ $question->question }}...</li>
+                        <li>
+                            <input name="option[{{ $index }}]" value="a" type="radio" id="option1q{{ $index }}" required>
+                            <label class="form-check-label" for="option1q{{ $index }}">&nbsp;{{ $question->option1 }}</label>
+                        </li>
+                        <li>
+                            <input name="option[{{ $index }}]" value="b" type="radio" id="option2q{{ $index }}" required>
+                            <label class="form-check-label" for="option2q{{ $index }}">&nbsp;{{ $question->option2 }}</label>
+                        </li>
+                        <li>
+                            <input name="option[{{ $index }}]" value="c" type="radio" id="option3q{{ $index }}" required>
+                            <label class="form-check-label" for="option3q{{ $index }}">&nbsp;{{ $question->option3 }}</label>
+                        </li>
+                    </div>
+                @endforeach
+            </ol>
+            <div class="d-flex justify-content-between pb-5">
+                <a class="text-dark" href="{{ route('user.dashboard') }}">Kembali ke dashboard?</a>
+                <button type="submit" class="btn btn-secondary">Submit</button>
             </div>
         </div>
     </form>

@@ -27,7 +27,7 @@
       <h1 class="m-2 font-weight-bold">
         {{ Auth::user()->nama_lengkap }}
       </h1>
-      @if ($bio)
+      @if (Auth::user()->level == 'Siswa' && $bio)
         <h5>
           ({{ $bio->nama_panggilan }})
         </h5>
@@ -50,35 +50,57 @@
             <div>
               {{-- data pribadi siswa --}}
               
-              <p>Kelas : {{ $siswa->kelas }}</p>
-              <p>Jurusan : {{ $jurusan->jurusan }}</p>
-              <p>Jenis Kelamin : 
-                {{$result->jenis_kelamin == 'perempuan' ? 'Perempuan' : 'Laki-Laki'}}
-              </p>
+              <p>Kelas dan Jurusan : {{ $siswa->kelas }} {{ $jurusan->jurusan }}</p>
+              <p class="text-capitalize">Jenis Kelamin : {{ $result->jenis_kelamin }}</p>
+              @if ($siswa->gaya_belajar) 
+                <p class="text-capitalize">Gaya Belajar: {{ $siswa->gaya_belajar }}</p>
+              @endif
+
             </div>
+
+            @if ($bio == null)
+            <div>
+            </div>
+            <div>
+              <h4><b>
+                UPS! Kamu belum ngisi biodata nih!
+              </b></h4>
+              <p>
+                Segera isi dengan menekan tombol dibawah! 
+              </p>
+              <a href="{{ route('user.form') }}" class="btn btn-dark">Mulai isi</a>
+            </div>
+            @endif
             
           </div>
           {{-- /.card-body --}}
         </div>
 
+        @if ($bio)
         {{-- .card --}}
         <div class="card mx-2 col-6">
-          
-          @if ($bio)
 
           {{-- .card-body --}}
           <div class="card-body p-3">
             <h3 class="font-weight-bold">Biodata siswa</h3>
 
-            <p>TTL : {{ $bio->tempat_lahir }}, {{ $bio->tanggal_lahir }}</p>
+            <p>TTL : {{ $bio->tempat_lahir }}, {{ \Carbon\Carbon::parse($bio->tanggal_lahir)->locale('id')->translatedFormat('d F Y') }}</p>
             <p>Alamat : {{ $bio->alamat_sekarang }}</p>
             <p>Agama : {{ $bio->agama }}</p>
+            <p>Asal SMP : {{ $bio->asal_smp }}</p>
             <p>Tanggal diterima : {{ $bio_lain->tanggal_diterima }}</p>
             <p>Anak ke : {{ $bio_lain->anak_ke }} dari {{ $bio_lain->dari_jumlah_saudara }} jumlah saudara</p>
             <p>Jumlah keluarga yang serumah : {{ $bio_lain->jumlah_orang_yg_serumah }}</p>
             <p>Jumlah orang yang ditanggung orang tua : {{ $bio_lain->jumlah_tanggungan_ortu }}</p>
             <p>Kesekolah dengan : {{ $bio_lain->kesekolah_memakai }}</p>
             <p>Tempat tinggal : {{ $bio_lain->tempat_tinggal }}</p>
+          </div>
+        </div>
+          
+        <div class="card">
+          <div class="card-body">
+            <h3 class="font-weight-bold">Biodata siswa lainnya</h3>
+
             <p>Penerangan : {{ $bio_lain->penerangan }}</p>
             <p>Hp : {{ $bio_lain->hp }}</p>
             <p>Laptop : {{ $bio_lain->laptop }}</p>
@@ -92,20 +114,7 @@
             <p>Bahasa sehari-hari : {{ $bio_lain->bhs_sehari_hari }}</p>
             <p>Suku : {{ $bio_lain->suku }}</p>
           </div>
-
-          @else
-
-            <div class="card-body">
-              <h4><b>
-                UPS! Kamu belum ngisi biodata nih!
-              </b></h4>
-              <p>
-                Segera isi dengan menekan tombol dibawah! 
-              </p>
-            </div>
-            <div class="card-footer bg-transparent">
-              <a href="{{ route('user.form') }}" class="btn btn-dark mt-4">Mulai isi</a>
-            </div>
+        </div>
 
           @endif
 

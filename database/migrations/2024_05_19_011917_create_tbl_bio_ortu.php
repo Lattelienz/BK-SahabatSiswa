@@ -21,8 +21,10 @@ return new class extends Migration
             $table->string('pendidikan_ibu');
             $table->string('pekerjaan_ayah');
             $table->string('pekerjaan_ibu');
-            $table->integer('penghasilan_ortu');         
-            $table->enum('penghasilan_ortu_per-', ['hari', 'minggu', 'bulan']);         
+            $table->bigInteger('penghasilan_ortu');         
+            $table->enum('penghasilan_ortu_per', ['hari', 'minggu', 'bulan']);         
+            $table->string('alamat_ortu');
+            $table->string('no_telp');
             $table->timestamps();
 
             $table->foreign('nis')

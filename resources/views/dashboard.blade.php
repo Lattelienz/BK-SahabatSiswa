@@ -290,8 +290,8 @@
                 @can('view_card')
                 <div class="row col-12 justify-content-center align-content-center siswa">
 
-                    @if ($data->siswa->biodata == null)    
                     {{-- Card Isi Biodata --}}
+                    @if ($data->siswa->biodata == null)    
                     <div class="card" style="width: 18rem; height: 12rem;">
                         <div class="card-body">
                             <h5 class="card-title">Isi Biodata</h5>
@@ -302,6 +302,7 @@
                         </div>
                     </div>
                     @endif
+
                     {{-- Card Kontak Guru BK --}}
                     <div class="card mx-sm-4" style="width: 18rem; height: 12rem;">
                         <div class="card-body">
@@ -314,13 +315,18 @@
                     </div>
 
                     {{-- Card Ikuti Tes Gaya Belajar --}}
+                    @if ($data->siswa->gaya_belajar == null)    
                     <div class="card" style="width: 18rem; height: 12rem;">
                         <div class="card-body">
                             <h5 class="card-title">Ikuti Tes Gaya Belajar</h5>
                             <p class="card-text">Tes gaya belajar kamu</p>
+                        </div>
+                        <div class="card-footer bg-transparent">
                             <a href="{{ route('user.tesGayaBelajar') }}" class="btn btn-dark">Ikuti Tes</a>
                         </div>
                     </div>
+                    @endif
+                    
                 </div>
                 @endcan
 
@@ -338,8 +344,10 @@
                             <table id="example2" class="table table-bordered table-hover">
                                 <thead>
                                     <tr>
-                                        <th style="width: 10%">Gambar</th>
+                                        <th>Gambar</th>
                                         <th>Nama</th>
+                                        <th>Kelas dan Jurusan</th>
+                                        <th>Jenis Kelamin</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -347,12 +355,14 @@
                                     @foreach ($data as $i)
                                         {{-- Mengecek apakah data memiliki relasi 'siswa' --}}
                                         @if ($i->siswa)
-                                            <tr>
-                                                <td style="width: 100px; object-fit: cover;">
-                                                    <img src="{{ asset('storage/' . $i->photo) }}" width="80" alt="gambar_siswa">
+                                            <tr onclick="window.location='{{ route('user.siswa', ['id' => $i->id]) }}'">
+                                                <td class="col-1 text-center">
+                                                    <img src="{{ asset('storage/' . $i->photo) }}" alt="gambar_siswa" style="width: 75px; height: 75px; object-fit: cover; object-position: center;">
                                                 </td>
                                                 <!-- Kolom untuk menampilkan nama siswa dengan link ke halaman detail -->
-                                                <td><a href="{{ route('user.siswa', ['id' => $i->id])  }}">{{ $i->nama_lengkap }}</a></td>
+                                                <td>{{ $i->nama_lengkap }}</td>
+                                                <td>{{ $i->siswa->kelas }} {{ $i->siswa->jurusan->jurusan }}</td>
+                                                <td>{{ $i->jenis_kelamin == 'perempuan' ? 'Perempuan' : 'Laki-laki' }}</td>
                                             </tr>
                                         @endif
                                     @endforeach

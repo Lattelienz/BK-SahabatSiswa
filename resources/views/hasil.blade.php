@@ -26,9 +26,10 @@
     <link rel="stylesheet" href="{{ asset('lte/plugins/summernote/summernote-bs4.min.css') }}">
 </head>
 <body class="d-flex justify-content-center p-5">
+    
     <div class="bg-white border w-50 border rounded-lg shadow-lg p-3">
         <h5>Gaya belajar kamu adalah..</h5>
-        <center><h3 class="font-weight-bold">{{ $gayaBelajar }}</h3></center>
+        <h3 class="font-weight-bold text-center text-capitalize">{{ $gayaBelajar }}</h3>
         <p>{{ $deskripsiGayaBelajar }}</p>
         <div class="d-flex justify-content-end">
             <a href="/user/dashboard" class="btn btn-primary">OKE</a>

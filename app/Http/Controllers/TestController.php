@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Question;
-use App\Models\User;
+use App\Models\siswa;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TestController extends Controller
 {
@@ -44,7 +45,7 @@ class TestController extends Controller
             $gayaBelajar = 'kinestetik';
         }
 
-        User::where('id', auth()->user()->id)->update([
+        Siswa::where('id_user', Auth::id())->update([
             'gaya_belajar' => $gayaBelajar
         ]);
 
@@ -53,9 +54,7 @@ class TestController extends Controller
 
     public function hasil($hasil)
     {
-        $gayaBelajar = null;
-        $deskripsiGayaBelajar = null;
-
+        
         if($hasil === 'visual') {
             $gayaBelajar = 'Visual';
             $deskripsiGayaBelajar = 'Gaya Belajar Visual adalah proses pembelajaran yang mengandalkan pengelihatan sebagai penerima informasi dan pengetahuan. Seseorang yang memiliki gaya belajar visual akan mudah menerima gagasan, konsep, data dan informasi yang dikemas dalam bentuk gambar.';
