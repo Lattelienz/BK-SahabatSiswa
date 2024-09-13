@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\StoreController;
 use App\Http\Controllers\TestController;
 use Illuminate\Support\Facades\Route;
 
@@ -33,16 +34,16 @@ Route::group(['prefix' => 'user','middleware' => ['auth'], 'as' => 'user.'] , fu
   Route::get('/siswa/{id}', [HomeController::class, 'showsiswa'])->name('siswa');
   Route::get('/guru', [HomeController::class, 'showguru'])->name('guru');
   Route::get('/profil', [HomeController::class, 'profil'])->name('profil');
-
-  Route::post('/store', [Homecontroller::class,'store'])->name('store');
-  Route::get('/edit/{id}', [Homecontroller::class,'edit'])->name('edit');
-  Route::put('/update/{id}', [Homecontroller::class,'update'])->name('update');
-  Route::delete('/delete/{id}', [Homecontroller::class,'delete'])->name('delete');
-
-  Route::get('/form', [HomeController::class, 'form'])->name('form');
-  Route::post('/form-save', [HomeController::class, 'formProcess'])->name('form-save');
-
+  
   Route::get('/cetak-pdf/{id}', [HomeController::class, 'showsiswa'])->name('cetak-pdf');
+
+  Route::post('/store', [StoreController::class,'store'])->name('store');
+  Route::get('/edit/{id}', [StoreController::class,'edit'])->name('edit');
+  Route::put('/update/{id}', [StoreController::class,'update'])->name('update');
+  Route::delete('/delete/{id}', [StoreController::class,'delete'])->name('delete');
+
+  Route::get('/form', [StoreController::class, 'form'])->name('form');
+  Route::post('/form-save', [StoreController::class, 'formProcess'])->name('form-save');
 
   Route::get('/tesGayaBelajar', [TestController::class, 'index'])->name('tesGayaBelajar');
   Route::post('/tesGayaBelajar', [TestController::class, 'store']);
