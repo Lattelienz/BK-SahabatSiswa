@@ -52,7 +52,6 @@
                 
               </div>
               <!-- /.card-body -->
-                
   
             </div>
           </div>
@@ -119,7 +118,10 @@
                 <p>TTL : {{ $bio->tempat_lahir }}, {{ \Carbon\Carbon::parse($bio->tanggal_lahir)->locale('id')->translatedFormat('d F Y') }}</p>
               @endif
 
-              <button @disabled($bio == null) onclick="window.location.href='{{ route('user.cetak-pdf', ['id' => $id]) }}?export=pdf'" class="btn btn-dark mb-3" >Cetak PDF</button>
+              <form action="{{ route('user.cetak-pdf', ['id' => $id]) }}" target="_blank">
+                <input type="hidden" name="export" value="pdf">
+                <button @disabled($bio == null) class="btn btn-dark mb-3" >Cetak PDF</button>
+              </form>
               
             </div>
             {{-- /.card-body --}}

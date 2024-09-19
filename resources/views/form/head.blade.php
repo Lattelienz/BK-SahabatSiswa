@@ -13,6 +13,13 @@
 </head>
 <body>
   
+  @if (session('danger'))
+    <div class="alert alert-danger alert-dismissible fade show position-absolute end-0 col-sm-3 m-4" role="alert">
+      {{ session('danger') }}
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+  @endif
+
   <div class="formbold-main-wrapper">
     <!-- Author: FormBold Team -->
     <!-- Learn More: https://formbold.com -->
@@ -124,6 +131,9 @@
     </div> 
   </div>
 
+  {{-- bootstrap javascript --}}
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
   <script>
     const stepMenuOne = document.querySelector('.formbold-step-menu1')
     const stepMenuTwo = document.querySelector('.formbold-step-menu2')
@@ -179,6 +189,51 @@
                 `;
             formSubmitBtn.innerHTML = 'Selanjutnya' + svg;
         }
+    });
+
+    // JavaScript to enable/disable the 'Lainnya' text input for the tempat tinggal option
+    document.querySelectorAll('input[name="tempat_tinggal"]').forEach((radio) => {
+        radio.addEventListener('change', function() {
+            const lainnyaInput = document.getElementById('tempat_tinggal_lainnya');
+            if (this.value === 'Lainnya') {
+              lainnyaInput.classList.remove('d-none');
+              lainnyaInput.disabled = false;
+            } else {
+              lainnyaInput.classList.add('d-none');
+              lainnyaInput.disabled = true;
+              lainnyaInput.value = ''; // Clear the text input if disabled
+            }
+        });
+    });
+
+    // JavaScript to enable/disable the 'Lainnya' text input for the penerangan option
+    document.querySelectorAll('input[name="penerangan"]').forEach((radio) => {
+        radio.addEventListener('change', function() {
+            const lainnyaInput = document.getElementById('penerangan_lainnya');
+            if (this.value === 'Lainnya') {
+              lainnyaInput.classList.remove('d-none');
+              lainnyaInput.disabled = false;
+            } else {
+              lainnyaInput.classList.add('d-none');
+              lainnyaInput.disabled = true;
+              lainnyaInput.value = ''; // Clear the text input if disabled
+            }
+        });
+    });
+
+    // JavaScript to enable/disable the 'Lainnya' text input for the daring option
+    document.querySelectorAll('input[name="pjj"]').forEach((radio) => {
+        radio.addEventListener('change', function() {
+            const lainnyaInput = document.getElementById('pjj_lainnya');
+            if (this.value === 'Lainnya') {
+              lainnyaInput.classList.remove('d-none');
+              lainnyaInput.disabled = false;
+            } else {
+              lainnyaInput.classList.add('d-none');
+              lainnyaInput.disabled = true;
+              lainnyaInput.value = ''; // Clear the text input if disabled
+            }
+        });
     });
 
   </script>

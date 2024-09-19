@@ -57,12 +57,12 @@
 
   </footer>
 
-  <!-- Control Sidebar -->
-  <aside class="control-sidebar bg-light border-left shadow-sm">
+  {{-- Control Sidebar --}}
+  {{-- <aside class="control-sidebar bg-light border-left shadow-sm">
     <!-- Control sidebar content goes here -->
     @include('layout.chat')
-  </aside>
-  <!-- /.control-sidebar -->
+  </aside> --}}
+  {{-- /.control-sidebar --}}
 </div>
 <!-- ./wrapper -->
 

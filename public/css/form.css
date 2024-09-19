@@ -44,7 +44,6 @@
       }
       .formbold-radio-flex {
         display: flex;
-        align-items: center;
         gap: 15px;
       }
       .formbold-radio-label {
@@ -247,6 +246,6 @@
       cursor: pointer;
     }
     .formbold-btn:hover {
-      box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.05);
+      box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.5);
     }
   

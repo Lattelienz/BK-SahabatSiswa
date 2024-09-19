@@ -97,7 +97,7 @@ class HomeController extends Controller
                     'bio_wali' => $bio_wali,
                     'GayaBelajar' => $belajar,
                     'deskripsiGayaBelajar' => $deskripsiGayaBelajar,
-                ]);
+                ])->setPaper('a4', 'Potrait');
     
                 // dd($siswa, $jurusan, $bio);
                 return $pdf->stream('Data siswa.pdf');

@@ -207,17 +207,26 @@ class StoreController extends Controller
     public function formProcess(Request $request) {
         
         $validation = Validator::make($request->all(), [
-            'nama_panggilan'=> 'required',
-            'nama_lengkap'  => 'required',
-            'jenis_k'       => 'required',
-            'nis'           => 'required',
-            'tempat_lahir'  => 'required',
-            'tanggal_lahir' => 'required',
+            'nama_panggilan'    => 'required',
+            'nama_lengkap'      => 'required',
+            'jenis_k'           => 'required',
+            'nis'               => 'required',
+            'tempat_lahir'      => 'required',
+            'tanggal_lahir'     => 'required',
+            'nama_panggilan'    => 'required',
+            'agama'             => 'required',    
+            'tempat_lahir'      => 'required',    
+            'tanggal_lahir'     => 'required',    
+            'no_hp'             => 'required',    
+            'asal_smp'          => 'required',    
+            'nilai_ujian_akhir' => 'required',
+            'alamat_sekarang'   => 'required', 
         ]); 
 
         if ($validation->fails()) {
             return redirect()->back()
-            ->withInput();
+            ->withInput()
+            ->with('danger', 'Kamu masih belum selesai mengisi ke dalam form, silahkan masukkan sisanya...');
         }
 
         $filepath = $request->file('foto')->store('profile-images');
@@ -276,6 +285,8 @@ class StoreController extends Controller
                 'pekerjaan_ibu'         => $request->pekerjaan_ibu,
                 'penghasilan_ortu'      => $request->penghasilan,
                 'penghasilan_ortu_per-' => $request->penghasilan_per,
+                'alamat_ortu'           => $request->alamat_ortu,
+                'no_telp'               => $request->no_telp_ortu,
             ];
 
             Biodata_Ortu_Siswa::UpdateOrCreate($bio_ortu);
@@ -290,12 +301,11 @@ class StoreController extends Controller
             'jumlah_orang_yg_serumah'   => $request->keluarga_serumah,
             'jumlah_tanggungan_ortu'    => $request->jumlah_tanggungan,
             'kesekolah_memakai'         => $request->kendaraan,
-            'tempat_tinggal'            => $request->tempat_tinggal,
-            'penerangan'                => $request->penerangan,
-            'penerangan'                => $request->penerangan,
+            'tempat_tinggal'            => $request->tempat_tinggal == 'Lainnya' ? $request->tempat_tinggal_lain : $request->tempat_tinggal,
+            'penerangan'                => $request->penerangan == 'Lainnya' ? $request->penerangan_lain : $request->penerangan,
             'hp'                        => $request->hp,
             'laptop'                    => $request->laptop,
-            'pjj_memakai'               => $request->pjj,
+            'pjj_memakai'               => $request->pjj == 'Lainnya' ? $request->pjj_lain : $request->pjj,
             'pelajaran_yg_tdk_disuka'   => $request->not_fav_mapel,
             'pelajaran_yg_disuka'       => $request->fav_mapel,
             'cita_cita'                 => $request->cita_cita,
@@ -309,6 +319,7 @@ class StoreController extends Controller
         Data_siswa_lainnya::UpdateOrCreate($bio_lainnya);
 
         return redirect()->route('user.dashboard');
+
     }
     
 }

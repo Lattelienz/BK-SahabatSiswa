@@ -27,11 +27,11 @@
       </form>
     </li>
     
-    <li class="nav-item">
+    {{-- <li class="nav-item">
       <a class="nav-link" data-widget="control-sidebar" data-controlsidebar-slide="true" href="#" role="button" title="Chat">
         <i class="fas fa-comment-alt"></i>
       </a>
-    </li>
+    </li> --}}
     
     <li class="nav-item d-none d-md-inline-block">
       <a class="nav-link" data-widget="fullscreen" href="#" role="button" title="Full screen">

@@ -7,7 +7,7 @@
 
   <div class="mb-2 col">
     <label for="nis" class="formbold-form-label"> NIS </label>
-    <input type="text" name="nis" placeholder="NIS" id="nis" class="formbold-form-input"/>
+    <input type="text" name="nis" placeholder="NIS" id="nis" class="formbold-form-input" value="{{ old('nis') }}"/>
   </div>
 
   <div class="row mb-2">
