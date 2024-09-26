@@ -325,8 +325,13 @@
                             <a href="{{ route('user.tesGayaBelajar') }}" class="btn btn-dark">Ikuti Tes</a>
                         </div>
                     </div>
-                    @endif
-                    
+                    <div class="card" style="width: 18rem; height: 12rem;">
+                        <div class="card-body">
+                            <h5 class="card-title">Profil Karir</h5>
+                            <p class="card-text">Isi profil karir kamu</p>
+                            <a href="{{ route('user.profilkarir') }}" class="btn btn-dark">Isi profil</a>
+                        </div>
+                    </div>
                 </div>
                 @endcan
 
