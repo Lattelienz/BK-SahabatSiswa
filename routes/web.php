@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\ProfilKarirController;
 use App\Http\Controllers\TestController;
 use Illuminate\Support\Facades\Route;
 
@@ -41,6 +42,12 @@ Route::group(['prefix' => 'user','middleware' => ['auth'], 'as' => 'user.'] , fu
 
   Route::get('/form', [HomeController::class, 'form'])->name('form');
   Route::post('/form-save', [HomeController::class, 'formProcess'])->name('form-save');
+
+  Route::get('/profilkarir', [ProfilKarirController::class, 'profilkarir'])->name('profilkarir');
+  Route::post('/profilkarirstore', [ProfilKarirController::class, 'profilkarir_store'])->name('profilkarirstore');
+  Route::get('/profile/{id}', [ProfilKarirController::class, 'profilkarir_show'])->name('profilkarir.show');
+
+
 
   Route::get('/cetak-pdf/{id}', [HomeController::class, 'showsiswa'])->name('cetak-pdf');
 
