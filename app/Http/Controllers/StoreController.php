@@ -206,6 +206,8 @@ class StoreController extends Controller
 
     public function formProcess(Request $request) {
         
+        // dd($request);
+
         $validation = Validator::make($request->all(), [
             'nama_panggilan'    => 'required',
             'nama_lengkap'      => 'required',
@@ -213,14 +215,11 @@ class StoreController extends Controller
             'nis'               => 'required',
             'tempat_lahir'      => 'required',
             'tanggal_lahir'     => 'required',
-            'nama_panggilan'    => 'required',
             'agama'             => 'required',    
-            'tempat_lahir'      => 'required',    
-            'tanggal_lahir'     => 'required',    
-            'no_hp'             => 'required',    
-            'asal_smp'          => 'required',    
-            'nilai_ujian_akhir' => 'required',
-            'alamat_sekarang'   => 'required', 
+            'nomor'             => 'required',    
+            'asal'              => 'required',    
+            'nilai'             => 'required',
+            'alamat'            => 'required' 
         ]); 
 
         if ($validation->fails()) {
@@ -255,11 +254,13 @@ class StoreController extends Controller
             'agama'             => $request->agama,
             'tempat_lahir'      => $request->tempat_lahir,
             'tanggal_lahir'     => $request->tanggal_lahir,
-            'no_hp'             => $request->nomor,
+            'no_telp'           => $request->nomor,
             'asal_smp'          => $request->asal,
             'nilai_ujian_akhir' => $request->nilai,
             'alamat_sekarang'   => $request->alamat,
         ];
+
+        // dd($bio);
 
         Biodata_siswa::UpdateOrCreate($bio); 
 
@@ -284,7 +285,7 @@ class StoreController extends Controller
                 'pekerjaan_ayah'        => $request->pekerjaan_ayah,
                 'pekerjaan_ibu'         => $request->pekerjaan_ibu,
                 'penghasilan_ortu'      => $request->penghasilan,
-                'penghasilan_ortu_per-' => $request->penghasilan_per,
+                'penghasilan_ortu_per' => $request->penghasilan_per,
                 'alamat_ortu'           => $request->alamat_ortu,
                 'no_telp'               => $request->no_telp_ortu,
             ];
@@ -312,7 +313,7 @@ class StoreController extends Controller
             'hobby'                     => $request->hobi,
             'tmpt_curhat'               => $request->curhat,
             'penyakit_mengganggu'       => $request->penyakit,
-            'bhs_sehari-hari'           => $request->bahasa,
+            'bhs_sehari_hari'           => $request->bahasa,
             'suku'                      => $request->suku,
         ];
 

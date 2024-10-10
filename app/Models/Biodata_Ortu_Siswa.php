@@ -20,7 +20,9 @@ class Biodata_Ortu_Siswa extends Model
         'pekerjaan_ayah',
         'pekerjaan_ibu',
         'penghasilan_ortu',
-        'penghasilan_ortu_per-'
+        'penghasilan_ortu_per',
+        'alamat_ortu',
+        'no_telp'
     ];
 
 }

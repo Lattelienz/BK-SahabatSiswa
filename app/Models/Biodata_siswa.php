@@ -17,7 +17,7 @@ class Biodata_siswa extends Model
         'agama',
         'tempat_lahir',
         'tanggal_lahir',
-        'no_hp',
+        'no_telp',
         'asal_smp',
         'nilai_ujian_akhir',
         'alamat_sekarang'

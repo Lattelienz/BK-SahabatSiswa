@@ -115,7 +115,7 @@
         <textarea name="sd" id="sd" placeholder="" class="formbold-form-input" rows="3"/></textarea>
       </div>
       <div>
-        <label for="sd" class="formbold-form-label mt-2"> Prestasi yang pernah diraih dari sd sampai smk (Misalnya, ranking, lomba)
+        <label for="sd" class="formbold-form-label mt-2"> Prestasi Akademik dan Non Akademik yang pernah diraih dari sd sampai smk (Misalnya, ranking, lomba)
         </label>
         <textarea name="sd" id="sd" placeholder="" class="formbold-form-input" rows="3"/></textarea>
       </div>

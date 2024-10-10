@@ -21,7 +21,7 @@ return new class extends Migration
                 'XII', 'XII A', 'XII B',
                 'XIII'
             ]);
-            $table->string('gaya_belajar');
+            $table->string('gaya_belajar')->nullable();
             $table->timestamps();
            
             // foreign key

@@ -21,7 +21,7 @@ return new class extends Migration
             $table->date('tanggal_lahir');
             $table->string('no_telp');
             $table->string('asal_smp');
-            $table->integer('nilai_ujian_akhir');
+            $table->string('nilai_ujian_akhir');
             $table->string('alamat_sekarang');
             $table->timestamps();
 

@@ -113,6 +113,12 @@
               @if ($siswa->gaya_belajar) 
                 <p class="text-capitalize">Gaya Belajar : {{ $siswa->gaya_belajar }}</p>
               @endif
+
+              @if ($siswa->gaya_belajar == null)
+              <div class="text-center card-footer font-weight-bold">   
+                Siswa belum mengisi tes gaya belajar
+              </div>
+              @endif 
               
               @if ($bio)
                 <p>TTL : {{ $bio->tempat_lahir }}, {{ \Carbon\Carbon::parse($bio->tanggal_lahir)->locale('id')->translatedFormat('d F Y') }}</p>

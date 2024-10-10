@@ -30,7 +30,7 @@ class Data_siswa_lainnya extends Model
         'hobby',
         'tmpt_curhat',
         'penyakit_mengganggu',
-        'bhs_sehari-hari',
+        'bhs_sehari_hari',
         'suku',
     ];
 }
