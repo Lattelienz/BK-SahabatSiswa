@@ -88,14 +88,12 @@
     <h4 class="text-center">data identitas siswa</h4>
     <h4 style="margin-bottom: 0;">kelas / bidang keahlian: <span style="font-weight: normal;">{{ $siswa->kelas }} {{ $jurusan->jurusan }}</span></h4>
     <ol style="margin-top: .5rem;">
-      <div style="margin-bottom: 2rem;">
-        <img style="float: right; width: 3cm;" src="{{ public_path("storage/" . $result->photo) }}" alt="Pas foto">
-        
-        <li>nama & nama panggilan: <span>{{ $result->nama_lengkap }} / {{ $bio->nama_panggilan}}</span></li>
-        <li>agama: <span>{{ $bio->agama }}</span></li>
-        <li>nis: <span>{{ $siswa->nis }}</span></li>
-        <li>nilai ujian akhir: <span>{{ $bio->nilai_ujian_akhir }}</span></li>
-      </div>
+      <img style="float: right; width: 3cm;" src="{{ public_path("storage/" . $result->photo) }}" alt="Pas foto">
+      
+      <li>nama & nama panggilan: <span>{{ $result->nama_lengkap }} / {{ $bio->nama_panggilan}}</span></li>
+      <li>agama: <span>{{ $bio->agama }}</span></li>
+      <li>nis: <span>{{ $siswa->nis }}</span></li>
+      <li style="margin-bottom: 2rem;">nilai ujian akhir: <span>{{ $bio->nilai_ujian_akhir }}</span></li>
       
       <li>jenis kelamin: <span>{{$result->jenis_kelamin == 'perempuan' ? 'Perempuan' : 'Laki-Laki'}}</span></li>
       <li>tempat & tanggal lahir: <span>{{ $bio->tempat_lahir }}, {{ \Carbon\Carbon::parse($bio->tanggal_lahir)->locale('id')->translatedFormat('d F Y') }}</span></li>

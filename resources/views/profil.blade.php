@@ -140,6 +140,9 @@
                 Laki-laki
               @endif
             </p>
+            @if ($guru->no_telp !== null)
+              <p>No. Telpon : {{ 0 . ltrim($guru->no_telp, '+62') }} </p>
+            @endif
 
           </div>
           <!-- /.card-body -->
@@ -179,16 +182,23 @@
                           <label for="nama">Nama Lengkap</label>
                           <input type="text" name="nama_lengkap" class="form-control editProfileNama" id="nama" placeholder="Masukkan nama">
                       </div>
-  
+                      
                       <!-- select -->
                       <div class="form-group">
-                          <label for="jenis_kelamin">Jenis Kelamin</label>
-                          <select name="jenis_kelamin" class="form-control editProfileJK" id="jenis_kelamin">
-                              <option value="laki-laki">Laki-Laki</option>
-                              <option value="perempuan">Perempuan</option>
-                          </select>
+                        <label for="jenis_kelamin">Jenis Kelamin</label>
+                        <select name="jenis_kelamin" class="form-control editProfileJK" id="jenis_kelamin">
+                          <option value="laki-laki">Laki-Laki</option>
+                          <option value="perempuan">Perempuan</option>
+                        </select>
                       </div>
-      
+                      
+                      @if (Auth::user()->guru->jabatan == 'Guru BK')
+                      <div class="form-group">
+                          <label for="nama">Nomor Telp</label>
+                          <input type="text" name="no_telp" class="form-control" id="nama" placeholder="08....">
+                      </div>
+                      @endif
+
                   </div>
                           
                   <div class="modal-footer">

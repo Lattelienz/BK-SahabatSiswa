@@ -2,9 +2,11 @@
 
 @section('content')
 
+
+{{-- if the person who is visiting the page is in the level 'siswa' : --}}
 @if(Auth::user()->level == 'Siswa')
 <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
+    {{-- Content Header (Page header) --}}
     <div class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
@@ -46,7 +48,7 @@
                   <p>Jabatan : {{ $guru->jabatan }}</p>
                   <p class="text-capitalize">Jenis Kelamin : {{ $result->jenis_kelamin }}</p>
 
-                  {{-- <a href="https://wa.me/62{{ }}">Kontak guru BK</a> --}}
+                  <a href="{{ $wa }}" target="_blank">Kontak guru BK mu sekarang</a>
                   
                 </div>
                 
@@ -62,6 +64,8 @@
 </div>
 <!-- /.content -->
 
+
+{{-- else, if the person visiting is in the level 'guru' : --}}
 @elseif(Auth::user()->level == 'Guru')
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -115,7 +119,7 @@
               @endif
 
               @if ($siswa->gaya_belajar == null)
-              <div class="text-center card-footer font-weight-bold">   
+              <div class="text-center font-weight-bold">   
                 Siswa belum mengisi tes gaya belajar
               </div>
               @endif 
@@ -124,17 +128,25 @@
                 <p>TTL : {{ $bio->tempat_lahir }}, {{ \Carbon\Carbon::parse($bio->tanggal_lahir)->locale('id')->translatedFormat('d F Y') }}</p>
               @endif
 
+              @if ($bio !== null)
               <form action="{{ route('user.cetak-pdf', ['id' => $id]) }}" target="_blank">
                 <input type="hidden" name="export" value="pdf">
-                <button @disabled($bio == null) class="btn btn-dark mb-3" >Cetak PDF</button>
+                <button @disabled($bio == null) class="btn btn-dark">Cetak PDF</button>
               </form>
+              @endif
               
             </div>
             {{-- /.card-body --}}
 
             @if ($bio == null)
-              <div class="text-center card-footer font-weight-bold">   
-                Siswa belum memasukkan biodata lainnya
+              <div class="card-footer">   
+                <p class="text-center font-weight-bold">
+                  Siswa belum memasukkan biodata lainnya
+                </p>
+                <form action="{{ route('user.cetak-pdf', ['id' => $id]) }}" target="_blank">
+                  <input type="hidden" name="export" value="pdf">
+                  <button @disabled($bio == null) class="btn btn-dark">Cetak PDF</button>
+                </form>
               </div>
             @endif
 

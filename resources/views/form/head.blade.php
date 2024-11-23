@@ -5,7 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   
+  @if ($biodata ?? '' && $bio_wali ?? '' && $bio_lain ?? '' || $biodata ?? '' && $bio_ortu ?? '' && $bio_lain ?? '' )
+  <title>Form Edit Biodata</title>
+  @else
   <title>Form Biodata</title>
+  @endif
 
   <link rel="stylesheet" href="{{ asset('css/form.css') }}">
   <link rel="stylesheet" href="	https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
@@ -25,10 +29,13 @@
     <!-- Learn More: https://formbold.com -->
     <div class="formbold-form-wrapper">
       <div class="formbold-form-title">
-        <h2 class="">Silahkan Isi Biodata</h2>
-        <p>
-         Biodata akan dimasukkan ke dalam profil anda
-        </p>
+        @if($biodata ?? '' && $bio_wali ?? '' && $bio_lain ?? '' || $biodata ?? '' && $bio_ortu ?? '' && $bio_lain ?? '' )
+          <h2 class="">Edit Biodata</h2>
+          <p>Biodata akan dimasukkan ke dalam profil anda</p>
+        @else
+          <h2 class="">Silahkan Isi Biodata</h2>
+          <p>Biodata akan dimasukkan ke dalam profil anda</p>
+        @endif
       </div>
       <form action="{{route('user.form-save')}}" method="post" enctype="multipart/form-data">
         @csrf
@@ -191,50 +198,39 @@
         }
     });
 
-    // JavaScript to enable/disable the 'Lainnya' text input for the tempat tinggal option
-    document.querySelectorAll('input[name="tempat_tinggal"]').forEach((radio) => {
-        radio.addEventListener('change', function() {
-            const lainnyaInput = document.getElementById('tempat_tinggal_lainnya');
-            if (this.value === 'Lainnya') {
-              lainnyaInput.classList.remove('d-none');
-              lainnyaInput.disabled = false;
-            } else {
-              lainnyaInput.classList.add('d-none');
-              lainnyaInput.disabled = true;
-              lainnyaInput.value = ''; // Clear the text input if disabled
-            }
+    function toggleLainnyaInput(radioName, inputId) {
+    document.querySelectorAll(`input[name="${radioName}"]`).forEach((radio) => {
+      radio.addEventListener('change', function() {
+        const lainnyaInput = document.getElementById(inputId);
+          if (this.value == 'Lainnya') {
+            lainnyaInput.classList.remove('d-none');
+            lainnyaInput.disabled = false;
+          } else {
+            lainnyaInput.classList.add('d-none');
+            lainnyaInput.disabled = true;
+          }
         });
-    });
 
-    // JavaScript to enable/disable the 'Lainnya' text input for the penerangan option
-    document.querySelectorAll('input[name="penerangan"]').forEach((radio) => {
-        radio.addEventListener('change', function() {
-            const lainnyaInput = document.getElementById('penerangan_lainnya');
-            if (this.value === 'Lainnya') {
-              lainnyaInput.classList.remove('d-none');
-              lainnyaInput.disabled = false;
-            } else {
-              lainnyaInput.classList.add('d-none');
-              lainnyaInput.disabled = true;
-              lainnyaInput.value = ''; // Clear the text input if disabled
-            }
-        });
-    });
+        const lainnyaInput = document.getElementById(inputId);
+        if (radio.checked && radio.value == 'Lainnya') {
+          lainnyaInput.classList.remove('d-none');
+          lainnyaInput.disabled = false;
+        } else if (radio.checked) {
+          lainnyaInput.classList.add('d-none');
+          lainnyaInput.disabled = true;
+        }
+      });
+    }
 
-    // JavaScript to enable/disable the 'Lainnya' text input for the daring option
-    document.querySelectorAll('input[name="pjj"]').forEach((radio) => {
-        radio.addEventListener('change', function() {
-            const lainnyaInput = document.getElementById('pjj_lainnya');
-            if (this.value === 'Lainnya') {
-              lainnyaInput.classList.remove('d-none');
-              lainnyaInput.disabled = false;
-            } else {
-              lainnyaInput.classList.add('d-none');
-              lainnyaInput.disabled = true;
-              lainnyaInput.value = ''; // Clear the text input if disabled
-            }
-        });
-    });
+    const biodata = <?php echo json_encode($biodata ?? ''); ?>;
+
+    if (biodata) {
+      document.addEventListener('DOMContentLoaded', function() {
+        toggleLainnyaInput('tempat_tinggal', 'tempat_tinggal_lainnya');
+        toggleLainnyaInput('penerangan', 'penerangan_lainnya');
+        toggleLainnyaInput('pjj', 'pjj_lainnya');
+      });
+    }
 
   </script>
 

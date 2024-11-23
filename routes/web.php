@@ -31,26 +31,22 @@ Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 Route::group(['prefix' => 'user','middleware' => ['auth'], 'as' => 'user.'] , function(){
 
   Route::get('/dashboard', [HomeController::class, 'dashboard'])->name('dashboard');
+  Route::get('/dataAdmin', [HomeController::class, 'admin'])->name('dataAdmin');
+  Route::get('/dataGuru', [HomeController::class, 'admin'])->name('dataGuru');
+  Route::get('/dataSiswa', [HomeController::class, 'admin'])->name('dataSiswa');
   Route::get('/dashboard/search', [HomeController::class, 'search'])->name('search');
   Route::get('/siswa/{id}', [HomeController::class, 'showsiswa'])->name('siswa');
   Route::get('/guru', [HomeController::class, 'showguru'])->name('guru');
   Route::get('/profil', [HomeController::class, 'profil'])->name('profil');
 
-  Route::post('/store', [Homecontroller::class,'store'])->name('store');
-  Route::get('/edit/{id}', [Homecontroller::class,'edit'])->name('edit');
-  Route::put('/update/{id}', [Homecontroller::class,'update'])->name('update');
-  Route::delete('/delete/{id}', [Homecontroller::class,'delete'])->name('delete');
-
   Route::get('/form', [HomeController::class, 'form'])->name('form');
   Route::post('/form-save', [HomeController::class, 'formProcess'])->name('form-save');
 
+  // profil karir
   Route::get('/profilkarir', [ProfilKarirController::class, 'profilkarir'])->name('profilkarir');
   Route::post('/profilkarirstore', [ProfilKarirController::class, 'profilkarir_store'])->name('profilkarirstore');
-  Route::get('/profile/{id}', [ProfilKarirController::class, 'profilkarir_show'])->name('profilkarir.show');
+  Route::get('/profilkarir/{id}', [ProfilKarirController::class, 'profilkarir_show'])->name('profilkarir.show');
 
-
-
-  
   Route::get('/cetak-pdf/{id}', [HomeController::class, 'showsiswa'])->name('cetak-pdf');
 
   Route::post('/store', [StoreController::class,'store'])->name('store');

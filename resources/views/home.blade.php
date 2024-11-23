@@ -18,49 +18,30 @@
 
 </head>
 <body>
-    <header>
-
-        <!-- navigation -->
-        {{-- <nav class="md">
+    <header>        
+        <nav>
+            <!-- Logo di kiri -->
             <a class="navbar-brand" href="#">
-                <img src="{{ asset('img/logo.png') }}" alt="Logo" width="30" height="30" class="d-inline-block align-text-top">
-                Nama Website
+                <img src="lte/dist/img/logobkyes.png" alt="Logo" width="120" height="30" class="d-inline-block align-text-top">
             </a>
-            <a href="#about">Tentang</a>
-            <a href="#activity">Kegiatan</a>
-            <a href="#contact">Kontak</a>
-        </nav> --}}
-        
-        <nav class="navbar navbar-expand-lg">
-            <div class="container-fluid">
-                <!-- Logo di kiri -->
-                <a class="navbar-brand" href="#">
-                    <img src="lte/dist/img/logobkyes.png" alt="Logo" width="120" height="30" class="d-inline-block align-text-top">
-                </a>
+            <div>
+                <a class="mr-2 sm" href="#about">Tentang</a>
+                <a class="ml-2 sm" href="#activity">Kegiatan</a>
             </div>
-            <a href="#about">Tentang</a>
-                <a href="#activity">Kegiatan</a>
-                {{-- <a href="#contact">Kontak</a> --}}
         </nav>
 
         <!-- main header with button -->
         <div class="m-header">
             <p class="sm">
-                E-BK
-                <span class="sm">
-                    BK-SAHABAT SISWA
-                </span>
+                E-BK <span class="sm">BK-SAHABAT SISWA</span>
             </p>
             <br>
             <button class="sm" onclick="window.location.href='{{ route('login')}}'">
                 Masuk
             </button>
         </div>
-
     </header>
-
-    <!-- gradient -->
-    <div class="gradient"></div> <br>
+    <br>
 
     <!-- main content about the website -->
     <main class="sm container d-flex flex-column align-items-center">
@@ -79,19 +60,6 @@
             <p class="content" id="sm">
                 Karena itulah BK juga bisa disebut sebagai Sahabat Siswa
             </p>
-    
-            {{-- <p class="content" id="sm">
-                E-BK adalah sebuah website rancangan kelompok 5 XI PPLG A. Kami memiliki tujuan yang berkaitan dengan latar belakang mengapa kami membuat website ini. 
-            </p>
-            
-            <p class="content" id="sm">
-                Jadi, selama kami bersekolah, kami merasa bahwa BK apalagi BK SMK Negeri 2 Banjarmasin masih belum memiliki sebuah software khusus untuk menangani pelayanan BK, seperti misalnya pengumpulan biodata yang masih secara manual. Oleh karenanya, kami ingin membuat software khusus untuk menangani semua hal yang berkaitan dengan BK. guru-guru BK SMK Negeri 2 Banjarmasin. 
-            </p>
-            
-            <p class="content" id="sm">
-                Selain mengatasi masalah tersebut, website kami juga menyediakan berbagai layanan yang dapat dinikmati oleh guru serta siswa juga, contohnya seperti guru dapat melihat perkembangan seorang siswa melalui website kami. Harapannya, website ini terus berkembang dan dapat memiliki fitur-fitur lainnya lagi.
-            </p> --}}
-
         </section>
 
         <section class="row align-items-center justify-content-center">
@@ -136,73 +104,22 @@
 
         </section>
 
-        <section class="row align-items-center justify-content-center">
-            <div class="">
-            <center><h6 class="header mt-5" id="about">
-                mengapa BK?
-            </h6></center>
-            <img src="{{ asset('img/ear.png') }}" alt="tes" height="250px" width="250px">
-            <img src="{{ asset('img/lock.png') }}" alt="tes" height="250px" width="250px">
-            <img src="{{ asset('img/sunflower.png') }}" alt="tes" height="250px" width="250px">
-        </div>
-        </section>
-
-        {{-- <section class="row">
-            <div class="">
-                <h6 class="header" id="contact">
-                    Kontak
-                </h6>
+        <section>
+            <h6 class="header mt-5" id="about">
+                Mengapa BK?
+            </h6>
+            <div class="row justify-content-center">
+                <img class="col-auto" src="{{ asset('img/ear.png') }}" alt="tes" height="250px" width="250px">
+                <img class="col-auto" src="{{ asset('img/lock.png') }}" alt="tes" height="250px" width="250px">
+                <img class="col-auto" src="{{ asset('img/sunflower.png') }}" alt="tes" height="250px" width="250px">
             </div>
-        <div class="row">
-    <div class="col-md-4">
-        <div class="card" style="width: 18rem;">
-            <img class="card-img-top" src="{{ asset('img/icon1.png') }}" alt="Card image cap">
-            <div class="card-body">
-              <h5 class="card-title">Pak Aji</h5>
-              <p class="card-text">Nama Lengkap</p>
-              <a href="{{ route('login')}}" class="btn btn-dark">Lihat profil dan Konsultasi</a>
-            </div>
-          </div>
-    </div>
-    <div class="col-md-4">
-        <div class="card" style="width: 18rem;">
-            <img class="card-img-top" src="{{ asset('img/icon2.png') }}" alt="Card image cap">
-            <div class="card-body">
-              <h5 class="card-title">Bu Putri</h5>
-              <p class="card-text">Nama Lengkap</p>
-              <a href="{{ route('login')}}" class="btn btn-dark">Lihat profil dan Konsultasi</a>
-            </div>
-          </div>
-    </div>
-    <div class="col-md-4">
-        <div class="card" style="width: 18rem;">
-            <img class="card-img-top" src="{{ asset('img/icon1.png') }}" alt="Card image cap">
-            <div class="card-body">
-              <h5 class="card-title">Pak</h5>
-              <p class="card-text">Nama Lengkap</p>
-              <a href="{{ route('login')}}" class="btn btn-dark">Lihat profil dan Konsultasi</a>
-            </div>
-          </div>
-    </div>
-
-        </div>
-        </section> --}}
-
-                
-        
-               
-
-            </div>
-
         </section>
 
     </main>
 
     <footer class="sm fs-6">
         Copyright &copy; BK-Sahabat Siswa, 2023-2024
-        <a class="content" id="sm" href="https://smkn2-bjm.sch.id/">
-            SMKN 2 Banjarmasin
-        </a>
+        <a class="content" id="sm" href="https://smkn2-bjm.sch.id/">SMKN 2 Banjarmasin</a>
     </footer>
 
 <!-- jQuery -->

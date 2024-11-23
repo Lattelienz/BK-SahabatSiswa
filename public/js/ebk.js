@@ -39,16 +39,16 @@
 
     // function to hide and disable certain elements in create modal
     function changeElement() {
-        var select = document.getElementById('level');
+        let select = document.getElementById('level');
 
-        var admin = document.querySelectorAll('.nis, .kelas, .jurusan, .jabatan');
-        var siswa = document.querySelectorAll('.nis, .kelas, .jurusan');
-        var guru = document.querySelectorAll('.jurusan, .jabatan');
+        let admin = document.querySelectorAll('.nis, .kelas, .jurusan, .jabatan');
+        let siswa = document.querySelectorAll('.nis, .kelas, .jurusan');
+        let guru = document.querySelectorAll('.jurusan, .jabatan');
 
-        var nis = document.querySelector('#nis');
-        var kelas = document.querySelector('#kelas');
-        var jurusan = document.querySelector('#jurusan');
-        var jabatan = document.querySelector('#jabatan');
+        let nis = document.querySelector('#nis');
+        let kelas = document.querySelector('#kelas');
+        let jurusan = document.querySelector('#jurusan');
+        let jabatan = document.querySelector('#jabatan');
 
         function handleAdmin() {
             nis.disabled = true;
@@ -115,17 +115,20 @@
         $.ajax({
             url: '/user/edit/' + id ,
             success: function(response) {
+                $('#editLevel' + id).val(response.user.level).change(   );
                 $('#editNama' + id).val(response.user.nama_lengkap);
                 $('#editEmail' + id).val(response.user.email);
                 $('#editJK' + id).val(response.user.jenis_kelamin);
 
                 if (response.user.level === 'Siswa') {
+                    // $('#editLevel' + id).change(changeEditElement);
                     $('#editNis' + id).val(response.user.siswa.nis);
                     $('#editJurusan' + id).val(response.user.siswa.jurusan.id_jurusan);
                     $('#editKelas' + id).val(response.user.siswa.kelas);
                 }
 
-                else if (response.user.level === 'Guru' || response.user.level === 'Guru') {
+                else if (response.user.level === 'Guru') {
+                    // $('#editLevel' + id).change(changeEditElement);
                     $('#editJurusan' + id).val(response.user.guru.jurusan.id_jurusan);
                     $('#editJabatan' + id).val(response.user.guru.jabatan);
                 }
@@ -142,16 +145,16 @@
 
     // function to hide and disable certain elements in edit modal
     function changeEditElement(id) {
-        var editSelect = document.getElementById('editLevel' + id);
+        let editSelect = document.getElementById('editLevel' + id);
 
-        var admin = document.querySelectorAll('.editNis' + id + ', .editKelas' + id + ', .editJurusan' + id + ', .editJabatan' + id);
-        var siswa = document.querySelectorAll('.editNis' + id + ', .editKelas' + id + ', .editJurusan' + id);
-        var guru = document.querySelectorAll('.editJurusan' + id + ', .editJabatan' + id);
+        let admin = document.querySelectorAll('.editNis' + id + ', .editKelas' + id + ', .editJurusan' + id + ', .editJabatan' + id);
+        let siswa = document.querySelectorAll('.editNis' + id + ', .editKelas' + id + ', .editJurusan' + id);
+        let guru = document.querySelectorAll('.editJurusan' + id + ', .editJabatan' + id);
 
-        var nis = document.querySelector('#editNis' + id);
-        var kelas = document.querySelector('#editKelas' + id);
-        var jurusan = document.querySelector('#editJurusan' + id);
-        var jabatan = document.querySelector('#editJabatan' + id);
+        let nis = document.querySelector('#editNis' + id);
+        let kelas = document.querySelector('#editKelas' + id);
+        let jurusan = document.querySelector('#editJurusan' + id);
+        let jabatan = document.querySelector('#editJabatan' + id);
 
         function handleAdmin() {
             nis.disabled = true;
@@ -202,8 +205,7 @@
     function editProfileUser(id) {
         $.ajax({
             url: '/user/edit/' + id ,
-            success: function(response) {
-                // $('#editLevel').val(response.user.level);
+            success: function(response) {   
                 $('.editProfileNama').val(response.user.nama_lengkap);
                 $('.editProfileEmail').val(response.user.email);
                 $('.editProfileJK').val(response.user.jenis_kelamin);

@@ -15,23 +15,39 @@ class HomeController extends Controller
     
     public function dashboard(){
         
-        if (session('data') == null && auth::user()->level == 'Admin') {
-            $data = User::with('siswa.jurusan', 'guru.jurusan')->paginate(20);
-        }
-        else if (auth::user()->level == 'Siswa') {
+        $data = null;
+
+        if (auth::user()->level == 'Siswa') {
             $data = User::with('siswa.jurusan')->find(auth::id());
         }
         else if (auth::user()->level == 'Guru') {
             $data = User::with('siswa.jurusan')->get();
         }
+
+        return view('dashboard', compact('data'));
+    }
+
+    public function admin(){
+        
+        $url = collect(explode('/', url()->current()))->last();
+        $data = null;
+
+        if ($url == 'dataGuru') {
+            $data = User::with('guru.jurusan')->where('level', 'Guru')->paginate(20);
+        }
+        else if ($url == 'dataSiswa') {
+            $data = User::with('siswa.jurusan')->where('level', 'Siswa')->paginate(20);
+        }
         else {
-            $data = session('data');    
+            $data = User::where('level', 'Admin')->paginate(20);
         }
         
         return view('dashboard', compact('data'));
     }
 
     public function search (Request $request) {
+
+        $data = null;
 
         if (request('search') !== null) {
         
@@ -43,18 +59,12 @@ class HomeController extends Controller
                         ->withQueryString();
 
             return back()->with('data', $data);
+
+            dd($data);
         }
+
+        return back()->with('data', $data);
         
-        else {
-
-            $query = $request->filter;
-
-            $data = User::where('level', 'like', '%' . $query . '%')
-                        ->paginate(20)
-                        ->withQueryString();
-
-            return back()->with('data', $data);
-        }
     }
 
     public function showsiswa(request $request, $id){
@@ -125,12 +135,14 @@ class HomeController extends Controller
 
         if ($result) {
             $guru = $result->guru;
+            $nomor = ltrim($guru->no_telp, '+620');
+            $wa =  url("https://wa.me/62{$nomor}");
 
-            return view('view_profil', compact('result', 'guru'));
+            return view('view_profil', compact('result', 'guru', 'wa'));
         }
 
         else {
-            return back();
+            return back()->with(['alert' => true, 'text' => 'Tidak dapat menemukan guru BK mu, coba lagi!']);
         }
 
     }

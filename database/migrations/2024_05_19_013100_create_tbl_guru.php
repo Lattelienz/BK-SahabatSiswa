@@ -16,6 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('id_user');
             $table->unsignedTinyInteger('id_jurusan');
             $table->enum('jabatan', ['Guru BK', 'Guru umum', 'Guru kejuruan']);
+            $table->string('no_telp')->nullable();
             $table->timestamps();
 
             $table->foreign('id_user')

@@ -12,23 +12,21 @@ class ProfilKarir extends Model
     protected $table = 'profil_karir';
     
     protected $fillable = [
-        'siswa_id',
-        'no_hp',
-        'email',
+        'nis',
         'sd',
         'smp',
         'smk',
         'minat_karir',
         'hobi',
         'keterampilan_sudah',
-        'keterampilan_ingin',
+        'keterampilan_kembangan',
         'pengalaman_relawan',
         'pengalaman_kerja',
         'tujuan_pendek',
         'tujuan_panjang',
         'rencana_kursus',
         'rencana_sertifikasi',
-        'jaringan_profesional',
+        'networking',
         'nama_referensi',
         'prestasi',
     ];

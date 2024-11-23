@@ -44,6 +44,7 @@ class StoreController extends Controller
         ]);
 
         if($data) {
+
             User::create($data);
 
             if ($request->NIS && $request->jurusan && $request->kelas) {
@@ -55,11 +56,10 @@ class StoreController extends Controller
                 ]);
     
                 siswa::create($siswa);
-
                 User::where('email', $request->email)->first()->assignRole('Siswa');
             }
     
-            if ($request->jurusan && $request->jabatan) {
+            elseif ($request->jurusan && $request->jabatan) {
                 $guru = ([
                     'id_user'       => User::where('email', $request->email)->first()->id,
                     'id_jurusan'    => $request->jurusan,
@@ -67,19 +67,15 @@ class StoreController extends Controller
                 ]);
     
                 guru::create($guru);
-
                 User::where('email', $request->email)->first()->assignRole('Guru');
             }
-    
             // data yang diinput kemudian diolah menjadi sebuah data baru
 
             // mengembalikan pengguna ke halaman dashboard
-            return redirect()->route('user.dashboard')->with('success', 'Data User berhasil ditambahkan');
+            return back()->with('success', 'Data User berhasil ditambahkan');
         }
 
-        else {
-            return back()->with('alert', true);
-        }
+        return back()->with(['alert' => true, 'text' => 'Error dalam memasukkan data, coba lagi!']);
         
     }
     // end
@@ -100,13 +96,15 @@ class StoreController extends Controller
             // pertama, data yang masuk diperiksa terlebih dahulu melalui validator
             $validation = Validator::make($request->all(),[
                 'email'         => 'required|email',
+                'nis'           => 'unique',
             ]);
     
             // lalu jika data yang dimasukkan tidak sesuai ketentuan, maka kode dibawah akan berjalan
             if( $validation->fails() ) {
                 return redirect()->back()
                     ->withInput()
-                    ->withErrors($validation);
+                    ->withErrors($validation)
+                    ->with('openEditModal', true);
             }
             // jika data sesuai, maka kode diatas tidak akan berjalan
             
@@ -116,8 +114,9 @@ class StoreController extends Controller
     
             // data diurutkan dalam array
             $data = ([
-                'email'    => $request->email,
-                'level'    => $request->level,
+                'nama_lengkap'  => $request->nama_lengkap,
+                'email'         => $request->email,
+                'level'         => $request->level,
                 'jenis_kelamin' => $request->jenis_kelamin
             ]);
             
@@ -149,17 +148,19 @@ class StoreController extends Controller
             }
         
             // Mengarahkan pengguna ke halaman dashboard
-            return redirect()->route('user.dashboard')->with('success', 'Data berhasil di edit');
+            return back()->with('success', 'Data berhasil di edit');
     
             // dd dipakai untuk debugging data :
             // dd ($data);
         }
 
+
+        // profile edit upload
         else {
             $result = User::whereId($id)->first();
 
             $validation = validator::make($request->all(),[
-                'photo' => 'image|max:5000'
+                'photo'         => 'image|max:5000',
             ]);
 
             if($validation->fails()){
@@ -174,10 +175,15 @@ class StoreController extends Controller
             $data = ([
                 'nama_lengkap'  => $request->nama_lengkap,
                 'jenis_kelamin' => $request->jenis_kelamin,
-                'photo'         => $filepath
+                'photo'         => $filepath,
+                'no_telp'       => $request->no_telp
             ]);
 
-            if($result->nama_lengkap != $request->nama_lengkap || $result->jenis_kelamin != $request->jenis_kelamin || isset($data['photo'])) {
+            if($result->nama_lengkap != $request->nama_lengkap || 
+               $result->jenis_kelamin != $request->jenis_kelamin ||
+               isset($data['photo']) ||
+               $result->no_telp != $request->no_telp
+            ) {
                 User::whereId($id)->update($data);
             }
 
@@ -201,6 +207,23 @@ class StoreController extends Controller
     // end
     
     public function form() {
+
+        $siswa = Siswa::with([
+            'biodata',
+            'bio_ortu',
+            'bio_wali',
+            'bio_lainnya',
+        ])->where('id_user', Auth::id())->first();
+
+        if ($siswa->biodata !== null) {
+            $biodata        = $siswa->biodata;
+            $bio_ortu       = $siswa->bio_ortu;
+            $bio_wali       = $siswa->bio_wali;
+            $bio_lain       = $siswa->bio_lainnya;
+
+            return view('form.head', compact('siswa', 'biodata', 'bio_ortu', 'bio_wali', 'bio_lain'));
+        }
+
         return view('form.head');
     }
 
@@ -209,17 +232,17 @@ class StoreController extends Controller
         // dd($request);
 
         $validation = Validator::make($request->all(), [
-            'nama_panggilan'    => 'required',
-            'nama_lengkap'      => 'required',
-            'jenis_k'           => 'required',
-            'nis'               => 'required',
-            'tempat_lahir'      => 'required',
-            'tanggal_lahir'     => 'required',
-            'agama'             => 'required',    
-            'nomor'             => 'required',    
-            'asal'              => 'required',    
-            'nilai'             => 'required',
-            'alamat'            => 'required' 
+            'nis'           => 'required',
+            'nama_lengkap'  => 'required',
+            'nama_panggilan'=> 'required',
+            'agama'         => 'required',    
+            'nomor'         => 'required',    
+            'jenis_k'       => 'required',
+            'tempat_lahir'  => 'required',
+            'tanggal_lahir' => 'required',
+            'asal'          => 'required',    
+            'nilai'         => 'required',
+            'alamat'        => 'required', 
         ]); 
 
         if ($validation->fails()) {
@@ -228,14 +251,21 @@ class StoreController extends Controller
             ->with('danger', 'Kamu masih belum selesai mengisi ke dalam form, silahkan masukkan sisanya...');
         }
 
-        $filepath = $request->file('foto')->store('profile-images');
+        if ($request->file('foto')) {
+            $request->validate([
+                'foto' => 'image|max:15360'
+            ]);
+            
+            $filepath = $request->file('foto')->store('profile-images');
+        }
 
+        $nis = $request->nis;
         $find = User::find(Auth::id());
 
         $user = ([
             'nama_lengkap'  => $request->nama_lengkap,
             'jenis_k'       => $request->jenis_k,
-            'photo'         => $filepath
+            'photo'         => !empty($filepath) ? $filepath : $find->photo
         ]);
 
         $find->update($user);
@@ -260,39 +290,27 @@ class StoreController extends Controller
             'alamat_sekarang'   => $request->alamat,
         ];
 
-        // dd($bio);
+        $bio_wali = [
+            'nis'            => $request->nis,
+            'nama_wali'      => $request->wali,
+            'pekerjaan_wali' => $request->pekerjaan_wali,
+            'alamat_wali'    => $request->alamat_wali,
+            'no_telp_wali'   => $request->nomor_wali,
+        ];
 
-        Biodata_siswa::UpdateOrCreate($bio); 
-
-        if ($request->wali && $request->wali && $request->pekerjaan_wali && $request->alamat_wali && $request->nomor_wali) {
-            $bio_wali = [
-                'nis'            => $request->nis,
-                'nama_wali'      => $request->wali,
-                'pekerjaan_wali' => $request->pekerjaan_wali,
-                'alamat_wali'    => $request->alamat_wali,
-                'no_telp_wali'   => $request->nomor_wali,
-            ];
-
-            Biodata_wali::UpdateOrCreate($bio_wali);
-        }
-        else {
-            $bio_ortu = [
-                'nis'                   => $request->nis,
-                'nama_ayah'             => $request->nama_ayah,
-                'nama_ibu'              => $request->nama_ibu,
-                'pendidikan_ayah'       => $request->pendidikan_ayah,
-                'pendidikan_ibu'        => $request->pendidikan_ibu,
-                'pekerjaan_ayah'        => $request->pekerjaan_ayah,
-                'pekerjaan_ibu'         => $request->pekerjaan_ibu,
-                'penghasilan_ortu'      => $request->penghasilan,
-                'penghasilan_ortu_per' => $request->penghasilan_per,
-                'alamat_ortu'           => $request->alamat_ortu,
-                'no_telp'               => $request->no_telp_ortu,
-            ];
-
-            Biodata_Ortu_Siswa::UpdateOrCreate($bio_ortu);
-        }
-
+        $bio_ortu = [
+            'nis'                   => $request->nis,
+            'nama_ayah'             => $request->nama_ayah,
+            'nama_ibu'              => $request->nama_ibu,
+            'pendidikan_ayah'       => $request->pendidikan_ayah,
+            'pendidikan_ibu'        => $request->pendidikan_ibu,
+            'pekerjaan_ayah'        => $request->pekerjaan_ayah,
+            'pekerjaan_ibu'         => $request->pekerjaan_ibu,
+            'penghasilan_ortu'      => $request->penghasilan,
+            'penghasilan_ortu_per'  => $request->penghasilan_per,
+            'alamat_ortu'           => $request->alamat_ortu,
+            'no_telp'               => $request->no_telp_ortu,
+        ];
 
         $bio_lainnya = [
             'nis'                       => $request->nis,
@@ -317,6 +335,28 @@ class StoreController extends Controller
             'suku'                      => $request->suku,
         ];
 
+        dd($bio_wali);
+        
+        if (Biodata_siswa::where('nis', $nis)) {            
+            Biodata_siswa::where('nis', $nis)->update($bio);
+            // storing the wali data inputted from siswa, if only the siswa input it
+            if ($request->wali && $request->wali && $request->pekerjaan_wali && $request->alamat_wali && $request->nomor_wali) {
+                Biodata_wali::where('nis', $nis)->update($bio_wali);
+            }
+            // if not, then it will input the ortu code
+            Biodata_Ortu_Siswa::where('nis', $nis)->update($bio_ortu);
+            Data_siswa_lainnya::where('nis', $nis)->update($bio_lainnya);
+
+            return redirect()->route('user.dashboard');
+        }
+
+        Biodata_siswa::UpdateOrCreate($bio); 
+        // storing the wali data inputted from siswa, if only the siswa input it
+        if ($request->wali && $request->wali && $request->pekerjaan_wali && $request->alamat_wali && $request->nomor_wali) {
+            Biodata_wali::UpdateOrCreate($bio_wali);
+        }
+        // if not, then it will input the ortu code
+        Biodata_Ortu_Siswa::UpdateOrCreate($bio_ortu);
         Data_siswa_lainnya::UpdateOrCreate($bio_lainnya);
 
         return redirect()->route('user.dashboard');

@@ -52,6 +52,7 @@
         <!-- Add icons to the links using the .nav-icon class
              with font-awesome or any other icon font library -->
 
+            @if (Auth::user()->level != 'Admin')
             <li class="nav-item">
               <a href="{{ route('user.dashboard') }}" class="nav-link">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-suit-diamond-fill" viewBox="0 0 16 16">
@@ -60,6 +61,36 @@
                 <p>Dashboard</p>
               </a>
             </li>
+            @endif
+            
+            @can('view_dashboard')
+            <li class="nav-item">
+              <a href="{{ route('user.dataAdmin') }}" class="nav-link">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-suit-diamond-fill" viewBox="0 0 16 16">
+                  <path d="M2.45 7.4 7.2 1.067a1 1 0 0 1 1.6 0L13.55 7.4a1 1 0 0 1 0 1.2L8.8 14.933a1 1 0 0 1-1.6 0L2.45 8.6a1 1 0 0 1 0-1.2"/>
+                </svg> <i class="ml-1"></i>
+                <p>Admin</p>
+              </a>
+            </li>
+
+            <li class="nav-item">
+              <a href="{{ route('user.dataGuru') }}" class="nav-link">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-suit-diamond-fill" viewBox="0 0 16 16">
+                  <path d="M2.45 7.4 7.2 1.067a1 1 0 0 1 1.6 0L13.55 7.4a1 1 0 0 1 0 1.2L8.8 14.933a1 1 0 0 1-1.6 0L2.45 8.6a1 1 0 0 1 0-1.2"/>
+                </svg> <i class="ml-1"></i>
+                <p>Guru</p>
+              </a>
+            </li>
+
+            <li class="nav-item">
+              <a href="{{ route('user.dataSiswa') }}" class="nav-link">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-suit-diamond-fill" viewBox="0 0 16 16">
+                  <path d="M2.45 7.4 7.2 1.067a1 1 0 0 1 1.6 0L13.55 7.4a1 1 0 0 1 0 1.2L8.8 14.933a1 1 0 0 1-1.6 0L2.45 8.6a1 1 0 0 1 0-1.2"/>
+                </svg> <i class="ml-1"></i>
+                <p>Siswa</p>
+              </a>
+            </li>
+            @endcan
 
             @can('view_card')
             <li class="nav-item">
